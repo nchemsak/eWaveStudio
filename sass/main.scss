@@ -714,8 +714,11 @@ body {
   font-family: "lato";
   font-size: 10px;
   font-weight: 400;
-  text-align: center;
+  text-align: right;
   z-index: 3;
+    position: absolute;
+  right: 3%;
+  bottom: 3%;
 }
 
 #terms {
@@ -775,4 +778,33 @@ a:link {
 
 #navBarId {
   margin-bottom: 50px;
+}
+
+select {
+  font: 14pt Arial, sans-serif;
+}
+
+div#controls div {
+  display: none;
+  border: 1px solid darkgray;
+  border-radius: 5px;
+  padding: 10px;
+  width: 728px;
+}
+
+div#controls div.display {
+  display: block;
+}
+
+#controls {
+  padding-top: 24px;
+}
+
+#effectMix {
+  padding-top: 12px;
+}
+
+#arranger {
+  width: 750px;
+  margin: 25px auto
 }
