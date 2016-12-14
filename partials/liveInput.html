@@ -5,21 +5,21 @@
 </div>
 <div id="arranger">
   <div id="effectMix">Effect:
-    <select id="effect" ng-model="dropdown2.value" ng-change="changeEffect();">
+    <select id="effect" ng-model="dropdown2.selectedIndex" ng-change="changeEffect();">
       <option>Delay </option>
       <option>Telephone filter </option>
       <option>Reverb </option>
-    </select><br>{{dropdown2.value}}
+    </select><br>dropdown2.selectedIndex: {{dropdown2.selectedIndex}}
     <br>Effect Mix:
     <input type="range" min="0.0" max="1.0" step="0.01" value="0" style="height: 20px; width: 200px;" ng-model="slider.value" ng-change="crossfade();"> {{slider.value}}
   </div>
   <div id="controls" ng-model="ngControls">
     <div id="delayControls" ng-model="delay.value">
       <br> Delay time:
-      <input id="dtime" type="range" min="0.00" max="1.0" step="0.01" value="0" style="height: 20px; width: 200px" ng-model="slider2.value" ng-change="createDelay();"> {{slider2.value}}
+      <input id="dtime" type="range" min="0.00" max="1.0" step="0.01" value="0" style="height: 20px; width: 200px" ng-model="slider2.value" ng-change="createdDelay();"> {{slider2.value}}
       <!-- </div> -->
       <br> Regen:
-      <input id="dregen" type="range" min="0.0" max="1.0" step="0.01" value="0" style="height: 20px; width: 200px;" ng-model="slider3.value" ng-change="createDelay();">{{slider3.value}}
+      <input id="dregen" type="range" min="0.0" max="1.0" step="0.01" value="0" style="height: 20px; width: 200px;" ng-model="slider3.value" ng-change="createdDelay();">{{slider3.value}}
     </div>
     <div id="reverbControls">A convolution-based "hall" reverb, using a generated impulse file.
     </div>
