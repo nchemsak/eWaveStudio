@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('midiCtrl', function($scope, ItemStorage, $location, AuthFactory) {
+app.controller('midiCtrl', function($scope, $location, AuthFactory) {
 
   $scope.title = "MIDI";
   // $scope.btnText = "Save new task";

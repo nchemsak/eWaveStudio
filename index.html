@@ -9,8 +9,8 @@
   <link rel="stylesheet" href="/lib/node_modules/bootstrap/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="/lib/node_modules/font-awesome/css/font-awesome.min.css">
   <!-- <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css"> -->
+  <link href="https://fonts.googleapis.com/css?family=Amatic+SC|Dosis|Orbitron|Raleway|Space+Mono" rel="stylesheet">
   <link rel="stylesheet" href="css/main.css">
-   <ascript src="http://cwilso.github.io/AudioContext-MonkeyPatch/AudioContextMonkeyPatch.js"></ascript>
 </head>
 
 <body ng-app="eWaveApp">
@@ -21,26 +21,23 @@
       <div class="col-xs-12" ng-view></div>
     </div>
   </div>
-  <script type="text/javascript" src="lib/bower_components/jquery/dist/jquery.min.js"></script>
+  <script type="text/javascript" src="lib/node_modules/jquery/dist/jquery.min.js"></script>
   <script type="text/javascript" src="lib/bower_components/bootstrap/dist/js/bootstrap.min.js">
   </script>
   <script type="text/javascript" src="lib/bower_components/angular/angular.min.js"></script>
   <script type="text/javascript" src="lib/bower_components/angular-route/angular-route.min.js"></script>
   <script type="text/javascript" src="lib/bower_components/firebase/firebase.js"></script>
   <script type="text/javascript" src="app/app.js"></script>
-  <!-- Providers -->
+  <!-- Factories/Providers -->
   <script type="text/javascript" src="app/values/fb-creds.js"></script>
-  <script type="text/javascript" src="app/factories/itemFactory.js"></script>
-  <!-- <script type="text/javascript" src="app/factories/filterFactory.js"></script> -->
   <script type="text/javascript" src="app/factories/authFactory.js"></script>
   <!-- Controllers -->
   <script type="text/javascript" src="app/controllers/liveInputCtrl.js"></script>
   <script type="text/javascript" src="app/controllers/NavCtrl.js"></script>
-  <!-- <script type="text/javascript" src="app/controller/TodoCtrl.js"></script> not needed! -->
-  <script type="text/javascript" src="app/controllers/ItemViewCtrl.js"></script>
   <script type="text/javascript" src="app/controllers/midiCtrl.js"></script>
   <script type="text/javascript" src="app/controllers/LoginCtrl.js"></script>
   <script type="text/javascript" src="app/controllers/sequencerCtrl.js"></script>
+  <ascript src="http://cwilso.github.io/AudioContext-MonkeyPatch/AudioContextMonkeyPatch.js"></ascript>
 </body>
 
 </html>
