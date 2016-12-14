@@ -1,34 +1,30 @@
 'use strict';
 
-app.controller('liveInputCtrl', function($scope, ItemStorage) {
-
+app.controller('liveInputCtrl', function($scope) {
   $scope.title = "Live Input";
-
-
-  // navigator.getUserMedia = navigator.getUserMedia ||
-  //   navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+  $scope.slider = { value: 0 };
+  $scope.slider2 = { value: 0.5 };
+  $scope.slider3 = { value: 0 };
+  $scope.dropdown = { value: '' };
+  $scope.dropdown2 = { value: '' };
+  $scope.ngControls = {};
 
   window.AudioContext = window.AudioContext || window.webkitAudioContext;
-  var audioContext = new AudioContext();
+  let audioContext = new AudioContext();
+  let audioInput = null;
+  let realAudioInput = null;
+  let useFeedbackReduction = true;
+  let lpInputFilter = null;
+  let outputMix = null;
+  let dryGain = null;
+  let wetGain = null;
+  let effectInput = null;
+  let currentEffectNode = null;
+  let dtime = null;
+  let dregen = null;
+  let reverbBuffer = null;
 
-  // window.addEventListener('load', initAudio);
-
-  var audioInput = null;
-  var realAudioInput = null;
-  var useFeedbackReduction = true;
-  var lpInputFilter = null;
-  var outputMix = null;
-  var dryGain = null;
-  var wetGain = null;
-  var effectInput = null;
-  var currentEffectNode = null;
-  var lastEffect = -1;
-  var dtime = null;
-  var dregen = null;
-  var rafID = null;
-  var reverbBuffer = null;
-
-  var constraints = {
+  let constraints = {
     audio: {
       optional: [{
         echoCancellation: false
@@ -37,336 +33,336 @@ app.controller('liveInputCtrl', function($scope, ItemStorage) {
     }
   };
 
-
-
-  navigator.getUserMedia(constraints, gotStream, function(e) {
-    console.log("error", e);
-  });
-
-
   MediaStreamTrack.getSources(gotSources);
-  document.getElementById("effect").onchange = changeEffect;
+  // document.getElementById("effect").onchange = $scope.changeEffect;
 
-
-
-
-  function convertToMono(input) {
-    var splitter = audioContext.createChannelSplitter(2);
-    var merger = audioContext.createChannelMerger(2);
+  /*****************************************************************
+  //        CONVERT TO MONO
+  *****************************************************************/
+  $scope.convertToMono = function(input) {
+    // function convertToMono(input) {
+    let splitter = audioContext.createChannelSplitter(2);
+    let merger = audioContext.createChannelMerger(2);
 
     input.connect(splitter);
     splitter.connect(merger, 0, 0);
     splitter.connect(merger, 0, 1);
     return merger;
-  }
+  };
 
-  // function updateAnalysers(time) {
-  //   // analyserView1.doFrequencyAnalysis( analyser1 );
-  //   // analyserView2.doFrequencyAnalysis( analyser2 );
-
-  //   rafID = window.requestAnimationFrame(updateAnalysers);
-  // }
-
-
-  function createLPInputFilter() {
+  /*****************************************************************
+  // for feedback protection
+  *****************************************************************/
+  $scope.createLPInputFilter = function(input) {
+    // function createLPInputFilter() {
     lpInputFilter = audioContext.createBiquadFilter();
     lpInputFilter.frequency.value = 2048;
     return lpInputFilter;
-  }
+  };
 
-
-  function toggleMono() {
-    if (audioInput != realAudioInput) {
-      audioInput.disconnect();
-      realAudioInput.disconnect();
-      audioInput = realAudioInput;
-    } else {
-      realAudioInput.disconnect();
-      audioInput = convertToMono(realAudioInput);
-    }
-
-    createLPInputFilter();
-    lpInputFilter.connect(dryGain);
-    // lpInputFilter.connect(analyser1);
-    lpInputFilter.connect(effectInput);
-  }
-
-  function gotStream(stream) {
+  $scope.gotStream = function(stream) {
+    // function gotStream(stream) {
     // Create an AudioNode from the stream.
     realAudioInput = audioContext.createMediaStreamSource(stream);
-    var input = audioContext.createMediaStreamSource(stream);
+    let input = audioContext.createMediaStreamSource(stream);
 
-    audioInput = convertToMono(input);
+    audioInput = $scope.convertToMono(input);
 
     if (useFeedbackReduction) {
-      audioInput.connect(createLPInputFilter());
+      audioInput.connect($scope.createLPInputFilter());
       audioInput = lpInputFilter;
 
     }
-    // create mix gain nodes
+    /*****************************************************************
+    // Gain Mix Modes
+    *****************************************************************/
     outputMix = audioContext.createGain();
     dryGain = audioContext.createGain();
     wetGain = audioContext.createGain();
     effectInput = audioContext.createGain();
     audioInput.connect(dryGain);
-    // audioInput.connect(analyser1);
     audioInput.connect(effectInput);
     dryGain.connect(outputMix);
     wetGain.connect(outputMix);
     outputMix.connect(audioContext.destination);
-    console.log("outputMix: ", outputMix);
-    // outputMix.connect(analyser2);
-    crossfade(1.0);
-    changeEffect();
-    // cancelAnalyserUpdates();
-    // updateAnalysers();
-  }
+    // console.log("outputMix: ", outputMix);
+    $scope.crossfade(1.0);
+    $scope.changeEffect();
+  };
 
-  function changeInput() {
-    // if (!!window.stream) {
-    //   window.stream.stop();
-    // }
-    var audioSelect = document.getElementById("audioinput");
-    var audioSource = audioSelect.value;
-    console.log("audioSource: ", audioSource);
+  /*****************************************************************
+  // This selects the items from the dropdown
+  *****************************************************************/
+  $scope.changeInput = function() {
+    // let audioSelect = document.getElementById("audioinput");
+    let audioSource = $scope.dropdown.value;
     constraints.audio.optional.push({ sourceId: audioSource });
-    console.log("constraints.audio.optional: ", constraints.audio.optional);
-    console.log("constraints: ", constraints);
-    navigator.getUserMedia(constraints, gotStream, function(e) {
-      // alert('Error getting audio');
+    navigator.getUserMedia(constraints, $scope.gotStream, function(e) {
       console.log(e);
     });
-  }
+  };
 
+  /*****************************************************************
+  // This produces the drop down list of inputs
+  *****************************************************************/
 
   function gotSources(sourceInfos) {
-    var sourceInfo = sourceInfos[2];
+    let audioSelect = document.getElementById("audioinput");
 
-    var audioSelect = document.getElementById("audioinput");
+    //add this back in to have "default" as the first selected option
+    // while (audioSelect.firstChild)
+    //   audioSelect.removeChild(audioSelect.firstChild);
 
-    for (var i = 2; i !== sourceInfos.length; ++i) {
-      // var sourceInfo = sourceInfos[i];
-      // var option = document.createElement('option');
-      // option.value = sourceInfo.id;
-      console.log("sourceInfo.kind: ", sourceInfo.kind);
-      console.log("sourceInfo.label: ", sourceInfo.label);
-      if
-      //   (sourceInfo.kind === 'audio') {
-      //   option.text = sourceInfo.label || 'microphone ' +
-      //     (audioSelect.length + 1);
-      //   audioSelect.appendChild(option);
-      // } else if
-      (sourceInfo.label === 'USB Audio Device') {
-        var option = document.createElement("option");
-        console.log("option: ", option);
+    for (let i = 0; i != sourceInfos.length; ++i) {
+      let sourceInfo = sourceInfos[i];
+      if (sourceInfo.kind === 'audio') {
+        let option = document.createElement("option");
         option.value = sourceInfo.id;
-        console.log("audioSelect: ", audioSelect);
+        option.text = sourceInfo.label;
         audioSelect.appendChild(option);
-
-
       }
-
     }
-    audioSelect.onchange = changeInput;
-
-  }
-
-  function initAudio() {
-    var irRRequest = new XMLHttpRequest();
-    irRRequest.open("GET", "audio/cardiod-rear-levelled.wav", true);
-    irRRequest.responseType = "arraybuffer";
-    irRRequest.onload = function() {
-      audioContext.decodeAudioData(irRRequest.response,
-        function(buffer) { reverbBuffer = buffer; });
-    };
-    irRRequest.send();
+    audioSelect.onchange = $scope.changeInput;
   }
 
 
 
-
-  // navigator.getUserMedia(constraints, gotStream, function(e) {
-  //   console.log("error", e);
-  // });
-
-
-  // MediaStreamTrack.getSources(gotSources);
-  // document.getElementById("effect").onchange = changeEffect;
-
-
-
-
-  function crossfade(value) {
-    // equal-power crossfade
-    var gain1 = Math.cos(value * 0.5 * Math.PI);
-    var gain2 = Math.cos((1.0 - value) * 0.5 * Math.PI);
-
+  /*****************************************************************
+  // CROSSFADE is responsible for changing the amount of the effect relative
+  to volume (dry gain and wet gain)
+  *****************************************************************/
+  $scope.crossfade = function() {
+    let gain1 = Math.cos($scope.slider.value * 0.5 * Math.PI);
     dryGain.gain.value = gain1;
+    let gain2 = Math.cos((1.0 - $scope.slider.value) * 0.5 * Math.PI);
     wetGain.gain.value = gain2;
-  }
+    console.log("gain1: ", gain1);
+    console.log("gain2: ", gain2);
+  };
+  let lastEffect = -1;
 
 
-  function changeEffect() {
-    // lfo = null;
-    dtime = null;
-    dregen = null;
-    // cspeed = null;
-    // cdelay = null;
-    // cdepth = null;
-    // rmod = null;
-    // fldelay = null;
-    // flspeed = null;
-    // fldepth = null;
-    // flfb = null;
-    // scspeed = null;
-    // scldelay = null;
-    // scrdelay = null;
-    // scldepth = null;
-    // scrdepth = null;
-    // sflldelay = null;
-    // sflrdelay = null;
-    // sflspeed = null;
-    // sflldepth = null;
-    // sflrdepth = null;
-    // sfllfb = null;
-    // sflrfb = null;
-    // rmod = null;
-    // mddelay = null;
-    // mddepth = null;
-    // mdspeed = null;
-    // lplfo = null;
-    // lplfodepth = null;
-    // lplfofilter = null;
-    // awFollower = null;
-    // awDepth = null;
-    // awFilter = null;
-    // ngFollower = null;
-    // ngGate = null;
-    // bitCrusher = null;
+  /*****************************************************************
+  // Handles changing effects with a switch statement
+  *****************************************************************/
+  $scope.changeEffect = function() {
+    // function changeEffect() {
 
     if (currentEffectNode)
       currentEffectNode.disconnect();
     if (effectInput)
       effectInput.disconnect();
 
-    var effect = document.getElementById("effect").selectedIndex;
-    console.log("effect: ", effect);
-    var effectControls = document.getElementById("controls");
+    let effect = document.getElementById("effect").selectedIndex;
+    let effect2 = $scope.dropdown2.value;
+
+    let effectControls = document.getElementById("controls");
+    let effectControls2 = $scope.ngControls;
+
+    // Show and hide individual effects options
     if (lastEffect > -1)
       effectControls.children[lastEffect].classList.remove("display");
     lastEffect = effect;
     effectControls.children[effect].classList.add("display");
 
     switch (effect) {
-      case 0: // Delay
-        currentEffectNode = createDelay();
+      case 0: // delayNode
+        currentEffectNode = $scope.createdDelay();
+        console.log("currentEffectNode: ", currentEffectNode);
         break;
       case 1: // Reverb
-        currentEffectNode = createReverb();
+        currentEffectNode = $scope.createTelephonizer();
+        console.log("currentEffectNode: ", currentEffectNode);
         break;
-        // case 2: // Distortion
-        //   currentEffectNode = createDistortion();
-        //   break;
-        // case 3: // Telephone
-        //   currentEffectNode = createTelephonizer();
-        //   break;
-        // case 4: // GainLFO
-        //   currentEffectNode = createGainLFO();
-        //   break;
-        // case 5: // Chorus
-        //   currentEffectNode = createChorus();
-        //   break;
-        // case 6: // Flange
-        //   currentEffectNode = createFlange();
-        //   break;
-        // case 7: // Ringmod
-        //   currentEffectNode = createRingmod();
-        //   break;
-        // case 8: // Stereo Chorus
-        //   currentEffectNode = createStereoChorus();
-        //   break;
-        // case 9: // Stereo Flange
-        //   currentEffectNode = createStereoFlange();
-        //   break;
-        // case 10: // Pitch shifting
-        //   currentEffectNode = createPitchShifter();
-        //   break;
-        // case 11: // Mod Delay
-        //   currentEffectNode = createModDelay();
-        //   break;
-        // case 12: // Ping-pong delay
-        //   var pingPong = createPingPongDelay(audioContext, (audioInput == realAudioInput), 0.3, 0.4);
-        //   pingPong.output.connect(wetGain);
-        //   currentEffectNode = pingPong.input;
-        //   break;
-        // case 13: // LPF LFO
-        //   currentEffectNode = createFilterLFO();
-        //   break;
-        // case 14: // Envelope Follower
-        //   currentEffectNode = createEnvelopeFollower();
-        //   break;
-        // case 15: // Autowah
-        //   currentEffectNode = createAutowah();
-        //   break;
-        // case 16: // Noise gate
-        //   currentEffectNode = createNoiseGate();
-        //   break;
-        // case 17: // Wah Bass
-        //   var pingPong = createPingPongDelay(audioContext, (audioInput == realAudioInput), 0.5, 0.5);
-        //   pingPong.output.connect(wetGain);
-        //   pingPong.input.connect(wetGain);
-        //   var tempWetGain = wetGain;
-        //   wetGain = pingPong.input;
-        //   wetGain = createAutowah();
-        //   currentEffectNode = createPitchShifter();
-        //   wetGain = tempWetGain;
-        //   break;
-        // case 18: // Distorted Wah Chorus
-        //   var tempWetGain = wetGain;
-        //   wetGain = createStereoChorus();
-        //   wetGain = createDistortion();
-        //   currentEffectNode = createAutowah();
-        //   wetGain = tempWetGain;
-        //   // waveshaper.setDrive(20);
-        //   break;
-        // case 19: // Vibrato
-        //   currentEffectNode = createVibrato();
-        //   break;
-        // case 20: // BitCrusher
-        //   currentEffectNode = createBitCrusher();
-        //   break;
-        // case 21: // Apollo effect
-        //   currentEffectNode = createApolloEffect();
-        //   break;
-      default:
+      case 3: // Telephone
+        currentEffectNode = $scope.createReverb();
+        console.log("currentEffectNode: ", currentEffectNode);
         break;
+        // default:
+        //   break;
     }
     audioInput.connect(currentEffectNode);
-  }
+  };
 
-  function createDelay() {
+
+
+  $scope.createdDelay = function() {
+
     var delayNode = audioContext.createDelay();
+    delayNode.delayTime.value = parseFloat($scope.slider2.value);
 
-    delayNode.delayTime.value = parseFloat(document.getElementById("dtime").value);
-    dtime = delayNode;
+    let gainNode = audioContext.createGain();
+    gainNode.gain.value = parseFloat($scope.slider3.value);
 
-    var gainNode = audioContext.createGain();
-    gainNode.gain.value = parseFloat(document.getElementById("dregen").value);
-    dregen = gainNode;
-
+    // audioInput.connect(delayNode);
     gainNode.connect(delayNode);
     delayNode.connect(gainNode);
     delayNode.connect(wetGain);
-    console.log("dtime.delayTime.value: ", dtime.delayTime.value);
     return delayNode;
-  }
 
-  function createReverb() {
-    console.log("reverb selected: ");
+  };
+
+
+  $scope.createTelephonizer = function() {
+    var lpf1 = audioContext.createBiquadFilter();
+    lpf1.type = "lowpass";
+    lpf1.frequency.value = 2000.0;
+    var lpf2 = audioContext.createBiquadFilter();
+    lpf2.type = "lowpass";
+    lpf2.frequency.value = 2000.0;
+    var hpf1 = audioContext.createBiquadFilter();
+    hpf1.type = "highpass";
+    hpf1.frequency.value = 500.0;
+    var hpf2 = audioContext.createBiquadFilter();
+    hpf2.type = "highpass";
+    hpf2.frequency.value = 500.0;
+    lpf1.connect(lpf2);
+    lpf2.connect(hpf1);
+    hpf1.connect(hpf2);
+    hpf2.connect(wetGain);
+    currentEffectNode = lpf1;
+    return (lpf1);
+  };
+
+
+  $scope.createReverb = function() {
+    // function createReverb() {
     var convolver = audioContext.createConvolver();
     convolver.buffer = reverbBuffer; // impulseResponse( 2.5, 2.0 );  // reverbBuffer;
     convolver.connect(wetGain);
     return convolver;
-  }
+  };
 
+  /*****************************************************************
+  // THis WAS FOR ICONS SELECTION IF I WANTED TO USE IT...PUT ABOVE CONVERT TO MONO FUNCTION
+  *****************************************************************/
+  // $(".classrow").click(function(event) {
+  //   let idValue = event.target.id;
+  //   console.log("idValue: ", idValue);
+  //   // MICROPHONE
+  //   if (idValue === "microphone") {
+  //     navigator.getUserMedia(constraints, gotStream, function(e) {
+  //       // console.log("error", e);
+  //     });
+  //     console.log("you clicked on microphone");
+  //     // USB
+  //   } else if (idValue === "usb") {
+  //     // navigator.getUserMedia(constraints, gotStream, function(e) {
+  //     // console.log("error", e);
+  //     // });
+  //     console.log("you clicked on usb");
+  //   }
+  // });
+
+
+
+  /*****************************************************************
+  //          TOGGLE MONO ON/OFF ...IF I WANT TO ADD BACK IN...
+  *****************************************************************/
+  // function toggleMono() {
+  //   if (audioInput != realAudioInput) {
+  //     audioInput.disconnect();
+  //     realAudioInput.disconnect();
+  //     audioInput = realAudioInput;
+  //   } else {
+  //     realAudioInput.disconnect();
+  //     audioInput = convertToMono(realAudioInput);
+  //   }
+  //   createLPInputFilter();
+  //   lpInputFilter.connect(dryGain);
+  //   // lpInputFilter.connect(analyser1);
+  //   lpInputFilter.connect(effectInput);
+  // }
+
+
+
+  /*****************************************************************
+  // for the reverb effect
+  *****************************************************************/
+  // function initAudio() {
+  //   let irRRequest = new XMLHttpRequest();
+  //   irRRequest.open("GET", "audio/cardiod-rear-levelled.wav", true);
+  //   irRRequest.responseType = "arraybuffer";
+  //   irRRequest.onload = function() {
+  //     audioContext.decodeAudioData(irRRequest.response,
+  //       function(buffer) { reverbBuffer = buffer; });
+  //   };
+  //   document.getElementById("effect").onchange = changeEffect;
+  // }
+  // window.addEventListener('load', initAudio);
+
+
+
+
+
+
+  // LFO START
+
+
+
+  // $scope.lfoStart2 = function() {
+  //   let osc = audioContext.createOscillator();
+  //   let vol = audioContext.createGain();
+  //   let panner = audioContext.createStereoPanner();
+  //   let freqGain = audioContext.createGain();
+  //   let lfo = audioContext.createOscillator();
+  //   let distortion = audioContext.createWaveShaper();
+
+
+  //   // get html controls
+  //   // let volControl = $scope.volume.value;
+  //   // console.log("volControl: ", $scope.volControl);
+  //   // document.getElementById("volume");
+  //   // let panControl = document.getElementById("panner");
+  //   // let panControl = $scope.panner.value;
+
+  //   //PANNER
+  //   panner.connect(audioContext.destination);
+
+  //   // VOLUME
+  //   // vol.gain.value = $scope.volControl.value;
+  //   vol.connect(panner);
+
+  //   //distortion
+  //   distortion.oversample = '4x';
+  //   distortion.connect(vol);
+
+  //   // OSCILLATOR
+  //   osc.frequency.value = 440;
+  //   osc.connect(distortion);
+
+
+  //   // LFO
+  //   freqGain.gain.value = 100;
+  //   freqGain.connect(osc.frequency);
+
+  //   lfo.frequency.value = 1;
+  //   lfo.connect(freqGain);
+  //   lfo.type = 'square';
+
+
+  //   // LISTENERS
+
+  //   // volControl.addEventListener("input", function() {
+  //   // $scope.volControl = function() {
+  //   //   vol.gain.value = $scope.volControl.value;
+
+  //   // };
+  //   // // });
+  //   // $scope.panControl = function() {
+  //   //   panner.pan.value = $scope.panControl.value;
+  //   // };
+
+  //   osc.start();
+  //   lfo.start();
+
+
+  //   // LFO Stop
+  //   // document.getElementById('lfoStop2').addEventListener('click', function() {
+  //   //   lfo.stop();
+  //   //   osc.stop();
+
+  //   // });
+
+  // };
 });

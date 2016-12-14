@@ -87,7 +87,12 @@ body {
 }
 
 body {
-  font-family: "Lato", "Helvetica", "sans-serif";
+  // font-family: "Lato", "Helvetica", "sans-serif";
+  font-family: 'Space Mono', monospace;
+  font-family: 'Raleway', sans-serif;
+  // font-family: 'Dosis', sans-serif;
+  // font-family: 'Amatic SC', cursive;
+  // font-family: 'Orbitron', sans-serif;
   align-items: center;
   -webkit-box-pack: center;
   -webkit-justify-content: center;
@@ -95,6 +100,7 @@ body {
   justify-content: center;
   -webkit-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0);
+
 }
 
 
@@ -655,11 +661,17 @@ body {
   left: 21%;
   bottom: 37%;
   color: white;
-  font-family: "lato";
+  // font-family: "lato";
+  font-family: 'Space Mono', monospace;
+  font-family: 'Raleway', sans-serif;
+  font-family: 'Dosis', sans-serif;
+  // font-family: 'Amatic SC', cursive;
+  // font-family: 'Orbitron', sans-serif;
   font-size: 20px;
   font-weight: 800;
   text-align: right;
   z-index: 3;
+  color: red;
 }
 
 #subtitle {
@@ -667,11 +679,17 @@ body {
   left: 7%;
   bottom: 3%;
   color: white;
-  font-family: "lato";
+  // font-family: "lato";
+  font-family: 'Space Mono', monospace;
+  font-family: 'Raleway', sans-serif;
+  font-family: 'Dosis', sans-serif;
+  font-family: 'Amatic SC', cursive;
+  // font-family: 'Orbitron', sans-serif;
   font-size: 13px;
   font-weight: 400;
   text-align: center;
   z-index: 3;
+  color: purple;
 }
 
 #container {
@@ -681,12 +699,18 @@ body {
 .signup {
   // color: red;
   color: RGBA(204, 204, 204, 1.00);
-  font-family: "lato";
+  // font-family: "lato";
+  font-family: 'Space Mono', monospace;
+  font-family: 'Raleway', sans-serif;
+  // font-family: 'Dosis', sans-serif;
+  // font-family: 'Amatic SC', cursive;
+  font-family: 'Orbitron', sans-serif;
   font-size: 2em;
   font-weight: 800;
   text-align: center;
   text-transform: uppercase;
   z-index: 3;
+  color: green;
 }
 
 .button {
@@ -711,12 +735,17 @@ body {
   display: block;
   margin: auto;
   color: #333333;
-  font-family: "lato";
+  // font-family: "lato";
+  font-family: 'Space Mono', monospace;
+  // font-family: 'Raleway', sans-serif;
+  // font-family: 'Dosis', sans-serif;
+  // font-family: 'Amatic SC', cursive;
+  // font-family: 'Orbitron', sans-serif;
   font-size: 10px;
   font-weight: 400;
   text-align: right;
   z-index: 3;
-    position: absolute;
+  position: absolute;
   right: 3%;
   bottom: 3%;
 }
@@ -808,3 +837,5 @@ div#controls div.display {
   width: 750px;
   margin: 25px auto
 }
+
+

@@ -26,7 +26,8 @@ body {
   height: 100%; }
 
 body {
-  font-family: "Lato", "Helvetica", "sans-serif";
+  font-family: 'Space Mono', monospace;
+  font-family: 'Raleway', sans-serif;
   align-items: center;
   -webkit-box-pack: center;
   -webkit-justify-content: center;
@@ -402,34 +403,44 @@ body {
   left: 21%;
   bottom: 37%;
   color: white;
-  font-family: "lato";
+  font-family: 'Space Mono', monospace;
+  font-family: 'Raleway', sans-serif;
+  font-family: 'Dosis', sans-serif;
   font-size: 20px;
   font-weight: 800;
   text-align: right;
-  z-index: 3; }
+  z-index: 3;
+  color: red; }
 
 #subtitle {
   position: absolute;
   left: 7%;
   bottom: 3%;
   color: white;
-  font-family: "lato";
+  font-family: 'Space Mono', monospace;
+  font-family: 'Raleway', sans-serif;
+  font-family: 'Dosis', sans-serif;
+  font-family: 'Amatic SC', cursive;
   font-size: 13px;
   font-weight: 400;
   text-align: center;
-  z-index: 3; }
+  z-index: 3;
+  color: purple; }
 
 #container {
   margin-top: 15%; }
 
 .signup {
   color: RGBA(204, 204, 204, 1);
-  font-family: "lato";
+  font-family: 'Space Mono', monospace;
+  font-family: 'Raleway', sans-serif;
+  font-family: 'Orbitron', sans-serif;
   font-size: 2em;
   font-weight: 800;
   text-align: center;
   text-transform: uppercase;
-  z-index: 3; }
+  z-index: 3;
+  color: green; }
 
 .button {
   margin: 10px;
@@ -446,7 +457,7 @@ body {
   display: block;
   margin: auto;
   color: #333333;
-  font-family: "lato";
+  font-family: 'Space Mono', monospace;
   font-size: 10px;
   font-weight: 400;
   text-align: right;

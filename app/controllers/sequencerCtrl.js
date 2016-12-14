@@ -1,7 +1,7 @@
 'use strict';
 
 
-app.controller('sequencerCtrl', function($scope, ItemStorage, $location, AuthFactory) {
+app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
 
   $scope.title = "Sequencer";
   // $scope.btnText = "Save new task";
