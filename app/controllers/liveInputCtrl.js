@@ -3,11 +3,11 @@
 app.controller('liveInputCtrl', function($scope) {
   $scope.title = "Live Input";
   $scope.slider = { value: 0 };
-  $scope.slider2 = { value: 0.5 };
+  $scope.slider2 = { value: 0 };
   $scope.slider3 = { value: 0 };
   $scope.dropdown = { value: '' };
   $scope.dropdown2 = { value: '' };
-  $scope.ngControls = {};
+  // $scope.ngControls = {};
 
   window.AudioContext = window.AudioContext || window.webkitAudioContext;
   let audioContext = new AudioContext();
@@ -95,7 +95,8 @@ app.controller('liveInputCtrl', function($scope) {
   *****************************************************************/
   $scope.changeInput = function() {
     // let audioSelect = document.getElementById("audioinput");
-    let audioSource = $scope.dropdown.value;
+    let audioSource = $scope.dropdown.index;
+
     constraints.audio.optional.push({ sourceId: audioSource });
     navigator.getUserMedia(constraints, $scope.gotStream, function(e) {
       console.log(e);
@@ -154,7 +155,9 @@ app.controller('liveInputCtrl', function($scope) {
       effectInput.disconnect();
 
     let effect = document.getElementById("effect").selectedIndex;
-    let effect2 = $scope.dropdown2.value;
+    let effect2 = $scope.dropdown2.selectedIndex;
+    console.log("effect2: ", effect2);
+    console.log("effect: ", effect);
 
     let effectControls = document.getElementById("controls");
     let effectControls2 = $scope.ngControls;
@@ -171,36 +174,53 @@ app.controller('liveInputCtrl', function($scope) {
         console.log("currentEffectNode: ", currentEffectNode);
         break;
       case 1: // Reverb
-        currentEffectNode = $scope.createTelephonizer();
+        // currentEffectNode = $scope.createTelephonizer();
         console.log("currentEffectNode: ", currentEffectNode);
         break;
       case 3: // Telephone
-        currentEffectNode = $scope.createReverb();
+        // currentEffectNode = $scope.createReverb();
         console.log("currentEffectNode: ", currentEffectNode);
         break;
-        // default:
-        //   break;
+      default:
+        break;
     }
     audioInput.connect(currentEffectNode);
   };
 
 
-
+  /*****************************************************************
+  //                    EFFECT FUNCTIONS
+  *****************************************************************/
   $scope.createdDelay = function() {
 
     var delayNode = audioContext.createDelay();
     delayNode.delayTime.value = parseFloat($scope.slider2.value);
-
+    console.log("delayNode.delayTime.value: ", delayNode.delayTime.value);
     let gainNode = audioContext.createGain();
     gainNode.gain.value = parseFloat($scope.slider3.value);
 
-    // audioInput.connect(delayNode);
+    audioInput.connect(delayNode);
     gainNode.connect(delayNode);
     delayNode.connect(gainNode);
     delayNode.connect(wetGain);
     return delayNode;
 
   };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
   $scope.createTelephonizer = function() {
