@@ -1,91 +1,98 @@
 'use strict';
 
 app.controller('midiCtrl', function($scope, $location, AuthFactory) {
-
   $scope.title = "MIDI";
 
-  function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-      throw new TypeError('Cannot call a class as a function');
-    }
-  }
+  $scope.formData = { midiOscType: "square" };
+// console.log("$scope.formData: ", $scope.formData);
+  /*****************************************************************
+  /*****************************************************************
+
+                            MIDI controller
+
+  *****************************************************************
+  *****************************************************************/
+
   var notes = new Map();
-  var Note = function() {
-    function Note(number) {
-      var velocity = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
-      _classCallCheck(this, Note);
-      this.osc = ac.createOscillator();
-      this.osc.frequency.value = 440 * Math.pow(2, (number - 69) / 12);
-      this.osc.type = 'square';
-      this.gain = ac.createGain();
-      this.gain.gain.value = velocity;
-      this.osc.connect(this.gain);
-      this.gain.connect(volume);
-      this.osc.start();
+  // var Note = function() {
+  $scope.Note = function(number) {
+    // function Note(number) {
+    var velocity = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+    // _classCallCheck(this, Note);
+    this.osc = ac.createOscillator();
+    this.osc.frequency.value = 440 * Math.pow(2, (number - 69) / 12);
+
+    var midiOscType = $scope.formData.midiOscType;
+    console.log("midiOscType: ", midiOscType);
+    this.osc.type = midiOscType;
+    this.gain = ac.createGain();
+    this.gain.gain.value = velocity;
+    this.osc.connect(this.gain);
+    this.gain.connect(volume);
+    this.osc.start();
+  };
+
+  $scope.Note.prototype.stop = function stop() {
+    this.osc.stop(ac.currentTime);
+    this.gain.disconnect();
+    this.osc.disconnect();
+  };
+
+
+  $scope.Instrument = function() {};
+
+  $scope.Instrument.prototype.on = function on(number, velocity) {
+    this.off(note);
+    var note = new $scope.Note(number, Math.pow(velocity / 127, 1));
+    notes.set(number, note);
+  };
+
+  $scope.Instrument.prototype.off = function off(number, velocity) {
+    var note = notes.get(number, Math.pow(velocity / 127, 1));
+    if (note) {
+      note.stop();
+      notes.delete(number, note);
     }
-    Note.prototype.stop = function stop() {
-      this.osc.stop(ac.currentTime);
-      this.gain.disconnect();
-      this.osc.disconnect();
-    };
-    return Note;
-  }();
-  var Instrument = function() {
-    function Instrument() {
-      // _classCallCheck(this, Instrument);
-    }
-    Instrument.prototype.on = function on(number, velocity) {
-      this.off(note);
-      var note = new Note(number, Math.pow(velocity / 127, 1));
-      notes.set(number, note);
-    };
-    Instrument.prototype.off = function off(number, velocity) {
-      var note = notes.get(number, Math.pow(velocity / 127, 1));
-      if (note) {
-        note.stop();
-        notes.delete(number, note);
-      }
-    };
-    return Instrument;
-  }();
+  };
+
   var ac = new AudioContext();
   var volume = ac.createGain();
   volume.connect(ac.destination);
   volume.gain.value = 0.25;
-  var piano = new Instrument();
+  var piano = new $scope.Instrument();
   var message = document.querySelector('.message');
-  if (!navigator.requestMIDIAccess)
-    message.innerHTML = 'Web MIDI API not supported.<br><a href=\'http://caniuse.com/#feat=midi\'>http://caniuse.com/#feat=midi</a>';
-  navigator.requestMIDIAccess().then(function(m) {
-    console.log("m.inputs.size: ", m.inputs.size);
-    m.onstatechange = function(e) {
-      reconnect();
-    };
-    reconnect();
 
-    function reconnect() {
-      m.inputs.forEach(function(input) {
-        return input.removeEventListener('midimessage', midiMessage);
-      });
-      m.inputs.forEach(function(input) {
-        return input.addEventListener('midimessage', midiMessage);
-      });
-    }
+  navigator.requestMIDIAccess().then(function(m) {
+
+    m.inputs.forEach(function(input) {
+      return input.removeEventListener('midimessage', $scope.midiMessage);
+    });
+    m.inputs.forEach(function(input) {
+      return input.addEventListener('midimessage', $scope.midiMessage);
+    });
+
   });
 
-  function midiMessage(event) {
+  $scope.midiMessage = function(event) {
     if (event.data[0] === 144)
       piano.on(event.data[1], event.data[2]);
     if (event.data[0] === 128)
       piano.off(event.data[1], event.data[2]);
-  }
+  };
 
 
 
-/*****************************************************************
-            PIANO
+
+
+
+
+  /*****************************************************************
+  /*****************************************************************
+
+                            PIANO
+
+  *****************************************************************
   *****************************************************************/
-
 
 
 
@@ -293,7 +300,7 @@ app.controller('midiCtrl', function($scope, $location, AuthFactory) {
 
     var osc = keyboardContext.createOscillator();
     var vol = keyboardContext.createGain();
-    var panner = keyboardContext.createStereoPanner();
+    // var panner = keyboardContext.createStereoPanner();
     var freqGain = keyboardContext.createGain();
     var lfo = keyboardContext.createOscillator();
     var distortion = keyboardContext.createWaveShaper();
@@ -304,11 +311,11 @@ app.controller('midiCtrl', function($scope, $location, AuthFactory) {
     var panControl = document.getElementById("panner");
 
     //PANNER
-    panner.connect(keyboardContext.destination);
+    // panner.connect(keyboardContext.destination);
 
     // VOLUME
     vol.gain.value = volControl.value;
-    vol.connect(panner);
+    vol.connect(keyboardContext.destination);
 
     //distortion
     distortion.oversample = '4x';
@@ -322,9 +329,9 @@ app.controller('midiCtrl', function($scope, $location, AuthFactory) {
       vol.gain.value = volControl.value;
     });
 
-    panControl.addEventListener("input", function() {
-      panner.pan.value = panControl.value;
-    });
+    // panControl.addEventListener("input", function() {
+    // panner.pan.value = panControl.value;
+    // });
 
 
 
