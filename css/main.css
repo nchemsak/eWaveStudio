@@ -539,4 +539,8 @@ div#controls div.display {
   width: 750px;
   margin: 25px auto; }
 
+input[type=range] {
+  height: 20px;
+  width: 200px; }
+
 /*# sourceMappingURL=main.css.map */
