@@ -1,30 +1,67 @@
 <div>
   Input:
   <select id="audioinput" ng-model="dropdown.index" ng-change="changeInput();">
-  </select>{{dropdown.index}}
+  </select>
 </div>
 <div id="arranger">
   <div id="effectMix">Effect:
-    <select id="effect" ng-model="dropdown2.selectedIndex" ng-change="changeEffect();">
-      <option>Delay </option>
-      <option>Telephone filter </option>
-      <option>Reverb </option>
-    </select><br>dropdown2.selectedIndex: {{dropdown2.selectedIndex}}
-    <br>Effect Mix:
-    <input type="range" min="0.0" max="1.0" step="0.01" value="0" style="height: 20px; width: 200px;" ng-model="slider.value" ng-change="crossfade();"> {{slider.value}}
+    <select id="effect" ng-model="dropdown2.index" ng-change="changeEffect();">
+      <option>Delay</option>
+      <!-- <option>Mod Delay</option> -->
+      <option>Flanger</option>
+      <option>Autowah</option>
+      <option>Gain LFO </option>
+      <option>Telephone </option>
+    </select>
+    <br>
+    <br>Mix: {{slider.value * 100}} %
+    <input type="range" min="0.0" max="1.0" step="0.01" ng-model="slider.value" ng-change="crossfade();">
   </div>
   <div id="controls" ng-model="ngControls">
-    <div id="delayControls" ng-model="delay.value">
-      <br> Delay time:
-      <input id="dtime" type="range" min="0.00" max="1.0" step="0.01" value="0" style="height: 20px; width: 200px" ng-model="slider2.value" ng-change="createdDelay();"> {{slider2.value}}
-      <!-- </div> -->
-      <br> Regen:
-      <input id="dregen" type="range" min="0.0" max="1.0" step="0.01" value="0" style="height: 20px; width: 200px;" ng-model="slider3.value" ng-change="createdDelay();">{{slider3.value}}
+    <!-- delay -->
+    <div id="delayControls">
+      <br>BPM: {{60 / slider2.value}}
+      <input id="dtime" type="range" min="0.2" max="1.0" step="0.01" ng-model="slider2.value" ng-change="changeEffect();">
+      <br>Feedback
+      <input id="dregen" type="range" min="0.1" max="1.0" step="0.01" ng-model="slider3.value" ng-change="changeEffect();">
     </div>
-    <div id="reverbControls">A convolution-based "hall" reverb, using a generated impulse file.
+    <!-- flanger -->
+    <div id="flangeControls">
+      <br> Flanger speed:
+      <input id="flspeed" type="range" min="0.05" max="1" step="0.05" ng-model="flangeSlider1.value" ng-change="changeEffect();">
+      <br> Flanger delay:
+      <input id="fldelay" type="range" min="0.001" max="0.02" step="0.001" ng-model="flangeSlider2.value" ng-change="changeEffect();">
+      <br> Flanger depth:
+      <input id="fldepth" type="range" min="0.0005" max="0.005" step="0.00025" ng-model="flangeSlider3.value" ng-change="changeEffect();">
+      <br> Flanger feedback:
+      <input id="flfb" type="range" min="0" max="1" step="0.01" ng-model="flangeSlider4.value" ng-change="changeEffect();">
     </div>
-
-
-
+    <!-- autowah -->
+    <div id="autowahControls">
+      <br> Envelope follower filter frequency:
+      <input id="awEF" type="range" min="0.25" max="20" step="0.25" value="10" onInput="if (awFollower) awFollower.frequency.value = event.target.value;">
+      <br> Filter depth (log):
+      <input id="lfo" type="range" min="0" max="4" step="0.1" value="3.5" onInput="if (awDepth) awDepth.gain.value = Math.pow(2,10+parseFloat(event.target.value));">
+      <br> Filter Q:
+      <input id="awQ" type="range" min="0.0" max="20.0" step="0.1" value="5.0" onInput="if (awFilter) awFilter.Q.value = event.target.value;">
+    </div>
+    <!-- LFO -->
+    <div id="gainLFOControls">
+      <br> LFO type:
+      <select id="lfotype" onchange="if (lfotype) lfotype.type = event.target.value;">
+        <option selected="selected" value="sine">SINE</option>
+        <option value="square">SQUARE</option>
+        <option value="sawtooth">SAWTOOTH</option>
+        <option value="triangle">TRIANGLE</option>
+      </select>
+      <br>
+      <br> LFO speed:
+      <input id="lfo" type="range" min="0.25" max="20" step="0.25" value="3" onInput="if (lfo) lfo.frequency.value = event.target.value;">
+      <br> LFO depth:
+      <input id="lfodepth" type="range" min="0.0" max="1.0" step="0.1" value="1.0" onInput="if (lfodepth) lfodepth.gain.value = event.target.value;">
+    </div>
+    <!-- telephone -->
+    <div id="telephoneControls">
+    </div>
   </div>
 </div>

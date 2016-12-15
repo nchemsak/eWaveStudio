@@ -2,12 +2,17 @@
 
 app.controller('liveInputCtrl', function($scope) {
   $scope.title = "Live Input";
-  $scope.slider = { value: 0 };
-  $scope.slider2 = { value: 0 };
-  $scope.slider3 = { value: 0 };
+  $scope.slider = { value: 0.75 };
+  $scope.slider2 = { value: 0.5 };
+  $scope.slider3 = { value: 0.5 };
   $scope.dropdown = { value: '' };
   $scope.dropdown2 = { value: '' };
-  // $scope.ngControls = {};
+  $scope.ngControls = { value: '' };
+  $scope.flangeSlider1 = { value: 0.25 };
+  $scope.flangeSlider2 = { value: 0.005 };
+  $scope.flangeSlider3 = { value: 0.002 };
+  $scope.flangeSlider4 = { value: 0.5 };
+
 
   window.AudioContext = window.AudioContext || window.webkitAudioContext;
   let audioContext = new AudioContext();
@@ -23,6 +28,21 @@ app.controller('liveInputCtrl', function($scope) {
   let dtime = null;
   let dregen = null;
   let reverbBuffer = null;
+  let fldelay = null;
+  let flspeed = null;
+  let fldepth = null;
+  let flfb = null;
+  let mddelay = null;
+  let mddepth = null;
+  let mdspeed = null;
+  let mdtime = null;
+  let mdfeedback = null;
+  let awFollower = null;
+  let awDepth = null;
+  let awFilter = null;
+  let lfo = null;
+  let lfotype = null;
+  let lfodepth = null;
 
   let constraints = {
     audio: {
@@ -51,7 +71,7 @@ app.controller('liveInputCtrl', function($scope) {
   };
 
   /*****************************************************************
-  // for feedback protection
+  // feedback protection
   *****************************************************************/
   $scope.createLPInputFilter = function(input) {
     // function createLPInputFilter() {
@@ -60,6 +80,10 @@ app.controller('liveInputCtrl', function($scope) {
     return lpInputFilter;
   };
 
+
+  /*****************************************************************
+  // gotStream function
+  *****************************************************************/
   $scope.gotStream = function(stream) {
     // function gotStream(stream) {
     // Create an AudioNode from the stream.
@@ -85,7 +109,6 @@ app.controller('liveInputCtrl', function($scope) {
     dryGain.connect(outputMix);
     wetGain.connect(outputMix);
     outputMix.connect(audioContext.destination);
-    // console.log("outputMix: ", outputMix);
     $scope.crossfade(1.0);
     $scope.changeEffect();
   };
@@ -137,10 +160,10 @@ app.controller('liveInputCtrl', function($scope) {
     dryGain.gain.value = gain1;
     let gain2 = Math.cos((1.0 - $scope.slider.value) * 0.5 * Math.PI);
     wetGain.gain.value = gain2;
-    console.log("gain1: ", gain1);
-    console.log("gain2: ", gain2);
+    // console.log("gain1: ", gain1);
+    // console.log("gain2: ", gain2);
   };
-  let lastEffect = -1;
+  var lastEffect = -1;
 
 
   /*****************************************************************
@@ -148,19 +171,37 @@ app.controller('liveInputCtrl', function($scope) {
   *****************************************************************/
   $scope.changeEffect = function() {
     // function changeEffect() {
+    dtime = null;
+    dregen = null;
+    fldelay = null;
+    flspeed = null;
+    fldepth = null;
+    flfb = null;
+    mddelay = null;
+    mddepth = null;
+    mdspeed = null;
+    mdtime = null;
+    mdfeedback = null;
+    awFollower = null;
+    awDepth = null;
+    awFilter = null;
+    lfo = null;
+    lfotype = null;
+    lfodepth = null;
 
     if (currentEffectNode)
       currentEffectNode.disconnect();
     if (effectInput)
       effectInput.disconnect();
 
+    // let audioSource = $scope.dropdown.index;
+
     let effect = document.getElementById("effect").selectedIndex;
-    let effect2 = $scope.dropdown2.selectedIndex;
-    console.log("effect2: ", effect2);
-    console.log("effect: ", effect);
+    let effect2 = $scope.dropdown2.index;
+
 
     let effectControls = document.getElementById("controls");
-    let effectControls2 = $scope.ngControls;
+
 
     // Show and hide individual effects options
     if (lastEffect > -1)
@@ -169,17 +210,27 @@ app.controller('liveInputCtrl', function($scope) {
     effectControls.children[effect].classList.add("display");
 
     switch (effect) {
-      case 0: // delayNode
+      case 0: // Delay
         currentEffectNode = $scope.createdDelay();
-        console.log("currentEffectNode: ", currentEffectNode);
+        // console.log("currentEffectNode: ", currentEffectNode);
         break;
-      case 1: // Reverb
-        // currentEffectNode = $scope.createTelephonizer();
-        console.log("currentEffectNode: ", currentEffectNode);
+        // case 1: // mod delay
+        // currentEffectNode = $scope.createModDelay();
+        // console.log("currentEffectNode: ", currentEffectNode);
+        // break;
+      case 1: // flanger
+        currentEffectNode = $scope.createFlange();
+        // console.log("currentEffectNode: ", currentEffectNode);
         break;
-      case 3: // Telephone
-        // currentEffectNode = $scope.createReverb();
-        console.log("currentEffectNode: ", currentEffectNode);
+      case 2: // Autowah
+        currentEffectNode = $scope.createAutowah();
+        // console.log("currentEffectNode: ", currentEffectNode);
+        break;
+      case 3: //Gain LFO
+        currentEffectNode = $scope.createGainLFO();
+        break;
+      case 4: // Telephone
+        currentEffectNode = $scope.createTelephonizer();
         break;
       default:
         break;
@@ -195,11 +246,13 @@ app.controller('liveInputCtrl', function($scope) {
 
     var delayNode = audioContext.createDelay();
     delayNode.delayTime.value = parseFloat($scope.slider2.value);
-    console.log("delayNode.delayTime.value: ", delayNode.delayTime.value);
+    dtime = delayNode;
+
     let gainNode = audioContext.createGain();
     gainNode.gain.value = parseFloat($scope.slider3.value);
+    dregen = gainNode;
 
-    audioInput.connect(delayNode);
+    // audioInput.connect(delayNode);
     gainNode.connect(delayNode);
     delayNode.connect(gainNode);
     delayNode.connect(wetGain);
@@ -208,20 +261,95 @@ app.controller('liveInputCtrl', function($scope) {
   };
 
 
+  $scope.createFlange = function() {
+    var delayNode = audioContext.createDelay();
+    delayNode.delayTime.value = parseFloat($scope.flangeSlider1.value);
+    fldelay = delayNode;
+
+    var inputNode = audioContext.createGain();
+    var feedback = audioContext.createGain();
+    var osc = audioContext.createOscillator();
+    var gain = audioContext.createGain();
+    gain.gain.value = parseFloat($scope.flangeSlider2.value);
+    fldepth = gain;
+
+    feedback.gain.value = parseFloat($scope.flangeSlider3.value);
+    flfb = feedback;
+
+    osc.type = 'sine';
+    osc.frequency.value = parseFloat($scope.flangeSlider4.value);
+    flspeed = osc;
+
+    osc.connect(gain);
+    gain.connect(delayNode.delayTime);
+
+    inputNode.connect(wetGain);
+    inputNode.connect(delayNode);
+    delayNode.connect(wetGain);
+    delayNode.connect(feedback);
+    feedback.connect(inputNode);
+
+    osc.start(0);
+
+    return inputNode;
+  };
 
 
 
+  $scope.createAutowah = function() {
+    // function createAutowah() {
+    var inputNode = audioContext.createGain();
+    var waveshaper = audioContext.createWaveShaper();
+    awFollower = audioContext.createBiquadFilter();
+    awFollower.type = "lowpass";
+    awFollower.frequency.value = 10.0;
+
+    var curve = new Float32Array(65536);
+    for (var i = -32768; i < 32768; i++)
+      curve[i + 32768] = ((i > 0) ? i : -i) / 32768;
+    waveshaper.curve = curve;
+    waveshaper.connect(awFollower);
+
+    awDepth = audioContext.createGain();
+    awDepth.gain.value = 11585;
+    awFollower.connect(awDepth);
+
+    awFilter = audioContext.createBiquadFilter();
+    awFilter.type = "lowpass";
+    awFilter.Q.value = 15;
+    awFilter.frequency.value = 50;
+    awDepth.connect(awFilter.frequency);
+    awFilter.connect(wetGain);
+
+    inputNode.connect(waveshaper);
+    inputNode.connect(awFilter);
+    return inputNode;
+  };
+
+  $scope.createGainLFO = function() {
+    // function createGainLFO() {
+    var osc = audioContext.createOscillator();
+    var gain = audioContext.createGain();
+    var depth = audioContext.createGain();
+
+    osc.type = document.getElementById("lfotype").value;
+    osc.frequency.value = parseFloat(document.getElementById("lfo").value);
+
+    gain.gain.value = 1.0; // to offset
+    depth.gain.value = 1.0;
+    osc.connect(depth); // scales the range of the lfo
 
 
+    depth.connect(gain.gain);
+    gain.connect(wetGain);
+    lfo = osc;
+    lfotype = osc;
+    lfodepth = depth;
 
 
-
-
-
-
-
-
-
+    osc.start(0);
+    return gain;
+  };
 
   $scope.createTelephonizer = function() {
     var lpf1 = audioContext.createBiquadFilter();
@@ -245,13 +373,13 @@ app.controller('liveInputCtrl', function($scope) {
   };
 
 
-  $scope.createReverb = function() {
-    // function createReverb() {
-    var convolver = audioContext.createConvolver();
-    convolver.buffer = reverbBuffer; // impulseResponse( 2.5, 2.0 );  // reverbBuffer;
-    convolver.connect(wetGain);
-    return convolver;
-  };
+  // $scope.createReverb = function() {
+  //   // function createReverb() {
+  //   var convolver = audioContext.createConvolver();
+  //   convolver.buffer = reverbBuffer; // impulseResponse( 2.5, 2.0 );  // reverbBuffer;
+  //   convolver.connect(wetGain);
+  //   return convolver;
+  // };
 
   /*****************************************************************
   // THis WAS FOR ICONS SELECTION IF I WANTED TO USE IT...PUT ABOVE CONVERT TO MONO FUNCTION
@@ -315,74 +443,4 @@ app.controller('liveInputCtrl', function($scope) {
 
 
 
-
-  // LFO START
-
-
-
-  // $scope.lfoStart2 = function() {
-  //   let osc = audioContext.createOscillator();
-  //   let vol = audioContext.createGain();
-  //   let panner = audioContext.createStereoPanner();
-  //   let freqGain = audioContext.createGain();
-  //   let lfo = audioContext.createOscillator();
-  //   let distortion = audioContext.createWaveShaper();
-
-
-  //   // get html controls
-  //   // let volControl = $scope.volume.value;
-  //   // console.log("volControl: ", $scope.volControl);
-  //   // document.getElementById("volume");
-  //   // let panControl = document.getElementById("panner");
-  //   // let panControl = $scope.panner.value;
-
-  //   //PANNER
-  //   panner.connect(audioContext.destination);
-
-  //   // VOLUME
-  //   // vol.gain.value = $scope.volControl.value;
-  //   vol.connect(panner);
-
-  //   //distortion
-  //   distortion.oversample = '4x';
-  //   distortion.connect(vol);
-
-  //   // OSCILLATOR
-  //   osc.frequency.value = 440;
-  //   osc.connect(distortion);
-
-
-  //   // LFO
-  //   freqGain.gain.value = 100;
-  //   freqGain.connect(osc.frequency);
-
-  //   lfo.frequency.value = 1;
-  //   lfo.connect(freqGain);
-  //   lfo.type = 'square';
-
-
-  //   // LISTENERS
-
-  //   // volControl.addEventListener("input", function() {
-  //   // $scope.volControl = function() {
-  //   //   vol.gain.value = $scope.volControl.value;
-
-  //   // };
-  //   // // });
-  //   // $scope.panControl = function() {
-  //   //   panner.pan.value = $scope.panControl.value;
-  //   // };
-
-  //   osc.start();
-  //   lfo.start();
-
-
-  //   // LFO Stop
-  //   // document.getElementById('lfoStop2').addEventListener('click', function() {
-  //   //   lfo.stop();
-  //   //   osc.stop();
-
-  //   // });
-
-  // };
 });

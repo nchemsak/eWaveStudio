@@ -1,29 +1,78 @@
 <h1>{{title}}</h1>
-<!-- <form>
-  <div class="form-group">
-    <label>Task Description</label>
-    <input type="text" class="form-control" placeholder="Some important task" ng-model="newTask.task" />
-  </div>
-  <div class="form-group">
-    <label>Due Date</label>
-    <input type="text" class="form-control" placeholder="01/12/17" ng-model="newTask.dueDate" />
-  </div>
-  <div class="form-group">
-    <label>Assigned To</label>
-    <input type="text" class="form-control" placeholder="cohort 15" ng-model="newTask.assignedTo" />
-  </div>
-  <div class="form-group">
-    <label>Location</label>
-    <input type="text" class="form-control" placeholder="attic" ng-model="newTask.location" />
-  </div>
-  <div class="form-group">
-    <label>Urgency</label>
-    <input type="text" class="form-control" placeholder="low" ng-model="newTask.urgency" />
-  </div>
-  <div class=" form-group ">
-    <label>Dependencies</label>
-    <input type="text " class="form-control " placeholder="brush chipper, monkey chow, the one ring " ng-model="newTask.dependencies" />
-  </div> -->
-<!-- bind this button to a function -->
-<!--   <button class="btn btn-default " ng-click="addNewItem()">{{btnText}}</button>
-</form> -->
+<div id='piano'>
+  <br> VOLUME:
+  <input type='range' min='0' max='1' step='0.01' value='0.25' id='volume' /> PAN:
+  <input type='range' min='-1' max='1' step='0.01' value='0' id='panner' />
+  <form action="#" name="waveOption">
+    <div class="radio1">
+      <input name="group1" type="radio" id="Square" checked="checked" />
+      <label for="Square">Square</label>
+    </div>
+    <div class="radio1">
+      <input name="group1" type="radio" id="Sine" />
+      <label for="Sine">Sine</label>
+    </div>
+    <div class="radio1">
+      <input name="group1" type="radio" id="Saw" />
+      <label for="Saw">Saw</label>
+    </div>
+    <div class="radio1">
+      <input name="group1" type="radio" id="Triangle" />
+      <label for="Triangle">Triangle</label>
+    </div>
+  </form>
+  <ul id='staggered'>
+    <li>
+      <div class='key' id='F3'>F</div>
+      <div class='upper-key' id='F3sh'>F#</div>
+    </li>
+    <li>
+      <div class='key' id='G3'>G</div>
+      <div class='upper-key' id='G3sh'>G#</div>
+    </li>
+    <li>
+      <div class='key' id='A3'>A</div>
+      <div class='upper-key' id='A3sh'>A#</div>
+    </li>
+    <li>
+      <div class='key' id='B3'>B</div>
+    </li>
+    <li>
+      <div class='key' id='C4'>C</div>
+      <div class='upper-key' id='C4sh'>C#</div>
+    </li>
+    <li>
+      <div class='key' id='D4'>D</div>
+      <div class='upper-key' id='D4sh'>D#</div>
+    </li>
+    <li>
+      <div class='key' id='E4'>E</div>
+    </li>
+    <li>
+      <div class='key' id='F4'>F</div>
+      <div class='upper-key' id='F4sh'>F#</div>
+    </li>
+    <li>
+      <div class='key' id='G4'>G</div>
+      <div class='upper-key' id='G4sh'>G#</div>
+    </li>
+    <li>
+      <div class='key' id='A4'>A</div>
+      <div class='upper-key' id='A4sh'>A#</div>
+    </li>
+    <li>
+      <div class='key' id='B4'>B</div>
+    </li>
+    <li>
+      <div class='key' id="C5">C</div>
+      <div class='upper-key' id='C5sh'>C#</div>
+    </li>
+    <li>
+      <div class='key' id='D5'>D</div>
+      <div class='upper-key' id='D5sh'>D#</div>
+    </li>
+    <li>
+      <div class='key' id='E5'>E</div>
+    </li>
+  </ul>
+</div>

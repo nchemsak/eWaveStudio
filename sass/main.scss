@@ -100,7 +100,6 @@ body {
   justify-content: center;
   -webkit-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0);
-
 }
 
 
@@ -835,7 +834,10 @@ div#controls div.display {
 
 #arranger {
   width: 750px;
-  margin: 25px auto
+  margin: 25px auto;
 }
 
-
+input[type=range]{
+  height: 20px;
+  width: 200px;
+}
