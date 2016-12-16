@@ -4,7 +4,14 @@ app.controller('midiCtrl', function($scope, $location, AuthFactory) {
   $scope.title = "MIDI";
 
   $scope.formData = { midiOscType: "square" };
-// console.log("$scope.formData: ", $scope.formData);
+  $scope.formData1 = { midiType: '' };
+  $scope.ngControls2 = { value: '' };
+  $scope.dropdown = { value: '' };
+  $scope.dropdown2 = { value: '' };
+  let currentEffectNode = null;
+  let audioInput = null;
+
+  // console.log("$scope.formData: ", $scope.formData);
   /*****************************************************************
   /*****************************************************************
 
@@ -13,419 +20,295 @@ app.controller('midiCtrl', function($scope, $location, AuthFactory) {
   *****************************************************************
   *****************************************************************/
 
-  var notes = new Map();
-  // var Note = function() {
-  $scope.Note = function(number) {
-    // function Note(number) {
-    var velocity = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
-    // _classCallCheck(this, Note);
-    this.osc = ac.createOscillator();
-    this.osc.frequency.value = 440 * Math.pow(2, (number - 69) / 12);
+  $scope.midiKeyboard = function() {
+    var notes = new Map();
+    // var Note = function() {
+    $scope.Note = function(number) {
+      var velocity = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+      this.osc = ac.createOscillator();
 
-    var midiOscType = $scope.formData.midiOscType;
-    console.log("midiOscType: ", midiOscType);
-    this.osc.type = midiOscType;
-    this.gain = ac.createGain();
-    this.gain.gain.value = velocity;
-    this.osc.connect(this.gain);
-    this.gain.connect(volume);
-    this.osc.start();
-  };
+      // The Math.pow() function returns the base to the exponent power
+      this.osc.frequency.value = 440 * Math.pow(2, (number - 69) / 12);
 
-  $scope.Note.prototype.stop = function stop() {
-    this.osc.stop(ac.currentTime);
-    this.gain.disconnect();
-    this.osc.disconnect();
-  };
+      // Math.pow(7, 2); // 49 440 = A * 2 (times itself )
+      // Math.pow(7, 3); // 343
+
+      var midiOscType = $scope.formData.midiOscType;
+      console.log("midiOscType: ", midiOscType);
+      this.osc.type = midiOscType;
+      this.gain = ac.createGain();
+      this.gain.gain.value = velocity;
+      this.osc.connect(this.gain);
+      this.gain.connect(volume);
+      this.osc.start();
+    };
+
+    $scope.Note.prototype.stop = function stop() {
+      this.osc.stop(ac.currentTime);
+      this.gain.disconnect();
+      this.osc.disconnect();
+    };
 
 
-  $scope.Instrument = function() {};
+    $scope.Instrument = function() {};
 
-  $scope.Instrument.prototype.on = function on(number, velocity) {
-    this.off(note);
-    var note = new $scope.Note(number, Math.pow(velocity / 127, 1));
-    notes.set(number, note);
-  };
+    $scope.Instrument.prototype.on = function on(number, velocity) {
+      this.off(note);
+      var note = new $scope.Note(number, Math.pow(velocity / 127, 1));
+      notes.set(number, note);
+    };
 
-  $scope.Instrument.prototype.off = function off(number, velocity) {
-    var note = notes.get(number, Math.pow(velocity / 127, 1));
-    if (note) {
-      note.stop();
-      notes.delete(number, note);
-    }
-  };
+    $scope.Instrument.prototype.off = function off(number, velocity) {
+      var note = notes.get(number, Math.pow(velocity / 127, 1));
+      if (note) {
+        note.stop();
+        notes.delete(number, note);
+      }
+    };
 
-  var ac = new AudioContext();
-  var volume = ac.createGain();
-  volume.connect(ac.destination);
-  volume.gain.value = 0.25;
-  var piano = new $scope.Instrument();
-  var message = document.querySelector('.message');
+    var ac = new AudioContext();
+    var volume = ac.createGain();
+    volume.connect(ac.destination);
+    volume.gain.value = 0.25;
+    var piano = new $scope.Instrument();
+    var message = document.querySelector('.message');
 
-  navigator.requestMIDIAccess().then(function(m) {
+    navigator.requestMIDIAccess().then(function(m) {
 
-    m.inputs.forEach(function(input) {
-      return input.removeEventListener('midimessage', $scope.midiMessage);
+      m.inputs.forEach(function(input) {
+        return input.removeEventListener('midimessage', $scope.midiMessage);
+      });
+      m.inputs.forEach(function(input) {
+        return input.addEventListener('midimessage', $scope.midiMessage);
+      });
+
     });
-    m.inputs.forEach(function(input) {
-      return input.addEventListener('midimessage', $scope.midiMessage);
-    });
 
-  });
+    $scope.midiMessage = function(event) {
+      if (event.data[0] === 144)
+        piano.on(event.data[1], event.data[2]);
+      if (event.data[0] === 128)
+        piano.off(event.data[1], event.data[2]);
+    };
 
-  $scope.midiMessage = function(event) {
-    if (event.data[0] === 144)
-      piano.on(event.data[1], event.data[2]);
-    if (event.data[0] === 128)
-      piano.off(event.data[1], event.data[2]);
+
   };
-
-
-
-
-
-
-
   /*****************************************************************
   /*****************************************************************
 
-                            PIANO
+                           MIDI SAMPLER
 
   *****************************************************************
   *****************************************************************/
 
+  var context = new AudioContext();
 
+  $scope.midiSampler = function() {
 
-  let keyboardContext = new AudioContext();
-  // let keyboard = new QwertyHancock({
-  //   id: 'keyboard',
-  //   octaves: 2
-  // });
+    // (function() {
+    var keyData = document.getElementById('key_data');
+    var deviceInfoInputs = document.getElementById('inputs');
+    var deviceInfoOutputs = document.getElementById('outputs'),
+      midi;
 
+    var AudioContext = AudioContext;
+    var activeNotes = [];
+    var btnBox = document.getElementById('content'),
+      btn = document.getElementsByClassName('button');
+    var data, cmd, channel, type, note, velocity;
 
-
-  let oscType = "square"; //default wave type
-
-  let F3 = 174.614,
-    F3sh = 184.997,
-    G3 = 195.998,
-    G3sh = 207.652,
-    A3 = 220,
-    A3sh = 233.082,
-    B3 = 246.942,
-    C4 = 261.626,
-    C4sh = 277.183,
-    D4 = 293.665,
-    D4sh = 311.127,
-    E4 = 329.628,
-    F4 = 349.228,
-    F4sh = 369.994,
-    G4 = 391.995,
-    G4sh = 415.305,
-    A4 = 440,
-    A4sh = 466.164,
-    B4 = 493.883,
-    C5 = 523.251,
-    C5sh = 554.365,
-    D5 = 587.330,
-    D5sh = 622.254,
-    E5 = 659.255;
-
-
-  /********************************************
-        RADIO BUTTONS CHOOSING WAVE FORM
-  **********************************************/
-
-  $('input[type=radio]').click(function() {
-    if (this.id === 'Sine') {
-      oscType = "sine";
-    } else if (this.id === 'Square') {
-      oscType = "square";
-    } else if (this.id === 'Saw') {
-      oscType = "sawtooth";
-    } else if (this.id === 'Triangle') {
-      oscType = "triangle";
-    }
-    return oscType;
-  });
-
-
-
-
-  // var keyboardContext = new AudioContext(),
-  //   masterVolume = keyboardContext.createGain();
-
-  // masterVolume.gain.value = 0.3;
-  // masterVolume.connect(keyboardContext.destination);
-
-
-
-  // var oscillators = {};
-
-  // keyboard.keyDown = function(note, frequency) {
-
-  //   var osc = keyboardContext.createOscillator();
-  //   // osc2 = keyboardContext.createOscillator();
-  //   osc.type = oscType;
-  //   osc.frequency.value = frequency;
-  //   // osc.type = 'square';
-
-  //   // osc2.frequency.value = frequency;
-  //   // osc2.type = 'square';
-
-  //   osc.connect(masterVolume);
-  //   // osc2.connect(masterVolume);
-
-  //   masterVolume.connect(keyboardContext.destination);
-
-  //   // oscillators[frequency] = [osc, osc2];
-  //   oscillators[frequency] = [osc];
-  //   osc.start(keyboardContext.currentTime);
-  //   // osc2.start(keyboardContext.currentTime);
-  //   osc.detune.value = -10;
-  //   // osc2.detune.value = 10;
-  // };
-
-  // keyboard.keyUp = function(note, frequency) {
-  //   oscillators[frequency].forEach(function(oscillator) {
-  //     oscillator.stop(keyboardContext.currentTime);
-  //   });
-  // };
-
-
-
-
-  /********************************************
-            Keyboard Event Listener SHARPS
-  **********************************************/
-
-  // addEventListener("keydown", function() {
-  //   if (event.keyCode === 49) {
-  //     $('#F3sh').addClass('nick2');
-  //     keyPlay(F3sh);
-  //   } else if (event.keyCode === 50) {
-  //     $('#G3sh').addClass('nick2');
-  //     keyPlay(G3sh);
-  //   } else if (event.keyCode === 51) {
-  //     $('#A3sh').addClass('nick2');
-  //     keyPlay(A3sh);
-  //   } else if (event.keyCode === 53) {
-  //     $('#B3sh').addClass('nick2');
-  //     keyPlay(C4sh);
-  //   } else if (event.keyCode === 54) {
-  //     $('#C4sh').addClass('nick2');
-  //     keyPlay(D4sh);
-  //   } else if (event.keyCode === 56) {
-  //     $('#D4sh').addClass('nick2');
-  //     keyPlay(F4sh);
-  //   } else if (event.keyCode === 57) {
-  //     $('#E4sh').addClass('nick2');
-  //     keyPlay(G4sh);
-  //   } else if (event.keyCode === 48) {
-  //     $('#F4sh').addClass('nick2');
-  //     keyPlay(A4sh);
-  //   } else if (event.keyCode === 187) {
-  //     $('#G4sh').addClass('nick2');
-  //     keyPlay(C5sh);
-  //   } else if (event.keyCode === 8) {
-  //     $('#A4sh').addClass('nick2');
-  //     keyPlay(D5sh);
-  //   }
-  // });
-
-  /********************************************
-            Keyboard Event Listener
-  **********************************************/
-
-
-  addEventListener("keydown", function() {
-    if (event.keyCode === 9) {
-      $('#F3').addClass('close4');
-      keyPlay(F3);
-    } else if (event.keyCode === 81) {
-      $('#G3').addClass('nick');
-      keyPlay(G3);
-    } else if (event.keyCode === 87) {
-      $('#A3').addClass('nick');
-      keyPlay(A3);
-    } else if (event.keyCode === 69) {
-      $('#B3').addClass('nick');
-      keyPlay(B3);
-    } else if (event.keyCode === 82) {
-      $('#C4').addClass('close5');
-      keyPlay(C4);
-    } else if (event.keyCode == 84) {
-      $('#D4').addClass('nick');
-      keyPlay(D4);
-    } else if (event.keyCode === 89) {
-      $('#E4').addClass('nick');
-      keyPlay(E4);
-    } else if (event.keyCode === 85) {
-      $('#F4').addClass('close3');
-      keyPlay(F4);
-    } else if (event.keyCode === 73) {
-      $('#G4').addClass('close1');
-      keyPlay(G4);
-    } else if (event.keyCode === 79) {
-      $('#A4').addClass('close2');
-      keyPlay(A4);
-    } else if (event.keyCode === 80) {
-      $('#B4').addClass('nick');
-      keyPlay(B4);
-    } else if (event.keyCode === 219) {
-      $('#C5').addClass('nick');
-      keyPlay(C5);
-      // } else if (event.keyCode === 221) {
-      //   $('#D5').addClass('nick');
-      //   keyPlay(D5);
-      // } else if (event.keyCode === 220) {
-      //   $('#E5').addClass('nick');
-      //   keyPlay(E5);
+    // request MIDI access
+    if (navigator.requestMIDIAccess) {
+      navigator.requestMIDIAccess({
+        sysex: false
+      }).then(onMIDISuccess);
     }
 
-  });
+    // add event listeners
+    for (var i = 0; i < btn.length; i++) {
+      btn[i].addEventListener('mousedown', clickPlayOn);
+      btn[i].addEventListener('mouseup', clickPlayOff);
+    }
+    // prepare audio files
+    for (i = 0; i < btn.length; i++) {
+      addAudioProperties(btn[i]);
+    }
 
+    var sampleMap = {
+      key60: 1,
+      key61: 2,
+      key62: 3,
+      key63: 4,
+      key64: 5,
+      key65: 6,
+      key66: 7,
+      key67: 8,
+      key68: 9,
+      key69: 10,
+      key70: 11,
+      key71: 12,
+      key72: 13,
+      key73: 14,
+      key74: 15,
+      key75: 16,
+      key76: 17,
+      key77: 18,
+      key78: 19,
+      key79: 20,
+      key80: 21,
+      key81: 22,
+      key82: 23,
+      key83: 24
+    };
 
+    // user interaction
+    function clickPlayOn(e) {
+      e.target.classList.add('active');
+      e.target.play();
+    }
 
-  /********************************************
-  Keyboard play note and listen for Keyup to stop
-  **********************************************/
+    function clickPlayOff(e) {
+      e.target.classList.remove('active');
+    }
 
-
-  function keyPlay(frequency) {
-    var oscillator = keyboardContext.createOscillator();
-    oscillator.type = oscType;
-    oscillator.frequency.value = frequency;
-
-
-    var osc = keyboardContext.createOscillator();
-    var vol = keyboardContext.createGain();
-    // var panner = keyboardContext.createStereoPanner();
-    var freqGain = keyboardContext.createGain();
-    var lfo = keyboardContext.createOscillator();
-    var distortion = keyboardContext.createWaveShaper();
-
-
-    // get html controls
-    var volControl = document.getElementById("volume");
-    var panControl = document.getElementById("panner");
-
-    //PANNER
-    // panner.connect(keyboardContext.destination);
-
-    // VOLUME
-    vol.gain.value = volControl.value;
-    vol.connect(keyboardContext.destination);
-
-    //distortion
-    distortion.oversample = '4x';
-    distortion.connect(vol);
-
-    oscillator.connect(distortion);
-
-
-    // LISTENERS
-    volControl.addEventListener("input", function() {
-      vol.gain.value = volControl.value;
-    });
-
-    // panControl.addEventListener("input", function() {
-    // panner.pan.value = panControl.value;
-    // });
-
-
-
-    oscillator.start();
-
-    // var oscillators = {};
-
-    // keyboard.keyDown = function(note, frequency) {
-
-    //   var osc = keyboardContext.createOscillator();
-    //   // osc2 = keyboardContext.createOscillator();
-    //   osc.type = oscType;
-    //   osc.frequency.value = frequency;
-    //   // osc.type = 'square';
-
-    //   // osc2.frequency.value = frequency;
-    //   // osc2.type = 'square';
-
-    //   osc.connect(masterVolume);
-    //   // osc2.connect(masterVolume);
-
-    //   masterVolume.connect(keyboardContext.destination);
-
-    //   // oscillators[frequency] = [osc, osc2];
-    //   oscillators[frequency] = [osc];
-    //   osc.start(keyboardContext.currentTime);
-    //   // osc2.start(keyboardContext.currentTime);
-    //   osc.detune.value = -10;
-    //   // osc2.detune.value = 10;
-    // };
-
-    // keyboard.keyUp = function(note, frequency) {
-    //   oscillators[frequency].forEach(function(oscillator) {
-    //     oscillator.stop(keyboardContext.currentTime);
-    //   });
-    // };
-
-
-    addEventListener("keyup", function(event) {
-      if (event.keyCode === 9) {
-        $('#F3').removeClass('close4');
-      } else if (event.keyCode === 81) {
-        $('#G3').removeClass('nick');
-      } else if (event.keyCode === 87) {
-        $('#A3').removeClass('nick');
-      } else if (event.keyCode === 69) {
-        $('#B3').removeClass('nick');
-      } else if (event.keyCode === 82) {
-        $('#C4').removeClass('close5');
-      } else if (event.keyCode === 84) {
-        $('#D4').removeClass('nick');
-      } else if (event.keyCode === 89) {
-        $('#E4').removeClass('nick');
-      } else if (event.keyCode === 85) {
-        $('#F4').removeClass('close3');
-      } else if (event.keyCode === 73) {
-        $('#G4').removeClass('close1');
-      } else if (event.keyCode === 79) {
-        $('#A4').removeClass('close2');
-      } else if (event.keyCode === 80) {
-        $('#B4').removeClass('nick');
-      } else if (event.keyCode === 219) {
-        $('#C5').removeClass('nick');
-      } else if (event.keyCode === 221) {
-        $('#D5').removeClass('nick');
-      } else if (event.keyCode === 220) {
-        $('#E5').removeClass('nick');
-      } else if (event.keyCode === 49) {
-        $('#G3').removeClass('nick');
-      } else if (event.keyCode === 50) {
-        $('#A3').removeClass('nick');
-      } else if (event.keyCode === 51) {
-        $('#B3').removeClass('nick');
-      } else if (event.keyCode === 53) {
-        $('#C4').removeClass('nick');
-      } else if (event.keyCode === 54) {
-        $('#D4').removeClass('nick');
-      } else if (event.keyCode === 56) {
-        $('#E4').removeClass('nick');
-      } else if (event.keyCode === 57) {
-        $('#F4').removeClass('nick');
-      } else if (event.keyCode === 48) {
-        $('#G4').removeClass('nick');
-      } else if (event.keyCode === 187) {
-        $('#A4').removeClass('nick');
-      } else if (event.keyCode === 8) {
-        $('#A4').removeClass('nick');
+    // midi functions
+    function onMIDISuccess(midiAccess) {
+      midi = midiAccess;
+      var inputs = midi.inputs.values();
+      console.log("inputs: ", inputs);
+      // loop through all inputs
+      for (var input = inputs.next(); input && !input.done; input = inputs.next()) {
+        input.value.onmidimessage = onMIDIMessage;
       }
-      oscillator.stop();
+      // listen for connect/disconnect message
+      midi.onstatechange = onStateChange;
 
 
-    });
+    }
 
-  }
+    function onMIDIMessage(event) {
+      data = event.data,
 
+        type = data[0] & 0xf0,
+        note = data[1],
+        velocity = data[2];
+
+      console.log('MIDI data', data);
+      switch (type) {
+        case 144: // noteOn message
+          noteOn(note, velocity);
+          break;
+        case 128: // noteOff message
+          noteOff(note, velocity);
+          break;
+      }
+
+      $scope.logger(keyData, 'key data', data);
+    }
+
+
+    // this console.logs when midi is plugged in or taken out
+    function onStateChange(event) {
+      // showMIDIPorts(midi);
+      var port = event.port,
+        state = port.state,
+        name = port.name,
+        type = port.type;
+      if (type == "input")
+        console.log("name", name, "port", port, "state", state);
+    }
+
+
+    // This console.logs information about the device that has been connected
+    function listInputs(inputs) {
+      var input = inputs.value;
+      console.log("Input port : [ type:'" + input.type + "' id: '" + input.id +
+        "' manufacturer: '" + input.manufacturer + "' name: '" + input.name +
+        "' version: '" + input.version + "']");
+    }
+
+    function noteOn(midiNote, velocity) {
+      player(midiNote, velocity);
+    }
+
+    function noteOff(midiNote, velocity) {
+      player(midiNote, velocity);
+    }
+
+    function player(note, velocity) {
+      var sample = sampleMap['key' + note];
+      console.log("sampleMap: ", sampleMap);
+      console.log("sample: ", sample);
+      if (sample) {
+        if (type === (0x80 & 0xf0) || velocity === 0) { //needs to be fixed for QuNexus, which always returns 144
+          // btn[sample - 1].classList.remove('active');
+          return;
+        }
+        // btn[sample - 1].classList.add('active');
+        btn[sample - 1].play(velocity);
+      }
+    }
+
+
+    // audio functions
+    function loadAudio(object, url) {
+      var request = new XMLHttpRequest();
+      request.open('GET', url, true);
+      request.responseType = 'arraybuffer';
+      request.onload = function() {
+        context.decodeAudioData(request.response, function(buffer) {
+          object.buffer = buffer;
+        });
+      };
+      request.send();
+    }
+
+    function addAudioProperties(object) {
+      object.source = object.dataset.sound;
+      console.log("object.source: ", object.source);
+      loadAudio(object, object.source);
+      object.play = function(volume) {
+        var s = context.createBufferSource();
+        s.buffer = object.buffer;
+        s.connect(context.destination);
+        s.start();
+      };
+    }
+
+    // this is the info in the DOM about keypresses
+    $scope.logger = function(container, label, data) {
+      // function logger(container, label, data) {
+      var messages = label + " note: " + data[1];
+      container.textContent = messages;
+    };
+  };
+
+
+  var lastEffect = -1;
+  $scope.changeMidi = function() {
+    let midiChange = document.getElementById("midiChange").selectedIndex;
+    let effectControls = document.getElementById("controls2");
+    // Show and hide individual effects options
+    if (lastEffect > -1)
+      effectControls.children[lastEffect].classList.remove("display");
+    lastEffect = midiChange;
+    effectControls.children[midiChange].classList.add("display");
+
+    switch (midiChange) {
+      case 0: // Delay
+        currentEffectNode = $scope.midiKeyboard();
+        break;
+      case 1: // flanger
+        currentEffectNode = $scope.midiSampler();
+        // console.log("currentEffectNode: ", currentEffectNode);
+        break;
+      case 2:
+        console.log("this: ");
+        break;
+      default:
+        break;
+    }
+    // audioInput.connect(currentEffectNode);
+  };
 
 });
