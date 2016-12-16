@@ -388,11 +388,10 @@ header {
 //   z-index: 5;
 //   cursor: pointer;
 // }
-input[type=checkbox] {
-  position: absolute;
-  top: -100px;
-}
-
+// input[type=checkbox] {
+//   position: absolute;
+//   top: -100px;
+// }
 aside {
   position: fixed;
   top: 0;
@@ -425,6 +424,23 @@ canvas {
   // cursor: none;
   //   background-color: lightgrey;
   //   // background-image: '..wave.jpg';
+  //  width: 100%;
+  // display: block;
+  // // margin: auto;
+  // height: 100%;
+  // // position: absolute;
+  // top: 0%;
+  // left: 0%;
+  // /*  background: linear-gradient(rgba(251, 139, 166, 0.7), rgba(224, 140, 194, 0.8), rgba(194, 139, 228, 0.9)), url("");*/
+  // // background: url("../images/circleWave.gif");
+  // // background: url("https://68.media.tumblr.com/96d47aa0646fc19e68691743955b9c77/tumblr_n1a0c2M2hN1sns7veo1_500.gif");
+  // background-size: cover;
+  // border-radius: 0%;
+  // z-index: 1;
+  // opacity: 0.9;
+  /*  -webkit-box-shadow: 10px 11px 25px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 10px 11px 25px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 10px 11px 25px 0px rgba(0, 0, 0, 0.75);*/
 }
 
 #thereminCanvas {
@@ -432,7 +448,24 @@ canvas {
   // width: 500px;
   // height: 500px;
   // border-radius: 3px;
-  background: #1E1E1E url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAIUlEQVQYV2P8+vWrJAMRgBGkkJub+zkhtaMK8YYQ0cEDABxGJwNr5yClAAAAAElFTkSuQmCC);
+  // background: #1E1E1E url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAIUlEQVQYV2P8+vWrJAMRgBGkkJub+zkhtaMK8YYQ0cEDABxGJwNr5yClAAAAAElFTkSuQmCC);
+   width: 100%;
+  display: block;
+  margin: auto;
+  height: 100%;
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  /*  background: linear-gradient(rgba(251, 139, 166, 0.7), rgba(224, 140, 194, 0.8), rgba(194, 139, 228, 0.9)), url("");*/
+  background: url("../images/circleWave.gif");
+  // background: url("https://68.media.tumblr.com/96d47aa0646fc19e68691743955b9c77/tumblr_n1a0c2M2hN1sns7veo1_500.gif");
+  background-size: cover;
+  border-radius: 0%;
+  z-index: 1;
+  opacity: 0.9;
+  /*  -webkit-box-shadow: 10px 11px 25px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 10px 11px 25px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 10px 11px 25px 0px rgba(0, 0, 0, 0.75);*/
 }
 
 #thereminCanvas:hover {
@@ -662,11 +695,11 @@ body {
   color: white;
   // font-family: "lato";
   font-family: 'Space Mono', monospace;
-  font-family: 'Raleway', sans-serif;
-  font-family: 'Dosis', sans-serif;
+  // font-family: 'Raleway', sans-serif;
+  // font-family: 'Dosis', sans-serif;
   // font-family: 'Amatic SC', cursive;
   // font-family: 'Orbitron', sans-serif;
-  font-size: 20px;
+  font-size: 30px;
   font-weight: 800;
   text-align: right;
   z-index: 3;
@@ -680,15 +713,15 @@ body {
   color: white;
   // font-family: "lato";
   font-family: 'Space Mono', monospace;
-  font-family: 'Raleway', sans-serif;
-  font-family: 'Dosis', sans-serif;
-  font-family: 'Amatic SC', cursive;
+  // font-family: 'Raleway', sans-serif;
+  // font-family: 'Dosis', sans-serif;
+  // font-family: 'Amatic SC', cursive;
   // font-family: 'Orbitron', sans-serif;
   font-size: 13px;
   font-weight: 400;
   text-align: center;
   z-index: 3;
-  color: purple;
+  // color: purple;
 }
 
 #container {
@@ -703,13 +736,13 @@ body {
   font-family: 'Raleway', sans-serif;
   // font-family: 'Dosis', sans-serif;
   // font-family: 'Amatic SC', cursive;
-  font-family: 'Orbitron', sans-serif;
+  // font-family: 'Orbitron', sans-serif;
   font-size: 2em;
   font-weight: 800;
   text-align: center;
   text-transform: uppercase;
   z-index: 3;
-  color: green;
+  // color: green;
 }
 
 .button {
@@ -810,6 +843,7 @@ a:link {
 
 select {
   font: 14pt Arial, sans-serif;
+  color: black;
 }
 
 div#controls div {
@@ -834,42 +868,50 @@ div#controls div.display {
 
 #arranger {
   width: 750px;
-  margin: 25px auto;
+  // margin: 25px auto;
 }
 
-input[type=range]{
+input[type=range] {
   height: 20px;
   width: 200px;
 }
 
 // RADIO BUTTONS
 .radioButtondemoBasicUsage body {
-  padding: 20px; }
+  padding: 20px;
+}
 
 .radioButtondemoBasicUsage hr {
   margin-left: -20px;
-  opacity: 0.3; }
+  opacity: 0.3;
+}
 
 .radioButtondemoBasicUsage md-radio-group {
-  width: 150px; }
+  width: 150px;
+}
 
 .radioButtondemoBasicUsage p:last-child {
-  padding-bottom: 50px; }
+  padding-bottom: 50px;
+}
 
 .radioButtondemoBasicUsage [ng-controller] {
-  padding: 0 20px; }
+  padding: 0 20px;
+}
 
 .radioButtondemoBasicUsage .radioValue {
   margin-left: 5px;
   color: #0f9d58;
   font-weight: bold;
-  padding: 5px; }
+  padding: 5px;
+}
 
 .radioButtondemoBasicUsage md-icon {
   margin: 0 20px 20px;
   width: 128px;
-  height: 128px; }
+  height: 128px;
+}
 
 .radioButtondemoBasicUsage .ipsum {
   color: saddlebrown;
-  font-size: 0.9em; }
+  font-size: 0.9em;
+}

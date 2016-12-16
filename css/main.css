@@ -233,10 +233,6 @@ header {
   height: calc(100% - 240px - 0.7rem);
   overflow: scroll; }
 
-input[type=checkbox] {
-  position: absolute;
-  top: -100px; }
-
 aside {
   position: fixed;
   top: 0;
@@ -255,8 +251,28 @@ input[type=checkbox]:checked ~ aside {
 /************************************************************************************
                                   THEREMIN AND CANVAS STYLES
 ************************************************************************************/
+canvas {
+  /*  -webkit-box-shadow: 10px 11px 25px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 10px 11px 25px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 10px 11px 25px 0px rgba(0, 0, 0, 0.75);*/ }
+
 #thereminCanvas {
-  background: #1E1E1E url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAIUlEQVQYV2P8+vWrJAMRgBGkkJub+zkhtaMK8YYQ0cEDABxGJwNr5yClAAAAAElFTkSuQmCC); }
+  width: 100%;
+  display: block;
+  margin: auto;
+  height: 100%;
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  /*  background: linear-gradient(rgba(251, 139, 166, 0.7), rgba(224, 140, 194, 0.8), rgba(194, 139, 228, 0.9)), url("");*/
+  background: url("../images/circleWave.gif");
+  background-size: cover;
+  border-radius: 0%;
+  z-index: 1;
+  opacity: 0.9;
+  /*  -webkit-box-shadow: 10px 11px 25px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 10px 11px 25px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 10px 11px 25px 0px rgba(0, 0, 0, 0.75);*/ }
 
 #thereminCanvas:hover {
   cursor: crosshair; }
@@ -404,9 +420,7 @@ body {
   bottom: 37%;
   color: white;
   font-family: 'Space Mono', monospace;
-  font-family: 'Raleway', sans-serif;
-  font-family: 'Dosis', sans-serif;
-  font-size: 20px;
+  font-size: 30px;
   font-weight: 800;
   text-align: right;
   z-index: 3;
@@ -418,14 +432,10 @@ body {
   bottom: 3%;
   color: white;
   font-family: 'Space Mono', monospace;
-  font-family: 'Raleway', sans-serif;
-  font-family: 'Dosis', sans-serif;
-  font-family: 'Amatic SC', cursive;
   font-size: 13px;
   font-weight: 400;
   text-align: center;
-  z-index: 3;
-  color: purple; }
+  z-index: 3; }
 
 #container {
   margin-top: 15%; }
@@ -434,13 +444,11 @@ body {
   color: RGBA(204, 204, 204, 1);
   font-family: 'Space Mono', monospace;
   font-family: 'Raleway', sans-serif;
-  font-family: 'Orbitron', sans-serif;
   font-size: 2em;
   font-weight: 800;
   text-align: center;
   text-transform: uppercase;
-  z-index: 3;
-  color: green; }
+  z-index: 3; }
 
 .button {
   margin: 10px;
@@ -517,7 +525,8 @@ a:link {
   margin-bottom: 50px; }
 
 select {
-  font: 14pt Arial, sans-serif; }
+  font: 14pt Arial, sans-serif;
+  color: black; }
 
 div#controls div {
   display: none;
@@ -536,8 +545,7 @@ div#controls div.display {
   padding-top: 12px; }
 
 #arranger {
-  width: 750px;
-  margin: 25px auto; }
+  width: 750px; }
 
 input[type=range] {
   height: 20px;

@@ -2,17 +2,29 @@
 
 app.controller('liveInputCtrl', function($scope) {
   $scope.title = "Live Input";
-  $scope.slider = { value: 0.75 };
-  $scope.slider2 = { value: 0.5 };
-  $scope.slider3 = { value: 0.5 };
   $scope.dropdown = { value: '' };
   $scope.dropdown2 = { value: '' };
   $scope.ngControls = { value: '' };
+  // effect mix control
+  $scope.slider = { value: 0 };
+  // Delay Controls
+  $scope.slider2 = { value: 0.5 };
+  $scope.slider3 = { value: 0.5 };
+  // FLANGER CONTROLS
   $scope.flangeSlider1 = { value: 0.25 };
   $scope.flangeSlider2 = { value: 0.005 };
   $scope.flangeSlider3 = { value: 0.002 };
   $scope.flangeSlider4 = { value: 0.5 };
-
+  // LFO CONTROLS
+  $scope.lfoDropdown = { value: 'sine' };
+  $scope.lfoSlider1 = { value: 3.0 };
+  $scope.lfoSlider2 = { value: 1.0 };
+  // stereo FLANGER CONTROLS
+  // $scope.stFlangeSlider1 = { value: 0.01 };
+  // $scope.stFlangeSlider2 = { value: 0.003 };
+  // $scope.stFlangeSlider3 = { value: 0.005 };
+  // $scope.stFlangeSlider4 = { value: 0.9 };
+  // $scope.check = { value: 'checked' };
 
   window.AudioContext = window.AudioContext || window.webkitAudioContext;
   let audioContext = new AudioContext();
@@ -43,6 +55,13 @@ app.controller('liveInputCtrl', function($scope) {
   let lfo = null;
   let lfotype = null;
   let lfodepth = null;
+  let sflldelay = null;
+  let sflrdelay = null;
+  let sflspeed = null;
+  let sflldepth = null;
+  let sflrdepth = null;
+  let sfllfb = null;
+  let sflrfb = null;
 
   let constraints = {
     audio: {
@@ -61,8 +80,8 @@ app.controller('liveInputCtrl', function($scope) {
   *****************************************************************/
   $scope.convertToMono = function(input) {
     // function convertToMono(input) {
-    let splitter = audioContext.createChannelSplitter(2);
-    let merger = audioContext.createChannelMerger(2);
+    var splitter = audioContext.createChannelSplitter(2);
+    var merger = audioContext.createChannelMerger(2);
 
     input.connect(splitter);
     splitter.connect(merger, 0, 0);
@@ -114,11 +133,11 @@ app.controller('liveInputCtrl', function($scope) {
   };
 
   /*****************************************************************
-  // This selects the items from the dropdown
+  // This selects the items from the dropdown  GET USER MEDIA API
   *****************************************************************/
   $scope.changeInput = function() {
     // let audioSelect = document.getElementById("audioinput");
-    let audioSource = $scope.dropdown.index;
+    var audioSource = $scope.dropdown.index;
 
     constraints.audio.optional.push({ sourceId: audioSource });
     navigator.getUserMedia(constraints, $scope.gotStream, function(e) {
@@ -131,16 +150,16 @@ app.controller('liveInputCtrl', function($scope) {
   *****************************************************************/
 
   function gotSources(sourceInfos) {
-    let audioSelect = document.getElementById("audioinput");
+    var audioSelect = document.getElementById("audioinput");
 
     //add this back in to have "default" as the first selected option
     // while (audioSelect.firstChild)
     //   audioSelect.removeChild(audioSelect.firstChild);
 
-    for (let i = 0; i != sourceInfos.length; ++i) {
-      let sourceInfo = sourceInfos[i];
+    for (var i = 0; i != sourceInfos.length; ++i) {
+      var sourceInfo = sourceInfos[i];
       if (sourceInfo.kind === 'audio') {
-        let option = document.createElement("option");
+        var option = document.createElement("option");
         option.value = sourceInfo.id;
         option.text = sourceInfo.label;
         audioSelect.appendChild(option);
@@ -188,6 +207,13 @@ app.controller('liveInputCtrl', function($scope) {
     lfo = null;
     lfotype = null;
     lfodepth = null;
+    sflldelay = null;
+    sflrdelay = null;
+    sflspeed = null;
+    sflldepth = null;
+    sflrdepth = null;
+    sfllfb = null;
+    sflrfb = null;
 
     if (currentEffectNode)
       currentEffectNode.disconnect();
@@ -196,11 +222,11 @@ app.controller('liveInputCtrl', function($scope) {
 
     // let audioSource = $scope.dropdown.index;
 
-    let effect = document.getElementById("effect").selectedIndex;
-    let effect2 = $scope.dropdown2.index;
+    var effect = document.getElementById("effect").selectedIndex;
+    var effect2 = $scope.dropdown2.index;
 
 
-    let effectControls = document.getElementById("controls");
+    var effectControls = document.getElementById("controls");
 
 
     // Show and hide individual effects options
@@ -219,18 +245,23 @@ app.controller('liveInputCtrl', function($scope) {
         // console.log("currentEffectNode: ", currentEffectNode);
         // break;
       case 1: // flanger
-        currentEffectNode = $scope.createFlange();
+        currentEffectNode = $scope.createGainLFO();
         // console.log("currentEffectNode: ", currentEffectNode);
         break;
-      case 2: // Autowah
-        currentEffectNode = $scope.createAutowah();
+      case 2: // Stereo Flange
+        currentEffectNode = $scope.createStereoFlange();
+
         // console.log("currentEffectNode: ", currentEffectNode);
         break;
       case 3: //Gain LFO
-        currentEffectNode = $scope.createGainLFO();
+        currentEffectNode = $scope.createTelephonizer();
         break;
       case 4: // Telephone
-        currentEffectNode = $scope.createTelephonizer();
+        currentEffectNode = $scope.createAutowah();
+        break;
+      case 5: // autowah
+        currentEffectNode = $scope.createFlange();
+
         break;
       default:
         break;
@@ -248,7 +279,7 @@ app.controller('liveInputCtrl', function($scope) {
     delayNode.delayTime.value = parseFloat($scope.slider2.value);
     dtime = delayNode;
 
-    let gainNode = audioContext.createGain();
+    var gainNode = audioContext.createGain();
     gainNode.gain.value = parseFloat($scope.slider3.value);
     dregen = gainNode;
 
@@ -332,13 +363,14 @@ app.controller('liveInputCtrl', function($scope) {
     var gain = audioContext.createGain();
     var depth = audioContext.createGain();
 
-    osc.type = document.getElementById("lfotype").value;
-    osc.frequency.value = parseFloat(document.getElementById("lfo").value);
+    osc.type = $scope.lfoDropdown.value;
+    osc.frequency.value = parseFloat($scope.lfoSlider1.value);
 
-    gain.gain.value = 1.0; // to offset
+    // lfodepth.gain.value = parseFloat($scope.lfoSlider2.value);
+
+    gain.gain.value = 1.0;
     depth.gain.value = 1.0;
-    osc.connect(depth); // scales the range of the lfo
-
+    osc.connect(depth);
 
     depth.connect(gain.gain);
     gain.connect(wetGain);
@@ -360,16 +392,129 @@ app.controller('liveInputCtrl', function($scope) {
     lpf2.frequency.value = 2000.0;
     var hpf1 = audioContext.createBiquadFilter();
     hpf1.type = "highpass";
-    hpf1.frequency.value = 500.0;
+    hpf1.frequency.value = 1000.0;
     var hpf2 = audioContext.createBiquadFilter();
     hpf2.type = "highpass";
-    hpf2.frequency.value = 500.0;
+    hpf2.frequency.value = 1000.0;
     lpf1.connect(lpf2);
     lpf2.connect(hpf1);
     hpf1.connect(hpf2);
     hpf2.connect(wetGain);
     currentEffectNode = lpf1;
     return (lpf1);
+  };
+
+
+  // flanger
+  // $scope.createStereoFlange = function() {
+  //   var splitter = audioContext.createChannelSplitter(2);
+  //   var merger = audioContext.createChannelMerger(2);
+  //   var inputNode = audioContext.createGain();
+  //   sfllfb = audioContext.createGain();
+  //   sflrfb = audioContext.createGain();
+  //   sflspeed = audioContext.createOscillator();
+  //   sflldepth = audioContext.createGain();
+  //   sflrdepth = audioContext.createGain();
+  //   sflldelay = audioContext.createDelay();
+  //   sflrdelay = audioContext.createDelay();
+
+  //   sfllfb.gain.value = sfllfb.gain.value = parseFloat($scope.stFlangeSlider1.value);
+
+  //   // sfllfb.gain.value = sflrfb.gain.value = parseFloat(document.getElementById("sflfb").value);
+
+  //   inputNode.connect(splitter);
+  //   inputNode.connect(wetGain);
+
+  //   sflldelay.delayTime.value = parseFloat($scope.stFlangeSlider2.value);
+  //   sflrdelay.delayTime.value = parseFloat($scope.stFlangeSlider2.value);
+
+  //   // sflldelay.delayTime.value = parseFloat(document.getElementById("sfldelay").value);
+  //   // sflrdelay.delayTime.value = parseFloat(document.getElementById("sfldelay").value);
+
+  //   splitter.connect(sflldelay, 0);
+  //   splitter.connect(sflrdelay, 1);
+  //   sflldelay.connect(sfllfb);
+  //   sflrdelay.connect(sflrfb);
+  //   sfllfb.connect(sflrdelay);
+  //   sflrfb.connect(sflldelay);
+
+  //   sflldepth.gain.value = parseFloat($scope.stFlangeSlider3.value);
+  //   sflrdepth.gain.value = -parseFloat($scope.stFlangeSlider3.value);
+
+
+  //   // sflldepth.gain.value = parseFloat(document.getElementById("sfldepth").value); // depth of change to the delay:
+  //   // sflrdepth.gain.value = -parseFloat(document.getElementById("sfldepth").value); // depth of change to the delay:
+
+  //   sflspeed.type = 'triangle';
+
+  //   sflspeed.frequency.value = parseFloat($scope.stFlangeSlider4.value);
+  //   // sflspeed.frequency.value = parseFloat(document.getElementById("sflspeed").value);
+
+  //   sflspeed.connect(sflldepth);
+  //   sflspeed.connect(sflrdepth);
+
+  //   sflldepth.connect(sflldelay.delayTime);
+  //   sflrdepth.connect(sflrdelay.delayTime);
+
+  //   sflldelay.connect(merger, 0, 0);
+  //   sflrdelay.connect(merger, 0, 1);
+  //   merger.connect(wetGain);
+
+  //   sflspeed.start(0);
+
+  //   return inputNode;
+  // };
+
+
+  $scope.createStereoFlange = function() {
+
+    // function createStereoFlange() {
+    var splitter = audioContext.createChannelSplitter(2);
+    var merger = audioContext.createChannelMerger(2);
+    var inputNode = audioContext.createGain();
+    sfllfb = audioContext.createGain();
+    sflrfb = audioContext.createGain();
+    sflspeed = audioContext.createOscillator();
+    sflldepth = audioContext.createGain();
+    sflrdepth = audioContext.createGain();
+    sflldelay = audioContext.createDelay();
+    sflrdelay = audioContext.createDelay();
+
+
+    sfllfb.gain.value = sflrfb.gain.value = parseFloat(document.getElementById("sflfb").value);
+
+    inputNode.connect(splitter);
+    inputNode.connect(wetGain);
+
+    sflldelay.delayTime.value = parseFloat(document.getElementById("sfldelay").value);
+    sflrdelay.delayTime.value = parseFloat(document.getElementById("sfldelay").value);
+
+    splitter.connect(sflldelay, 0);
+    splitter.connect(sflrdelay, 1);
+    sflldelay.connect(sfllfb);
+    sflrdelay.connect(sflrfb);
+    sfllfb.connect(sflrdelay);
+    sflrfb.connect(sflldelay);
+
+    sflldepth.gain.value = parseFloat(document.getElementById("sfldepth").value); // depth of change to the delay:
+    sflrdepth.gain.value = -parseFloat(document.getElementById("sfldepth").value); // depth of change to the delay:
+
+    sflspeed.type = 'triangle';
+    sflspeed.frequency.value = parseFloat(document.getElementById("sflspeed").value);
+
+    sflspeed.connect(sflldepth);
+    sflspeed.connect(sflrdepth);
+
+    sflldepth.connect(sflldelay.delayTime);
+    sflrdepth.connect(sflrdelay.delayTime);
+
+    sflldelay.connect(merger, 0, 0);
+    sflrdelay.connect(merger, 0, 1);
+    merger.connect(wetGain);
+
+    sflspeed.start(0);
+
+    return inputNode;
   };
 
 
@@ -407,20 +552,20 @@ app.controller('liveInputCtrl', function($scope) {
   /*****************************************************************
   //          TOGGLE MONO ON/OFF ...IF I WANT TO ADD BACK IN...
   *****************************************************************/
-  // function toggleMono() {
+  // $scope.toggleMono = function() {
   //   if (audioInput != realAudioInput) {
   //     audioInput.disconnect();
   //     realAudioInput.disconnect();
   //     audioInput = realAudioInput;
   //   } else {
   //     realAudioInput.disconnect();
-  //     audioInput = convertToMono(realAudioInput);
+  //     audioInput = $scope.convertToMono(realAudioInput);
   //   }
-  //   createLPInputFilter();
+  //   $scope.createLPInputFilter();
   //   lpInputFilter.connect(dryGain);
   //   // lpInputFilter.connect(analyser1);
   //   lpInputFilter.connect(effectInput);
-  // }
+  // };
 
 
 

@@ -1,114 +1,74 @@
-<!-- <h1>{{title}}</h1> -->
+<h1>{{title}}</h1>
 <code>MIDI Controller</code>
 <br>
 <!--**************************************************************
                       MIDI CONTROLLER
 <!**************************************************************-->
 <!-- <h2>MIDI Controller</h2> -->
-<label>Wave Shape</label>
-<div class="form-group">
-  <div class="radio">
-    <label>
-      <input type="radio" name="midiOscType" value="square" ng-model="formData.midiOscType"> Square
-    </label>
-  </div>
-  <div class="radio">
-    <label>
-      <input type="radio" checked="checked" name="midiOscType" value="sine" ng-model="formData.midiOscType"> Sine
-    </label>
-  </div>
-  <div class="radio">
-    <label>
-      <input type="radio" name="midiOscType" value="sawtooth" ng-model="formData.midiOscType"> Sawtooth
-    </label>
-  </div>
-  <div class="radio">
-    <label>
-      <input type="radio" name="midiOscType" value="triangle" ng-model="formData.midiOscType"> Triangle
-    </label>
-  </div>
-  <br> VOLUME:
-  <input type='range' min='0' max='1' step='0.01' value='0.25' id='midiVolume' />
-  <br>
+<div id="content">
+  <div class="button" data-sound="audio/kick.mp3"></div>
+  <div class="button" data-sound="audio/kick-7.mp3"></div>
+  <div class="button" data-sound="audio/kick-1.mp3"></div>
+  <div class="button" data-sound="audio/kick-2.mp3"></div>
+  <div class="button" data-sound="audio/kick-3.mp3"></div>
+  <div class="button" data-sound="audio/kick-5.mp3"></div>
+  <div class="button" data-sound="audio/kick-6.mp3"></div>
+  <div class="button" data-sound="audio/bass-1.mp3"></div>
+  <div class="button" data-sound="audio/bass-2.mp3"></div>
+  <div class="button" data-sound="audio/bass-3.mp3"></div>
+  <div class="button" data-sound="audio/snare.mp3"></div>
+  <div class="button" data-sound="audio/snare-1.mp3"></div>
+  <div class="button" data-sound="audio/snare-2.mp3"></div>
+  <div class="button" data-sound="audio/snare-hat-1.mp3"></div>
+  <div class="button" data-sound="audio/cym.mp3"></div>
+  <div class="button" data-sound="audio/cym-noise.mp3"></div>
+  <div class="button" data-sound="audio/hat-2.mp3"></div>
+  <div class="button" data-sound="audio/hat.mp3"></div>
+  <div class="button" data-sound="audio/hat-1.mp3"></div>
+  <div class="button" data-sound="audio/hat-2.mp3"></div>
+  <div class="button" data-sound="audio/Larnac.wav"></div>
+  <div class="button" data-sound="audio/the-price-is-right-losing-horn.mp3"></div>
 </div>
-<!--**************************************************************
-                      COMPUTER KEYBOARD
-<!**************************************************************-->
-<h2>Computer keyboard</h2>
-<div id='piano'>
-  <br> VOLUME:
-  <input type='range' min='0' max='1' step='0.01' value='0.25' id='volume' />
-  <!-- <input type='range' min='-1' max='1' step='0.01' value='0' id='panner' /> -->
-  <form action="#" name="waveOption">
-    <div class="radio1">
-      <input name="group1" type="radio" id="Square" checked="checked" />
-      <label for="Square">Square</label>
+<select id="midiChange" ng-model="dropdown2.index" ng-change="changeMidi();">
+  <option>Oscillator Keyboard</option>
+  <!-- <option>Mod Delay</option> -->
+  <option>Sampler</option>
+</select>
+<div id="controls2" ng-model="ngControls2">
+  <div id="oscillatorKeyboard" class="form-group">
+    <!-- <label>Wave Shape</label> -->
+    <!-- <div class="form-group"> -->
+    <div class="radio">
+      <label>
+        <input type="radio" name="midiOscType" value="square" ng-model="formData.midiOscType"> Square
+      </label>
     </div>
-    <div class="radio1">
-      <input name="group1" type="radio" id="Sine" />
-      <label for="Sine">Sine</label>
+    <div class="radio">
+      <label>
+        <input type="radio" checked="checked" name="midiOscType" value="sine" ng-model="formData.midiOscType"> Sine
+      </label>
     </div>
-    <div class="radio1">
-      <input name="group1" type="radio" id="Saw" />
-      <label for="Saw">Saw</label>
+    <div class="radio">
+      <label>
+        <input type="radio" name="midiOscType" value="sawtooth" ng-model="formData.midiOscType"> Sawtooth
+      </label>
     </div>
-    <div class="radio1">
-      <input name="group1" type="radio" id="Triangle" />
-      <label for="Triangle">Triangle</label>
+    <div class="radio">
+      <label>
+        <input type="radio" name="midiOscType" value="triangle" ng-model="formData.midiOscType"> Triangle
+      </label>
     </div>
-  </form>
-  <ul id='staggered'>
-    <li>
-      <div class='key' id='F3'>F</div>
-      <div class='upper-key' id='F3sh'>F#</div>
-    </li>
-    <li>
-      <div class='key' id='G3'>G</div>
-      <div class='upper-key' id='G3sh'>G#</div>
-    </li>
-    <li>
-      <div class='key' id='A3'>A</div>
-      <div class='upper-key' id='A3sh'>A#</div>
-    </li>
-    <li>
-      <div class='key' id='B3'>B</div>
-    </li>
-    <li>
-      <div class='key' id='C4'>C</div>
-      <div class='upper-key' id='C4sh'>C#</div>
-    </li>
-    <li>
-      <div class='key' id='D4'>D</div>
-      <div class='upper-key' id='D4sh'>D#</div>
-    </li>
-    <li>
-      <div class='key' id='E4'>E</div>
-    </li>
-    <li>
-      <div class='key' id='F4'>F</div>
-      <div class='upper-key' id='F4sh'>F#</div>
-    </li>
-    <li>
-      <div class='key' id='G4'>G</div>
-      <div class='upper-key' id='G4sh'>G#</div>
-    </li>
-    <li>
-      <div class='key' id='A4'>A</div>
-      <div class='upper-key' id='A4sh'>A#</div>
-    </li>
-    <li>
-      <div class='key' id='B4'>B</div>
-    </li>
-    <li>
-      <div class='key' id="C5">C</div>
-      <div class='upper-key' id='C5sh'>C#</div>
-    </li>
-    <li>
-      <div class='key' id='D5'>D</div>
-      <div class='upper-key' id='D5sh'>D#</div>
-    </li>
-    <li>
-      <div class='key' id='E5'>E</div>
-    </li>
-  </ul>
+    <!--  <br> VOLUME:
+    <input type='range' min='0' max='1' step='0.01' value='0.25' id='midiVolume' /> -->
+    <br>
+    <!-- </div> -->
+  </div>
+  <div id="Sampler">
+    <div id="device_info">
+      <div id="key_data"></div>
+      <div id="inputs"></div>
+      <div id="outputs"></div>
+    </div>
+  </div>
+  <br>
 </div>
