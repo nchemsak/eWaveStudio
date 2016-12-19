@@ -19,6 +19,9 @@ app.controller('liveInputCtrl', function($scope) {
   $scope.lfoDropdown = { value: 'sine' };
   $scope.lfoSlider1 = { value: 3.0 };
   $scope.lfoSlider2 = { value: 1.0 };
+
+  $scope.pause = { value: '' };
+  $scope.play = { value: '' };
   // stereo FLANGER CONTROLS
   // $scope.stFlangeSlider1 = { value: 0.01 };
   // $scope.stFlangeSlider2 = { value: 0.003 };
@@ -583,6 +586,53 @@ app.controller('liveInputCtrl', function($scope) {
   //   document.getElementById("effect").onchange = changeEffect;
   // }
   // window.addEventListener('load', initAudio);
+
+
+
+
+  // var audioContext = new AudioContext();
+  // sample rate is the number of samples per second
+  console.log("sample rate:", audioContext.sampleRate);
+
+
+  // /**********************************************************************
+  //                                KICK DRUM
+  // **********************************************************************/
+
+  // the sound starts at a higher frequency — the ‘attack’ phase -
+  // and then rapidly falls away to a lower frequency.
+  // While this is happening, the volume of the sound also decreases.
+
+  $scope.Kick = function(audioContext) {
+    this.audioContext = audioContext;
+  };
+
+  $scope.Kick.prototype.setup = function() {
+    this.osc = this.audioContext.createOscillator();
+    this.gain = this.audioContext.createGain();
+    this.osc.connect(this.gain);
+    this.gain.connect(this.audioContext.destination);
+  };
+
+  $scope.Kick.prototype.trigger = function(time) {
+    this.setup();
+
+    this.osc.frequency.setValueAtTime(150, time);
+    // the “envelope” of the sound:
+    this.gain.gain.setValueAtTime(1, time);
+
+    // // drop the FREQUENCY of the oscillator rapidly after the initial attack.
+    this.osc.frequency.exponentialRampToValueAtTime(0.01, time + 0.5);
+
+    // // decrease the GAIN to close to zero over the next 0.5 seconds
+    this.gain.gain.exponentialRampToValueAtTime(0.01, time + 0.5);
+
+    this.osc.start(time);
+
+    this.osc.stop(time + 0.5);
+  };
+
+
 
 
 
