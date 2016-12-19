@@ -9,7 +9,7 @@
     <select id="effect" ng-model="dropdown2.index" ng-change="changeEffect();">
       <option>Delay</option>
       <option>LFO</option>
-      <option>Stereo Flange</option>
+      <option>Stereo Flanger</option>
       <option>Telephone EQ Filter </option>
       <!-- <option>Auto Wah </option> -->
       <!-- <option>Flanger </option> -->
@@ -38,6 +38,7 @@
       </select>
       <br>
       <br> LFO speed:
+      <br>BPM: {{60 * lfoSlider1.value}}
       <input id="lfo" type="range" min="0.25" max="20" step="0.25" value="3" ng-model="lfoSlider1.value" ng-change="changeEffect();">
     </div>
     <!-- Stereo Flanger -->

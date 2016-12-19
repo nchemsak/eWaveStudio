@@ -7,345 +7,431 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
 
 
 
-  /*****************************************************************
-  /*****************************************************************
+  //audio node variables
+  var context;
+  var convolver;
+  var compressor;
+  var masterGainNode;
+  var effectLevelNode;
+  var lowPassFilterNode;
 
-                            PIANO
+  var noteTime;
+  var startTime;
+  var lastDrawTime = -1;
+  var LOOP_LENGTH = 16;
+  var rhythmIndex = 0;
+  var timeoutId;
+  var testBuffer = null;
 
-  *****************************************************************
-  *****************************************************************/
+  var currentKit = null;
+  var reverbImpulseResponse = null;
 
+  var tempo = 120;
+  var TEMPO_MAX = 200;
+  var TEMPO_MIN = 40;
+  var TEMPO_STEP = 4;
 
+  // if (window.hasOwnProperty('AudioContext') && !window.hasOwnProperty('webkitAudioContext')) {
+    window.webkitAudioContext = AudioContext;
+  // }
 
-  let keyboardContext = new AudioContext();
-  // let keyboard = new QwertyHancock({
-  //   id: 'keyboard',
-  //   octaves: 2
-  // });
-
-
-
-  let oscType = "square"; //default wave type
-
-  let F3 = 174.614,
-    F3sh = 184.997,
-    G3 = 195.998,
-    G3sh = 207.652,
-    A3 = 220,
-    A3sh = 233.082,
-    B3 = 246.942,
-    C4 = 261.626,
-    C4sh = 277.183,
-    D4 = 293.665,
-    D4sh = 311.127,
-    E4 = 329.628,
-    F4 = 349.228,
-    F4sh = 369.994,
-    G4 = 391.995,
-    G4sh = 415.305,
-    A4 = 440,
-    A4sh = 466.164,
-    B4 = 493.883,
-    C5 = 523.251,
-    C5sh = 554.365,
-    D5 = 587.330,
-    D5sh = 622.254,
-    E5 = 659.255;
+  // window.AudioContext = window.AudioContext || window.webkitAudioContext;
+  // let audioContext = new AudioContext();
 
 
-  /********************************************
-        RADIO BUTTONS CHOOSING WAVE FORM
-  **********************************************/
 
-  $('input[type=radio]').click(function() {
-    if (this.id === 'Sine') {
-      oscType = "sine";
-    } else if (this.id === 'Square') {
-      oscType = "square";
-    } else if (this.id === 'Saw') {
-      oscType = "sawtooth";
-    } else if (this.id === 'Triangle') {
-      oscType = "triangle";
-    }
-    return oscType;
+  $(function() {
+    init();
+    toggleSelectedListener();
+    playPauseListener();
+    lowPassFilterListener();
+    reverbListener();
+    createLowPassFilterSliders();
+    initializeTempo();
+    changeTempoListener();
   });
 
 
 
+var NUM_INSTRUMENTS = 2;
 
-  // var keyboardContext = new AudioContext(),
-  //   masterVolume = keyboardContext.createGain();
+function Kit(name) {
+  this.SAMPLE_BASE_PATH = "sounds/drum-samples/";
+  this.name = name;
 
-  // masterVolume.gain.value = 0.3;
-  // masterVolume.connect(keyboardContext.destination);
+  this.kickBuffer = null;
+  this.snareBuffer = null;
+  this.hihatBuffer = null;
 
+  this.startedLoading = false;
+  this.isLoaded = false;
+  this.instrumentLoadCount = 0;
+}
 
+Kit.prototype.pathName = function() {
+  return this.SAMPLE_BASE_PATH + this.name + "/";
+};
 
-  // var oscillators = {};
+Kit.prototype.load = function() {
+  if (this.startedLoading) {
+    return;
+  }
 
-  // keyboard.keyDown = function(note, frequency) {
+  this.startedLoading = true;
 
-  //   var osc = keyboardContext.createOscillator();
-  //   // osc2 = keyboardContext.createOscillator();
-  //   osc.type = oscType;
-  //   osc.frequency.value = frequency;
-  //   // osc.type = 'square';
+  var pathName = this.pathName();
 
-  //   // osc2.frequency.value = frequency;
-  //   // osc2.type = 'square';
+  //don't want to have set number of instruments, or whatever
+  var kickPath = pathName + "kick.mp3";
+  var snarePath = pathName + "snare.mp3";
+  var hihatPath = pathName + "hihat.mp3";
 
-  //   osc.connect(masterVolume);
-  //   // osc2.connect(masterVolume);
+  this.loadSample(kickPath, "kick");
+  this.loadSample(snarePath, "snare");
+  this.loadSample(hihatPath, "hihat");
+};
 
-  //   masterVolume.connect(keyboardContext.destination);
+//also make a class per buffer/sample? can store prettified name?
 
-  //   // oscillators[frequency] = [osc, osc2];
-  //   oscillators[frequency] = [osc];
-  //   osc.start(keyboardContext.currentTime);
-  //   // osc2.start(keyboardContext.currentTime);
-  //   osc.detune.value = -10;
-  //   // osc2.detune.value = 10;
-  // };
+//this should definitely be part of a sample class, pass in kit or st
+//if we have the name of a sample type, then we can do metaprogramming awesomeness.
+Kit.prototype.loadSample = function(url, instrumentName) {
+  //need 2 load asynchronously
+  var request = new XMLHttpRequest();
+  request.open("GET", url, true);
+  request.responseType = "arraybuffer";
 
-  // keyboard.keyUp = function(note, frequency) {
-  //   oscillators[frequency].forEach(function(oscillator) {
-  //     oscillator.stop(keyboardContext.currentTime);
-  //   });
-  // };
+  var kit = this;
 
-
-
-
-  /********************************************
-            Keyboard Event Listener SHARPS
-  **********************************************/
-
-  // addEventListener("keydown", function() {
-  //   if (event.keyCode === 49) {
-  //     $('#F3sh').addClass('nick2');
-  //     keyPlay(F3sh);
-  //   } else if (event.keyCode === 50) {
-  //     $('#G3sh').addClass('nick2');
-  //     keyPlay(G3sh);
-  //   } else if (event.keyCode === 51) {
-  //     $('#A3sh').addClass('nick2');
-  //     keyPlay(A3sh);
-  //   } else if (event.keyCode === 53) {
-  //     $('#B3sh').addClass('nick2');
-  //     keyPlay(C4sh);
-  //   } else if (event.keyCode === 54) {
-  //     $('#C4sh').addClass('nick2');
-  //     keyPlay(D4sh);
-  //   } else if (event.keyCode === 56) {
-  //     $('#D4sh').addClass('nick2');
-  //     keyPlay(F4sh);
-  //   } else if (event.keyCode === 57) {
-  //     $('#E4sh').addClass('nick2');
-  //     keyPlay(G4sh);
-  //   } else if (event.keyCode === 48) {
-  //     $('#F4sh').addClass('nick2');
-  //     keyPlay(A4sh);
-  //   } else if (event.keyCode === 187) {
-  //     $('#G4sh').addClass('nick2');
-  //     keyPlay(C5sh);
-  //   } else if (event.keyCode === 8) {
-  //     $('#A4sh').addClass('nick2');
-  //     keyPlay(D5sh);
-  //   }
-  // });
-
-  /********************************************
-            Keyboard Event Listener
-  **********************************************/
-
-
-  addEventListener("keydown", function() {
-    if (event.keyCode === 9) {
-      $('#F3').addClass('close4');
-      keyPlay(F3);
-    } else if (event.keyCode === 81) {
-      $('#G3').addClass('nick');
-      keyPlay(G3);
-    } else if (event.keyCode === 87) {
-      $('#A3').addClass('nick');
-      keyPlay(A3);
-    } else if (event.keyCode === 69) {
-      $('#B3').addClass('nick');
-      keyPlay(B3);
-    } else if (event.keyCode === 82) {
-      $('#C4').addClass('close5');
-      keyPlay(C4);
-    } else if (event.keyCode == 84) {
-      $('#D4').addClass('nick');
-      keyPlay(D4);
-    } else if (event.keyCode === 89) {
-      $('#E4').addClass('nick');
-      keyPlay(E4);
-    } else if (event.keyCode === 85) {
-      $('#F4').addClass('close3');
-      keyPlay(F4);
-    } else if (event.keyCode === 73) {
-      $('#G4').addClass('close1');
-      keyPlay(G4);
-    } else if (event.keyCode === 79) {
-      $('#A4').addClass('close2');
-      keyPlay(A4);
-    } else if (event.keyCode === 80) {
-      $('#B4').addClass('nick');
-      keyPlay(B4);
-    } else if (event.keyCode === 219) {
-      $('#C5').addClass('nick');
-      keyPlay(C5);
-      // } else if (event.keyCode === 221) {
-      //   $('#D5').addClass('nick');
-      //   keyPlay(D5);
-      // } else if (event.keyCode === 220) {
-      //   $('#E5').addClass('nick');
-      //   keyPlay(E5);
-    }
-
-  });
-
-
-
-  /********************************************
-  Keyboard play note and listen for Keyup to stop
-  **********************************************/
-
-
-  function keyPlay(frequency) {
-    var oscillator = keyboardContext.createOscillator();
-    oscillator.type = oscType;
-    oscillator.frequency.value = frequency;
-
-
-    var osc = keyboardContext.createOscillator();
-    var vol = keyboardContext.createGain();
-    // var panner = keyboardContext.createStereoPanner();
-    var freqGain = keyboardContext.createGain();
-    var lfo = keyboardContext.createOscillator();
-    var distortion = keyboardContext.createWaveShaper();
-
-
-    // get html controls
-    var volControl = document.getElementById("volume");
-    var panControl = document.getElementById("panner");
-
-    //PANNER
-    // panner.connect(keyboardContext.destination);
-
-    // VOLUME
-    vol.gain.value = volControl.value;
-    vol.connect(keyboardContext.destination);
-
-    //distortion
-    distortion.oversample = '4x';
-    distortion.connect(vol);
-
-    oscillator.connect(distortion);
-
-
-    // LISTENERS
-    volControl.addEventListener("input", function() {
-      vol.gain.value = volControl.value;
-    });
-
-    // panControl.addEventListener("input", function() {
-    // panner.pan.value = panControl.value;
-    // });
-
-
-
-    oscillator.start();
-
-    // var oscillators = {};
-
-    // keyboard.keyDown = function(note, frequency) {
-
-    //   var osc = keyboardContext.createOscillator();
-    //   // osc2 = keyboardContext.createOscillator();
-    //   osc.type = oscType;
-    //   osc.frequency.value = frequency;
-    //   // osc.type = 'square';
-
-    //   // osc2.frequency.value = frequency;
-    //   // osc2.type = 'square';
-
-    //   osc.connect(masterVolume);
-    //   // osc2.connect(masterVolume);
-
-    //   masterVolume.connect(keyboardContext.destination);
-
-    //   // oscillators[frequency] = [osc, osc2];
-    //   oscillators[frequency] = [osc];
-    //   osc.start(keyboardContext.currentTime);
-    //   // osc2.start(keyboardContext.currentTime);
-    //   osc.detune.value = -10;
-    //   // osc2.detune.value = 10;
-    // };
-
-    // keyboard.keyUp = function(note, frequency) {
-    //   oscillators[frequency].forEach(function(oscillator) {
-    //     oscillator.stop(keyboardContext.currentTime);
-    //   });
-    // };
-
-
-    addEventListener("keyup", function(event) {
-      if (event.keyCode === 9) {
-        $('#F3').removeClass('close4');
-      } else if (event.keyCode === 81) {
-        $('#G3').removeClass('nick');
-      } else if (event.keyCode === 87) {
-        $('#A3').removeClass('nick');
-      } else if (event.keyCode === 69) {
-        $('#B3').removeClass('nick');
-      } else if (event.keyCode === 82) {
-        $('#C4').removeClass('close5');
-      } else if (event.keyCode === 84) {
-        $('#D4').removeClass('nick');
-      } else if (event.keyCode === 89) {
-        $('#E4').removeClass('nick');
-      } else if (event.keyCode === 85) {
-        $('#F4').removeClass('close3');
-      } else if (event.keyCode === 73) {
-        $('#G4').removeClass('close1');
-      } else if (event.keyCode === 79) {
-        $('#A4').removeClass('close2');
-      } else if (event.keyCode === 80) {
-        $('#B4').removeClass('nick');
-      } else if (event.keyCode === 219) {
-        $('#C5').removeClass('nick');
-      } else if (event.keyCode === 221) {
-        $('#D5').removeClass('nick');
-      } else if (event.keyCode === 220) {
-        $('#E5').removeClass('nick');
-      } else if (event.keyCode === 49) {
-        $('#G3').removeClass('nick');
-      } else if (event.keyCode === 50) {
-        $('#A3').removeClass('nick');
-      } else if (event.keyCode === 51) {
-        $('#B3').removeClass('nick');
-      } else if (event.keyCode === 53) {
-        $('#C4').removeClass('nick');
-      } else if (event.keyCode === 54) {
-        $('#D4').removeClass('nick');
-      } else if (event.keyCode === 56) {
-        $('#E4').removeClass('nick');
-      } else if (event.keyCode === 57) {
-        $('#F4').removeClass('nick');
-      } else if (event.keyCode === 48) {
-        $('#G4').removeClass('nick');
-      } else if (event.keyCode === 187) {
-        $('#A4').removeClass('nick');
-      } else if (event.keyCode === 8) {
-        $('#A4').removeClass('nick');
+  request.onload = function() {
+    context.decodeAudioData(
+      request.response,
+      function(buffer) {
+        switch (instrumentName) {
+          case "kick":
+            kit.kickBuffer = buffer;
+            break;
+          case "snare":
+            kit.snareBuffer = buffer;
+            break;
+          case "hihat":
+            kit.hihatBuffer = buffer;
+            break;
+        }
+        kit.instrumentLoadCount++;
+        if (kit.instrumentLoadCount === NUM_INSTRUMENTS) {
+          kit.isLoaded = true;
+        }
+      },
+      function(buffer) {
+        console.log("Error decoding drum samples!");
       }
-      oscillator.stop();
+    );
+  };
+  request.send();
+};
 
 
+
+
+  function createLowPassFilterSliders() {
+    $("#freq-slider").slider({
+      value: 1,
+      min: 0,
+      max: 1,
+      step: 0.01,
+      disabled: true,
+      slide: changeFrequency
+    });
+    $("#quality-slider").slider({
+      value: 0,
+      min: 0,
+      max: 1,
+      step: 0.01,
+      disabled: true,
+      slide: changeQuality
+    });
+  }
+
+  function lowPassFilterListener() {
+    $('#lpf').click(function() {
+      $(this).toggleClass("active");
+      $(this).blur();
+      if ($(this).hasClass("btn-default")) {
+        $(this).removeClass("btn-default");
+        $(this).addClass("btn-warning");
+        lowPassFilterNode.active = true;
+        $("#freq-slider,#quality-slider").slider("option", "disabled", false);
+      } else {
+        $(this).addClass("btn-default");
+        $(this).removeClass("btn-warning");
+        lowPassFilterNode.active = false;
+        $("#freq-slider,#quality-slider").slider("option", "disabled", true);
+      }
+    });
+  }
+
+  function reverbListener() {
+    $("#reverb").click(function() {
+      $(this).toggleClass("active");
+      $(this).blur();
+      if ($(this).hasClass("btn-default")) {
+        $(this).removeClass("btn-default");
+        $(this).addClass("btn-warning");
+        convolver.active = true;
+      } else {
+        $(this).addClass("btn-default");
+        $(this).removeClass("btn-warning");
+        convolver.active = false;
+      }
+    });
+  }
+
+  function changeFrequency(event, ui) {
+    var minValue = 40;
+    var maxValue = context.sampleRate / 2;
+    var numberOfOctaves = Math.log(maxValue / minValue) / Math.LN2;
+    var multiplier = Math.pow(2, numberOfOctaves * (ui.value - 1.0));
+    lowPassFilterNode.frequency.value = maxValue * multiplier;
+  }
+
+  function changeQuality(event, ui) {
+    //30 is the quality multiplier, for now.
+    lowPassFilterNode.Q.value = ui.value * 30;
+  }
+
+  function playPauseListener() {
+    $('#play-pause').click(function() {
+      var $span = $(this).children("span");
+      if ($span.hasClass('glyphicon-play')) {
+        $span.removeClass('glyphicon-play');
+        $span.addClass('glyphicon-pause');
+        handlePlay();
+      } else {
+        $span.addClass('glyphicon-play');
+        $span.removeClass('glyphicon-pause');
+        handleStop();
+      }
+    });
+  }
+
+  function toggleSelectedListener() {
+    $('.pad').click(function() {
+      $(this).toggleClass("selected");
+    });
+  }
+
+  function init() {
+    initializeAudioNodes();
+    loadKits();
+    // loadImpulseResponses();
+  }
+
+  function initializeAudioNodes() {
+    context = new window.webkitAudioContext();
+    var finalMixNode;
+    if (context.createDynamicsCompressor) {
+      // Create a dynamics compressor to sweeten the overall mix.
+      compressor = context.createDynamicsCompressor();
+      compressor.connect(context.destination);
+      finalMixNode = compressor;
+    } else {
+      // No compressor available in this implementation.
+      finalMixNode = context.destination;
+    }
+
+
+    // Create master volume.
+    // for now, the master volume is static, but in the future there will be a slider
+    masterGainNode = context.createGain();
+    masterGainNode.gain.value = 0.7; // reduce overall volume to avoid clipping
+    masterGainNode.connect(finalMixNode);
+
+    //connect all sounds to masterGainNode to play them
+
+    //don't need this for now, no wet dry mix for effects
+    // // Create effect volume.
+    // effectLevelNode = context.createGain();
+    // effectLevelNode.gain.value = 1.0; // effect level slider controls this
+    // effectLevelNode.connect(masterGainNode);
+
+    // Create convolver for effect
+    convolver = context.createConvolver();
+    convolver.active = false;
+    // convolver.connect(effectLevelNode);
+
+    //Create Low Pass Filter
+    lowPassFilterNode = context.createBiquadFilter();
+    //this is for backwards compatibility, the type used to be an integer
+    lowPassFilterNode.type = (typeof lowPassFilterNode.type === 'string') ? 'lowpass' : 0; // LOWPASS
+    //default value is max cutoff, or passing all frequencies
+    lowPassFilterNode.frequency.value = context.sampleRate / 2;
+    lowPassFilterNode.connect(masterGainNode);
+    lowPassFilterNode.active = false;
+  }
+
+  function loadKits() {
+    //name must be same as path
+    var kit = new Kit("TR808");
+    kit.load();
+
+    //TODO: figure out how to test if a kit is loaded
+    currentKit = kit;
+  }
+
+  // function loadImpulseResponses() {
+  //   reverbImpulseResponse = new ImpulseResponse("sounds/impulse-responses/matrix-reverb2.wav");
+  //   reverbImpulseResponse.load();
+  // }
+
+
+  //TODO delete this
+  function loadTestBuffer() {
+    var request = new XMLHttpRequest();
+    var url = "http://www.freesound.org/data/previews/102/102130_1721044-lq.mp3";
+    request.open("GET", url, true);
+    request.responseType = "arraybuffer";
+
+    request.onload = function() {
+      context.decodeAudioData(
+        request.response,
+        function(buffer) {
+          testBuffer = buffer;
+        },
+        function(buffer) {
+          console.log("Error decoding drum samples!");
+        }
+      );
+    };
+    request.send();
+  }
+
+  //TODO delete this
+  function sequencePads() {
+    $('.pad.selected').each(function() {
+      $('.pad').removeClass("selected");
+      $(this).addClass("selected");
+    });
+  }
+
+  function playNote(buffer, noteTime) {
+    var voice = context.createBufferSource();
+    voice.buffer = buffer;
+
+    var currentLastNode = masterGainNode;
+    if (lowPassFilterNode.active) {
+      lowPassFilterNode.connect(currentLastNode);
+      currentLastNode = lowPassFilterNode;
+    }
+    if (convolver.active) {
+      convolver.buffer = reverbImpulseResponse.buffer;
+      convolver.connect(currentLastNode);
+      currentLastNode = convolver;
+    }
+
+    voice.connect(currentLastNode);
+    voice.start(noteTime);
+  }
+
+  function schedule() {
+    var currentTime = context.currentTime;
+
+    // The sequence starts at startTime, so normalize currentTime so that it's 0 at the start of the sequence.
+    currentTime -= startTime;
+
+    while (noteTime < currentTime + 0.200) {
+      var contextPlayTime = noteTime + startTime;
+      var $currentPads = $(".column_" + rhythmIndex);
+      $currentPads.each(function() {
+        if ($(this).hasClass("selected")) {
+          var instrumentName = $(this).parents().data("instrument");
+          switch (instrumentName) {
+            case "kick":
+              playNote(currentKit.kickBuffer, contextPlayTime);
+              break;
+            case "snare":
+              playNote(currentKit.snareBuffer, contextPlayTime);
+              break;
+            case "hihat":
+              playNote(currentKit.hihatBuffer, contextPlayTime);
+              break;
+          }
+          //play the buffer
+          //store a data element in the row that tells you what instrument
+        }
+      });
+      if (noteTime != lastDrawTime) {
+        lastDrawTime = noteTime;
+        drawPlayhead(rhythmIndex);
+      }
+      advanceNote();
+    }
+
+    timeoutId = requestAnimationFrame(schedule);
+  }
+
+  function drawPlayhead(xindex) {
+    var lastIndex = (xindex + LOOP_LENGTH - 1) % LOOP_LENGTH;
+
+    //can change this to class selector to select a column
+    var $newRows = $('.column_' + xindex);
+    var $oldRows = $('.column_' + lastIndex);
+
+    $newRows.addClass("playing");
+    $oldRows.removeClass("playing");
+  }
+
+  function advanceNote() {
+    // Advance time by a 16th note...
+    // var secondsPerBeat = 60.0 / theBeat.tempo;
+    //TODO CHANGE TEMPO HERE, convert to float
+    tempo = Number($("#tempo-input").val());
+    var secondsPerBeat = 60.0 / tempo;
+    rhythmIndex++;
+    if (rhythmIndex == LOOP_LENGTH) {
+      rhythmIndex = 0;
+    }
+
+    //0.25 because each square is a 16th note
+    noteTime += 0.25 * secondsPerBeat;
+    // if (rhythmIndex % 2) {
+    //     noteTime += (0.25 + kMaxSwing * theBeat.swingFactor) * secondsPerBeat;
+    // } else {
+    //     noteTime += (0.25 - kMaxSwing * theBeat.swingFactor) * secondsPerBeat;
+    // }
+
+  }
+
+  function handlePlay(event) {
+    rhythmIndex = 0;
+    noteTime = 0.0;
+    startTime = context.currentTime + 0.005;
+    schedule();
+  }
+
+  function handleStop(event) {
+    cancelAnimationFrame(timeoutId);
+    $(".pad").removeClass("playing");
+  }
+
+  function initializeTempo() {
+    $("#tempo-input").val(tempo);
+  }
+
+  function changeTempoListener() {
+    $("#increase-tempo").click(function() {
+      if (tempo < TEMPO_MAX) {
+        tempo += TEMPO_STEP;
+        $("#tempo-input").val(tempo);
+      }
     });
 
+    $("#decrease-tempo").click(function() {
+      if (tempo > TEMPO_MIN) {
+        tempo -= TEMPO_STEP;
+        $("#tempo-input").val(tempo);
+      }
+    });
   }
 
 

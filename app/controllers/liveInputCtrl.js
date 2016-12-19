@@ -247,23 +247,23 @@ app.controller('liveInputCtrl', function($scope) {
         // currentEffectNode = $scope.createModDelay();
         // console.log("currentEffectNode: ", currentEffectNode);
         // break;
-      case 1: // flanger
-        currentEffectNode = $scope.createGainLFO();
+      case 1: // lfo
+        currentEffectNode = $scope.lfo();
         // console.log("currentEffectNode: ", currentEffectNode);
         break;
-      case 2: // Stereo Flange
-        currentEffectNode = $scope.createStereoFlange();
+      case 2: // Flanger
+        currentEffectNode = $scope.flanger();
 
         // console.log("currentEffectNode: ", currentEffectNode);
         break;
-      case 3: //Gain LFO
-        currentEffectNode = $scope.createTelephonizer();
+      case 3: //Telephone EQ
+        currentEffectNode = $scope.telephoneEQ();
         break;
-      case 4: // Telephone
+      case 4: // AutoWah
         currentEffectNode = $scope.createAutowah();
         break;
-      case 5: // autowah
-        currentEffectNode = $scope.createFlange();
+      case 5: // Flanger2
+        // currentEffectNode = $scope.createFlange();
 
         break;
       default:
@@ -293,42 +293,6 @@ app.controller('liveInputCtrl', function($scope) {
     return delayNode;
 
   };
-
-
-  $scope.createFlange = function() {
-    var delayNode = audioContext.createDelay();
-    delayNode.delayTime.value = parseFloat($scope.flangeSlider1.value);
-    fldelay = delayNode;
-
-    var inputNode = audioContext.createGain();
-    var feedback = audioContext.createGain();
-    var osc = audioContext.createOscillator();
-    var gain = audioContext.createGain();
-    gain.gain.value = parseFloat($scope.flangeSlider2.value);
-    fldepth = gain;
-
-    feedback.gain.value = parseFloat($scope.flangeSlider3.value);
-    flfb = feedback;
-
-    osc.type = 'sine';
-    osc.frequency.value = parseFloat($scope.flangeSlider4.value);
-    flspeed = osc;
-
-    osc.connect(gain);
-    gain.connect(delayNode.delayTime);
-
-    inputNode.connect(wetGain);
-    inputNode.connect(delayNode);
-    delayNode.connect(wetGain);
-    delayNode.connect(feedback);
-    feedback.connect(inputNode);
-
-    osc.start(0);
-
-    return inputNode;
-  };
-
-
 
   $scope.createAutowah = function() {
     // function createAutowah() {
@@ -360,8 +324,8 @@ app.controller('liveInputCtrl', function($scope) {
     return inputNode;
   };
 
-  $scope.createGainLFO = function() {
-    // function createGainLFO() {
+  $scope.lfo = function() {
+    // function lfo() {
     var osc = audioContext.createOscillator();
     var gain = audioContext.createGain();
     var depth = audioContext.createGain();
@@ -386,7 +350,7 @@ app.controller('liveInputCtrl', function($scope) {
     return gain;
   };
 
-  $scope.createTelephonizer = function() {
+  $scope.telephoneEQ = function() {
     var lpf1 = audioContext.createBiquadFilter();
     lpf1.type = "lowpass";
     lpf1.frequency.value = 2000.0;
@@ -408,70 +372,10 @@ app.controller('liveInputCtrl', function($scope) {
   };
 
 
-  // flanger
-  // $scope.createStereoFlange = function() {
-  //   var splitter = audioContext.createChannelSplitter(2);
-  //   var merger = audioContext.createChannelMerger(2);
-  //   var inputNode = audioContext.createGain();
-  //   sfllfb = audioContext.createGain();
-  //   sflrfb = audioContext.createGain();
-  //   sflspeed = audioContext.createOscillator();
-  //   sflldepth = audioContext.createGain();
-  //   sflrdepth = audioContext.createGain();
-  //   sflldelay = audioContext.createDelay();
-  //   sflrdelay = audioContext.createDelay();
 
-  //   sfllfb.gain.value = sfllfb.gain.value = parseFloat($scope.stFlangeSlider1.value);
+  $scope.flanger = function() {
 
-  //   // sfllfb.gain.value = sflrfb.gain.value = parseFloat(document.getElementById("sflfb").value);
-
-  //   inputNode.connect(splitter);
-  //   inputNode.connect(wetGain);
-
-  //   sflldelay.delayTime.value = parseFloat($scope.stFlangeSlider2.value);
-  //   sflrdelay.delayTime.value = parseFloat($scope.stFlangeSlider2.value);
-
-  //   // sflldelay.delayTime.value = parseFloat(document.getElementById("sfldelay").value);
-  //   // sflrdelay.delayTime.value = parseFloat(document.getElementById("sfldelay").value);
-
-  //   splitter.connect(sflldelay, 0);
-  //   splitter.connect(sflrdelay, 1);
-  //   sflldelay.connect(sfllfb);
-  //   sflrdelay.connect(sflrfb);
-  //   sfllfb.connect(sflrdelay);
-  //   sflrfb.connect(sflldelay);
-
-  //   sflldepth.gain.value = parseFloat($scope.stFlangeSlider3.value);
-  //   sflrdepth.gain.value = -parseFloat($scope.stFlangeSlider3.value);
-
-
-  //   // sflldepth.gain.value = parseFloat(document.getElementById("sfldepth").value); // depth of change to the delay:
-  //   // sflrdepth.gain.value = -parseFloat(document.getElementById("sfldepth").value); // depth of change to the delay:
-
-  //   sflspeed.type = 'triangle';
-
-  //   sflspeed.frequency.value = parseFloat($scope.stFlangeSlider4.value);
-  //   // sflspeed.frequency.value = parseFloat(document.getElementById("sflspeed").value);
-
-  //   sflspeed.connect(sflldepth);
-  //   sflspeed.connect(sflrdepth);
-
-  //   sflldepth.connect(sflldelay.delayTime);
-  //   sflrdepth.connect(sflrdelay.delayTime);
-
-  //   sflldelay.connect(merger, 0, 0);
-  //   sflrdelay.connect(merger, 0, 1);
-  //   merger.connect(wetGain);
-
-  //   sflspeed.start(0);
-
-  //   return inputNode;
-  // };
-
-
-  $scope.createStereoFlange = function() {
-
-    // function createStereoFlange() {
+    // function flanger() {
     var splitter = audioContext.createChannelSplitter(2);
     var merger = audioContext.createChannelMerger(2);
     var inputNode = audioContext.createGain();
@@ -631,11 +535,4 @@ app.controller('liveInputCtrl', function($scope) {
 
     this.osc.stop(time + 0.5);
   };
-
-
-
-
-
-
-
 });

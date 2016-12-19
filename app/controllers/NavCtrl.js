@@ -3,7 +3,8 @@ app.controller('NavCtrl', function($scope) {
   $scope.navItems = [
     { name: "Live Input", url: '#/liveInput' },
     { name: "MIDI", url: '#/midi' },
-    { name: "Sequencer", url: '#/sequencer' }
+    { name: "Sequencer", url: '#/sequencer' },
+    { name: "Computer Keyboard", url: '#/computerKeyboard' }
   ];
 
   $scope.signOut = [
@@ -11,11 +12,3 @@ app.controller('NavCtrl', function($scope) {
   ];
 });
 
-
-let you = Universe => {};
-
-function Universe(You) {}
-
-function Ocean(wave) {
-
-}
