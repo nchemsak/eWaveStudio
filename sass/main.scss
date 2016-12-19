@@ -1,59 +1,4 @@
 /************************************************************************************
-                                  AUDIO PLAYBACK STYLES
-************************************************************************************/
-
-// audio::-webkit-media-controls-panel {
-//   // background-color: red;
-//   // border-radius: 50%;
-//   width: 500px;
-//   padding-left: 5px;
-//   margin-left: 25px;
-// }
-// audio::-webkit-media-controls-mute-button {}
-// audio::-webkit-media-controls-play-button {
-//   height: 30px;
-//   width: 30px;
-// }
-// audio::-webkit-media-controls-timeline-container {}
-// audio::-webkit-media-controls-current-time-display {
-//   font-family: sans-serif;
-//   font-size: 2em;
-// }
-// audio::-webkit-media-controls-time-remaining-display {
-//   font-family: serif;
-//   font-size: 2em;
-// }
-// audio::-webkit-media-controls-timeline {
-//   // font-size: 3em;
-//   height: 20px;
-//   // background-color: red;
-// }
-// audio::-webkit-media-controls-volume-slider-container {
-//   height: 20px;
-// }
-// audio::-webkit-media-controls-volume-slider {
-//   width: 500px;
-// }
-// audio::-webkit-media-controls-seek-back-button {
-//   height: 20px;
-// }
-// audio::-webkit-media-controls-seek-forward-button {
-//   height: 20px;
-// }
-// audio::-webkit-media-controls-fullscreen-button {
-//   height: 20px;
-// }
-// audio::-webkit-media-controls-rewind-button {
-//   height: 20px;
-// }
-// audio::-webkit-media-controls-return-to-realtime-button {
-//   height: 20px;
-// }
-// audio::-webkit-media-controls-toggle-closed-captions-button {
-//   height: 20px;
-// }
-
-/************************************************************************************
                                   GENERAL STYLES
 ************************************************************************************/
 
@@ -208,7 +153,7 @@ li {
 
 
 /************************************************************************************
-                                  PIANO STYLES
+                                  Computer Keyboard STYLES
 ************************************************************************************/
 
 #piano {
@@ -449,7 +394,7 @@ canvas {
   // height: 500px;
   // border-radius: 3px;
   // background: #1E1E1E url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAIUlEQVQYV2P8+vWrJAMRgBGkkJub+zkhtaMK8YYQ0cEDABxGJwNr5yClAAAAAElFTkSuQmCC);
-   width: 100%;
+  width: 100%;
   display: block;
   margin: auto;
   height: 100%;
@@ -523,39 +468,6 @@ video#live {
 //   video#gumVideo {
 //     margin: 0 10px 10px 0;
 //   }
-// }
-
-/******************************************************************************
-                                  SEQUENCER STYLES
-******************************************************************************/
-
-// audio {
-//   display: none;
-// }
-// table tr {
-//   height: 20px;
-// }
-// table td {
-//   width: 20px;
-//   background-color: lightgrey;
-//   padding: 5px;
-// }
-// table td.on {
-//   background-color: darkgrey;
-// }
-// table td.hit {
-//   background-color: red;
-// }
-// ul {
-//   float: left;
-// }
-// ul li {
-//   padding: 10px;
-//   list-style: none;
-//   float: left;
-// }
-// ul li a {
-//   text-decoration: none;
 // }
 
 /*******************************************************************************
@@ -676,7 +588,6 @@ body {
 //   height: 60%;*/
 //   z-index: 1;
 // }
-
 .brand {
   position: absolute;
   display: block;
@@ -921,41 +832,42 @@ input[type=range] {
                              SEQUENCER
  ****************************************************************************/
 
-
 .pad {
-  width: 3em;
-  height: 3em;
-  margin-bottom: 1em;
+  width: 4em;
+  height: 2em;
+  margin-bottom: 15px;
   display: inline-block;
   background: #DADADA;
-  box-shadow: rgba(0, 0, 0, 0.0980392) -6px 6px 0px 0px inset;
-  margin-right: 1em;
+  margin-right: 2px;
   cursor: pointer;
+  border: 2px solid white;
+  border-radius: 5px;
 }
 
 .selected {
-  background: #00FF00;
+  background-color: red;
 }
 
 .playing {
-  background: radial-gradient(#FCFCFC, #E3E3E3, #B6B6B6);
+  background: darkgrey;
 }
 
 .playing.selected {
-  background: radial-gradient(#E6FFE6, #99FF99, #66FF66);
+  background-color: maroon;
 }
 
 .noselect {
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 #play-pause {
-  margin: 10px 0;
+  // margin: 10px 0;
+  background-color: red;
 }
 
 .control {
@@ -963,13 +875,12 @@ input[type=range] {
 }
 
 .instrument-label {
-    display: inline-block;
-    vertical-align: top;
-    width: 4em;
-    position: relative;
-    top: 1em;
-    text-align: right;
-    margin-right: 0.5em;
+  display: inline-block;
+  vertical-align: top;
+  width: 4em;
+  text-align: right;
+  margin-right: 0.5em;
+  margin-top: 5px;
 }
 
 .tempo-container {
@@ -979,12 +890,217 @@ input[type=range] {
 #tempo-input {
   margin: 0 10px;
   line-height: 30px;
-  border-radius: 3px;
-  font-size: 25px;
+  // border-radius: 3px;
+  font-size: 20px;
+  color: black;
   width: 60px;
   vertical-align: middle;
 }
 
 .tempo-btn {
   margin: 0 5px;
+}
+
+.col-xs-offset-1 {
+  margin-left: 5%;
+}
+
+h2 {
+  color: red;
+  margin-bottom: 20px;
+  margin-top: 0px;
+}
+
+#audioinput {
+  width: 200px;
+}
+
+#effect {
+  width: 200px;
+}
+
+// glossy select box
+.glossy-selectbox {
+  display: inline-block;
+  font: normal bold 12px Arial, Sans-Serif;
+  position: relative;
+  width: 300px;
+  background-color: #111;
+  text-align: left;
+  /* CSS3 Browser */
+  background-image: linear-gradient(top, rgba(255, 255, 255, .4) 0%, rgba(255, 255, 255, .2) 50%, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, .1) 100%);
+  /* IE only */
+  // filter: progid: DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#333333', endColorstr='#111111');
+  border-radius: 7px;
+  box-shadow: inset 0 1px 1px 1px rgba(255, 255, 255, .1), 0 1px 3px rgba(0, 0, 0, .7);
+}
+
+.glossy-selectbox:before,
+.glossy-selectbox:after {
+  content: "";
+  display: block;
+  width: 0;
+  height: 0;
+  border: 3px solid transparent;
+  border-width: 5px 3px;
+  border-bottom-color: #999;
+  position: absolute;
+  top: 25%;
+  right: 5px;
+  z-index: 4;
+}
+
+.glossy-selectbox:after {
+  border-color: #999 transparent transparent;
+  top: auto;
+  bottom: 25%;
+}
+
+.glossy-selectbox input {
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 15px;
+  height: 100%;
+  opacity: 0;
+  z-index: 10;
+  cursor: pointer;
+}
+
+.glossy-selectbox label {
+  display: block;
+  line-height: 45px;
+  color: rgba(255, 255, 255, .5);
+  padding: 0 15px;
+  transition: all 0s ease-out;
+}
+
+.glossy-selectbox label:before {
+  content: attr(data-default);
+}
+
+.glossy-selectbox label:after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 15px;
+  border-left: 1px solid rgba(0, 0, 0, .4);
+  border-radius: 0 7px 7px 0;
+  box-shadow: inset 1px 0 0 rgba(255, 255, 255, .1), -1px 0 0 rgba(255, 255, 255, .1);
+}
+
+.glossy-selectbox input:hover + label {
+  color: white;
+}
+
+.glossy-selectbox input:hover + label:after {
+  background-color: rgba(255, 255, 255, .04);
+}
+
+.glossy-selectbox ul {
+  margin: 0 0;
+  padding: 0 0;
+  position: absolute;
+  top: 100%;
+  left: 14px;
+  right: 14px;
+  background-color: #222;
+  border: 1px solid #111;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 5px 7px -2px rgba(0, 0, 0, .4);
+  visibility: hidden;
+  opacity: 0;
+  z-index: 99;
+}
+
+.glossy-selectbox li {
+  margin: 0 0;
+  padding: 0 0;
+  list-style: none;
+  float: left;
+  width: 50%;
+  display: inline;
+}
+
+.glossy-selectbox a {
+  display: block;
+  position: relative;
+  color: #999;
+  text-decoration: none;
+  text-shadow: 0 0 2px black;
+  line-height: 30px;
+  border-top: 1px solid #111;
+  border-right: 1px solid #111;
+  padding: 0 15px 0 32px;
+  box-shadow: inset 0 0 0 1px #333;
+  /* Opera note: An unstable box shadow will appear if you don't define the border radius less than 1 pixel. Weird! */
+  border-radius: 1px;
+}
+
+.glossy-selectbox a:nth-child(even) {
+  border-right-width: 0;
+}
+
+.glossy-selectbox a:before {
+  content: "";
+  display: block;
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  top: 7px;
+  left: 7px;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-position: 50% 0;
+}
+
+.glossy-selectbox a:hover:before {
+  background-position: 50% 100%;
+}
+
+.glossy-selectbox .social-rss:before {
+  background-image: url('')
+}
+
+.glossy-selectbox .social-facebook:before {
+  background-image: url('')
+}
+
+.glossy-selectbox .social-twitter:before {
+  background-image: url('')
+}
+
+.glossy-selectbox .social-google:before {
+  background-image: url('')
+}
+
+.glossy-selectbox a:hover {
+  background-color: rgba(0, 0, 0, .2);
+  color: #ccc;
+}
+
+
+/* On click, then... */
+
+.glossy-selectbox input:checked + label {
+  color: rgba(255, 255, 255, .4);
+  transition-duration: .4s;
+}
+
+.glossy-selectbox input:checked + label:before {
+  content: attr(data-focus);
+}
+
+.glossy-selectbox input:checked + label:after {
+  background-color: rgba(0, 0, 0, .2);
+  box-shadow: inset 1px 0 1px rgba(0, 0, 0, .4), -1px 0 0 rgba(255, 255, 255, .1);
+}
+
+.glossy-selectbox input:checked ~ ul {
+  visibility: visible;
+  opacity: 1;
 }
