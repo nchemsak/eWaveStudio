@@ -391,19 +391,6 @@ body {
   top: 8%;
   right: 20%; }
 
-.glyphicon {
-  font-size: 10em;
-  /*font-weight: 100;*/
-  color: white;
-  position: absolute;
-  display: block;
-  top: 38%;
-  left: 25%;
-  margin: auto;
-  /* width: 50%;
-  height: 60%;*/
-  z-index: 1; }
-
 .brand {
   position: absolute;
   display: block;
@@ -581,5 +568,64 @@ input[type=range] {
 .radioButtondemoBasicUsage .ipsum {
   color: saddlebrown;
   font-size: 0.9em; }
+
+/****************************************************************************
+                             SEQUENCER
+ ****************************************************************************/
+.pad {
+  width: 3em;
+  height: 3em;
+  margin-bottom: 1em;
+  display: inline-block;
+  background: #DADADA;
+  box-shadow: rgba(0, 0, 0, 0.09804) -6px 6px 0px 0px inset;
+  margin-right: 1em;
+  cursor: pointer; }
+
+.selected {
+  background: #00FF00; }
+
+.playing {
+  background: radial-gradient(#FCFCFC, #E3E3E3, #B6B6B6); }
+
+.playing.selected {
+  background: radial-gradient(#E6FFE6, #99FF99, #66FF66); }
+
+.noselect {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none; }
+
+#play-pause {
+  margin: 10px 0; }
+
+.control {
+  margin: 10px 0; }
+
+.instrument-label {
+  display: inline-block;
+  vertical-align: top;
+  width: 4em;
+  position: relative;
+  top: 1em;
+  text-align: right;
+  margin-right: 0.5em; }
+
+.tempo-container {
+  margin: 0 10px; }
+
+#tempo-input {
+  margin: 0 10px;
+  line-height: 30px;
+  border-radius: 3px;
+  font-size: 25px;
+  width: 60px;
+  vertical-align: middle; }
+
+.tempo-btn {
+  margin: 0 5px; }
 
 /*# sourceMappingURL=main.css.map */

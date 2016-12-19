@@ -34,8 +34,12 @@ app.config(function($routeProvider) {
       controller: 'sequencerCtrl',
       resolve: { isAuth }
     })
-
-  .otherwise('/login');
+    .when('/computerKeyboard', {
+      templateUrl: 'partials/computerKeyboard.html',
+      controller: 'computerKeyboardCtrl',
+      resolve: { isAuth }
+    })
+    .otherwise('/login');
 });
 
 app.run(($location, FBCreds) => {
