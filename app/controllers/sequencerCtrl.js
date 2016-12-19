@@ -9,7 +9,6 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
 
   //audio node variables
   var context;
-  var convolver;
   var compressor;
   var masterGainNode;
   var effectLevelNode;
@@ -27,178 +26,107 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
   var reverbImpulseResponse = null;
 
   var tempo = 120;
-  var TEMPO_MAX = 200;
-  var TEMPO_MIN = 40;
-  var TEMPO_STEP = 4;
+  var TEMPO_MAX = 300;
+  var TEMPO_MIN = 20;
+  var TEMPO_STEP = 1;
+  var TEMPO_STEP_5 = 5;
 
-  // if (window.hasOwnProperty('AudioContext') && !window.hasOwnProperty('webkitAudioContext')) {
-    window.webkitAudioContext = AudioContext;
-  // }
-
-  // window.AudioContext = window.AudioContext || window.webkitAudioContext;
-  // let audioContext = new AudioContext();
-
+  window.webkitAudioContext = AudioContext;
 
 
   $(function() {
     init();
     toggleSelectedListener();
     playPauseListener();
-    lowPassFilterListener();
-    reverbListener();
-    createLowPassFilterSliders();
+    // lowPassFilterListener();
+    // reverbListener();
+    // createLowPassFilterSliders();
     initializeTempo();
     changeTempoListener();
+    changeTempoListenerByFive();
   });
 
 
 
-var NUM_INSTRUMENTS = 2;
+  // DRUM KIT CODE
 
-function Kit(name) {
-  this.SAMPLE_BASE_PATH = "sounds/drum-samples/";
-  this.name = name;
+  var NUM_INSTRUMENTS = 2;
 
-  this.kickBuffer = null;
-  this.snareBuffer = null;
-  this.hihatBuffer = null;
+  function Kit(name) {
+    this.SAMPLE_BASE_PATH = "sounds/drum-samples/";
+    this.name = name;
 
-  this.startedLoading = false;
-  this.isLoaded = false;
-  this.instrumentLoadCount = 0;
-}
+    this.kickBuffer = null;
+    this.snareBuffer = null;
+    this.hihatBuffer = null;
 
-Kit.prototype.pathName = function() {
-  return this.SAMPLE_BASE_PATH + this.name + "/";
-};
-
-Kit.prototype.load = function() {
-  if (this.startedLoading) {
-    return;
+    this.startedLoading = false;
+    this.isLoaded = false;
+    this.instrumentLoadCount = 0;
   }
 
-  this.startedLoading = true;
-
-  var pathName = this.pathName();
-
-  //don't want to have set number of instruments, or whatever
-  var kickPath = pathName + "kick.mp3";
-  var snarePath = pathName + "snare.mp3";
-  var hihatPath = pathName + "hihat.mp3";
-
-  this.loadSample(kickPath, "kick");
-  this.loadSample(snarePath, "snare");
-  this.loadSample(hihatPath, "hihat");
-};
-
-//also make a class per buffer/sample? can store prettified name?
-
-//this should definitely be part of a sample class, pass in kit or st
-//if we have the name of a sample type, then we can do metaprogramming awesomeness.
-Kit.prototype.loadSample = function(url, instrumentName) {
-  //need 2 load asynchronously
-  var request = new XMLHttpRequest();
-  request.open("GET", url, true);
-  request.responseType = "arraybuffer";
-
-  var kit = this;
-
-  request.onload = function() {
-    context.decodeAudioData(
-      request.response,
-      function(buffer) {
-        switch (instrumentName) {
-          case "kick":
-            kit.kickBuffer = buffer;
-            break;
-          case "snare":
-            kit.snareBuffer = buffer;
-            break;
-          case "hihat":
-            kit.hihatBuffer = buffer;
-            break;
-        }
-        kit.instrumentLoadCount++;
-        if (kit.instrumentLoadCount === NUM_INSTRUMENTS) {
-          kit.isLoaded = true;
-        }
-      },
-      function(buffer) {
-        console.log("Error decoding drum samples!");
-      }
-    );
+  Kit.prototype.pathName = function() {
+    return this.SAMPLE_BASE_PATH + this.name + "/";
   };
-  request.send();
-};
+
+  Kit.prototype.load = function() {
+    if (this.startedLoading) {
+      return;
+    }
+
+    this.startedLoading = true;
+
+    var pathName = this.pathName();
+
+    //don't want to have set number of instruments
+    var kickPath = pathName + "kick.mp3";
+    var snarePath = pathName + "snare.mp3";
+    var hihatPath = pathName + "hihat.mp3";
+
+    this.loadSample(kickPath, "kick");
+    this.loadSample(snarePath, "snare");
+    this.loadSample(hihatPath, "hihat");
+  };
+
+  Kit.prototype.loadSample = function(url, instrumentName) {
+    //need 2 load asynchronously
+    var request = new XMLHttpRequest();
+    request.open("GET", url, true);
+    request.responseType = "arraybuffer";
+
+    var kit = this;
+
+    request.onload = function() {
+      context.decodeAudioData(
+        request.response,
+        function(buffer) {
+          switch (instrumentName) {
+            case "kick":
+              kit.kickBuffer = buffer;
+              break;
+            case "snare":
+              kit.snareBuffer = buffer;
+              break;
+            case "hihat":
+              kit.hihatBuffer = buffer;
+              break;
+          }
+          kit.instrumentLoadCount++;
+          if (kit.instrumentLoadCount === NUM_INSTRUMENTS) {
+            kit.isLoaded = true;
+          }
+        },
+        function(buffer) {
+          console.log("Error decoding drum samples!");
+        }
+      );
+    };
+    request.send();
+  };
+  // end drum kit code
 
 
-
-
-  function createLowPassFilterSliders() {
-    $("#freq-slider").slider({
-      value: 1,
-      min: 0,
-      max: 1,
-      step: 0.01,
-      disabled: true,
-      slide: changeFrequency
-    });
-    $("#quality-slider").slider({
-      value: 0,
-      min: 0,
-      max: 1,
-      step: 0.01,
-      disabled: true,
-      slide: changeQuality
-    });
-  }
-
-  function lowPassFilterListener() {
-    $('#lpf').click(function() {
-      $(this).toggleClass("active");
-      $(this).blur();
-      if ($(this).hasClass("btn-default")) {
-        $(this).removeClass("btn-default");
-        $(this).addClass("btn-warning");
-        lowPassFilterNode.active = true;
-        $("#freq-slider,#quality-slider").slider("option", "disabled", false);
-      } else {
-        $(this).addClass("btn-default");
-        $(this).removeClass("btn-warning");
-        lowPassFilterNode.active = false;
-        $("#freq-slider,#quality-slider").slider("option", "disabled", true);
-      }
-    });
-  }
-
-  function reverbListener() {
-    $("#reverb").click(function() {
-      $(this).toggleClass("active");
-      $(this).blur();
-      if ($(this).hasClass("btn-default")) {
-        $(this).removeClass("btn-default");
-        $(this).addClass("btn-warning");
-        convolver.active = true;
-      } else {
-        $(this).addClass("btn-default");
-        $(this).removeClass("btn-warning");
-        convolver.active = false;
-      }
-    });
-  }
-
-  function changeFrequency(event, ui) {
-    var minValue = 40;
-    var maxValue = context.sampleRate / 2;
-    var numberOfOctaves = Math.log(maxValue / minValue) / Math.LN2;
-    var multiplier = Math.pow(2, numberOfOctaves * (ui.value - 1.0));
-    lowPassFilterNode.frequency.value = maxValue * multiplier;
-  }
-
-  function changeQuality(event, ui) {
-    //30 is the quality multiplier, for now.
-    lowPassFilterNode.Q.value = ui.value * 30;
-  }
+  // sequencer
 
   function playPauseListener() {
     $('#play-pause').click(function() {
@@ -224,41 +152,24 @@ Kit.prototype.loadSample = function(url, instrumentName) {
   function init() {
     initializeAudioNodes();
     loadKits();
-    // loadImpulseResponses();
   }
 
   function initializeAudioNodes() {
     context = new window.webkitAudioContext();
     var finalMixNode;
     if (context.createDynamicsCompressor) {
-      // Create a dynamics compressor to sweeten the overall mix.
       compressor = context.createDynamicsCompressor();
       compressor.connect(context.destination);
       finalMixNode = compressor;
     } else {
-      // No compressor available in this implementation.
       finalMixNode = context.destination;
     }
-
 
     // Create master volume.
     // for now, the master volume is static, but in the future there will be a slider
     masterGainNode = context.createGain();
     masterGainNode.gain.value = 0.7; // reduce overall volume to avoid clipping
     masterGainNode.connect(finalMixNode);
-
-    //connect all sounds to masterGainNode to play them
-
-    //don't need this for now, no wet dry mix for effects
-    // // Create effect volume.
-    // effectLevelNode = context.createGain();
-    // effectLevelNode.gain.value = 1.0; // effect level slider controls this
-    // effectLevelNode.connect(masterGainNode);
-
-    // Create convolver for effect
-    convolver = context.createConvolver();
-    convolver.active = false;
-    // convolver.connect(effectLevelNode);
 
     //Create Low Pass Filter
     lowPassFilterNode = context.createBiquadFilter();
@@ -274,60 +185,16 @@ Kit.prototype.loadSample = function(url, instrumentName) {
     //name must be same as path
     var kit = new Kit("TR808");
     kit.load();
-
-    //TODO: figure out how to test if a kit is loaded
     currentKit = kit;
   }
 
-  // function loadImpulseResponses() {
-  //   reverbImpulseResponse = new ImpulseResponse("sounds/impulse-responses/matrix-reverb2.wav");
-  //   reverbImpulseResponse.load();
-  // }
 
-
-  //TODO delete this
-  function loadTestBuffer() {
-    var request = new XMLHttpRequest();
-    var url = "http://www.freesound.org/data/previews/102/102130_1721044-lq.mp3";
-    request.open("GET", url, true);
-    request.responseType = "arraybuffer";
-
-    request.onload = function() {
-      context.decodeAudioData(
-        request.response,
-        function(buffer) {
-          testBuffer = buffer;
-        },
-        function(buffer) {
-          console.log("Error decoding drum samples!");
-        }
-      );
-    };
-    request.send();
-  }
-
-  //TODO delete this
-  function sequencePads() {
-    $('.pad.selected').each(function() {
-      $('.pad').removeClass("selected");
-      $(this).addClass("selected");
-    });
-  }
 
   function playNote(buffer, noteTime) {
     var voice = context.createBufferSource();
     voice.buffer = buffer;
 
     var currentLastNode = masterGainNode;
-    if (lowPassFilterNode.active) {
-      lowPassFilterNode.connect(currentLastNode);
-      currentLastNode = lowPassFilterNode;
-    }
-    if (convolver.active) {
-      convolver.buffer = reverbImpulseResponse.buffer;
-      convolver.connect(currentLastNode);
-      currentLastNode = convolver;
-    }
 
     voice.connect(currentLastNode);
     voice.start(noteTime);
@@ -356,8 +223,7 @@ Kit.prototype.loadSample = function(url, instrumentName) {
               playNote(currentKit.hihatBuffer, contextPlayTime);
               break;
           }
-          //play the buffer
-          //store a data element in the row that tells you what instrument
+
         }
       });
       if (noteTime != lastDrawTime) {
@@ -388,7 +254,7 @@ Kit.prototype.loadSample = function(url, instrumentName) {
     tempo = Number($("#tempo-input").val());
     var secondsPerBeat = 60.0 / tempo;
     rhythmIndex++;
-    if (rhythmIndex == LOOP_LENGTH) {
+    if (rhythmIndex === LOOP_LENGTH) {
       rhythmIndex = 0;
     }
 
@@ -433,6 +299,27 @@ Kit.prototype.loadSample = function(url, instrumentName) {
       }
     });
   }
+
+
+  function changeTempoListenerByFive() {
+    // $("#increase-tempo").click(function() {
+    $("#increase-tempo-by-five").click(function() {
+      if (tempo < TEMPO_MAX) {
+        tempo += TEMPO_STEP_5;
+        $("#tempo-input").val(tempo);
+      }
+    });
+
+    // $("#decrease-tempo").click(function() {
+    $("#decrease-tempo-by-five").click(function() {
+      if (tempo > TEMPO_MIN) {
+        tempo -= TEMPO_STEP_5;
+        $("#tempo-input").val(tempo);
+      }
+    });
+  }
+
+
 
 
 
