@@ -1,31 +1,21 @@
-<!-- <div class="glossy-selectbox">
-    <input type="checkbox">
-    <label data-default="Effect" data-focus="Select one..."></label>
-    <ul>
-        <li><a class="social-rss" href="#" target="_blank">RSS Feed</a></li>
-        <li><a class="social-facebook" href="#" target="_blank">Facebook</a></li>
-        <li><a class="social-twitter" href="#" target="_blank">Twitter</a></li>
-        <li><a class="social-google" href="#" target="_blank">Google+</a></li>
-    </ul>
-</div> -->
-<div class="animated slideInLeft" id="square">
-  <div class="animated bounceInUp" id="leftSquare">
-    <canvas class="thereminCanvas" id="thereminCanvas">
-      <div class="animated bounceInUp" id="circle">
-      </div>
-    </canvas>
+<div id="square">
+  <div id="leftSquareLive">
+    <!--     <canvas class="thereminCanvas" id="thereminCanvas">
+    </canvas> -->
   </div>
-  <div class="animated bounceInDown" id="rightSquare">
+  <div id="rightSquare">
     <div id="container2">
       <h2 class="signup">{{title}}</h2>
-      <!-- <form className="animated slideInLeft"> -->
       <form class="form2" className="animated slideInLeft">
         <div>
-          INPUT:<br>
+          <div class="liveInput">
+            SOURCE:
+          </div>
           <select class="optin2" id="audioinput" ng-model="dropdown.index" ng-change="changeInput();">
           </select>
-        </div><br>
-        EFFECT:
+        </div>
+        <div class="liveInput"> EFFECT:
+        </div>
         <div>
           <select class="optin2" id="effect" ng-model="dropdown2.index" ng-change="changeEffect();">
             <option>Delay</option>
@@ -35,17 +25,16 @@
             <!-- <option>Auto Wah </option> -->
             <!-- <option>Flanger </option> -->
           </select>
-          <br><br>
-
-<!-- {{ number_expression | number : fractionSize}} -->
-
-          <div>Effect Mix: {{slider.value * 100 | number : 0}} %
+          <!-- {{ number_expression | number : fractionSize}} -->
+          <div class="liveInput"> EFFECT MIX:
+          </div>
+          <div class="optin4">{{slider.value * 100 | number : 0}} %
             <input type="range" min="0.0" max="1.0" step="0.01" ng-model="slider.value" ng-change="crossfade();">
           </div>
           <!-- <input type="checkbox" checked ng-change="toggleMono();" ng-model="check.value"> -->
         </div>
       </form>
-      <div id="controls" ng-model="ngControls">
+      <div id="controls" ng-model="ngControls" class="optin3">
         <!-- delay -->
         <div id="delayControls">
           <br>BPM: {{60 / slider2.value | number : 0}}
@@ -55,28 +44,28 @@
         </div>
         <!-- LFO -->
         <div id="gainLFOControls">
-          <br> LFO Shape:
-          <select id="lfotype" ng-model="lfoDropdown.value" ng-change="changeEffect();">
+          LFO Shape:
+          <select id="lfotype" ng-model="lfoDropdown.value" ng-change="changeEffect();" class="optin">
             <option selected="selected" value="sine">SINE</option>
             <option value="square">SQUARE</option>
             <option value="sawtooth">SAWTOOTH</option>
             <option value="triangle">TRIANGLE</option>
           </select>
-          <br>
-          <br> LFO speed:
-          <br>BPM: {{60 * lfoSlider1.value}}
+
+
+          BPM: {{60 * lfoSlider1.value}}
           <input id="lfo" type="range" min="0.25" max="20" step="0.25" value="3" ng-model="lfoSlider1.value" ng-change="changeEffect();">
         </div>
         <!-- Stereo Flanger -->
         <div id="stFlangeControls">
           <br>
-          <input id="sflspeed" min="0.05" max="2" step="0.05" value="0.15">
+          <option id="sflspeed" min="0.05" max="2" step="0.05" value="0.15">
           <br>
-          <input id="sfldelay" min="0.001" max="0.02" step="0.001" value="0.003">
+          <option id="sfldelay" min="0.001" max="0.02" step="0.001" value="0.003">
           <br>
-          <input id="sfldepth" min="0.0005" max="0.02" step="0.00025" value="0.005">
+          <option id="sfldepth" min="0.0005" max="0.02" step="0.00025" value="0.005">
           <br>
-          <input id="sflfb" min="0" max="1" step="0.01" value="0.9">
+          <option id="sflfb" min="0" max="1" step="0.01" value="0.9">
         </div>
         <!-- telephone -->
         <div id="telephoneControls">

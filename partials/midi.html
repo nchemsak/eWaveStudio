@@ -1,39 +1,36 @@
-<!-- <h2>{{title}}</h2> -->
 <!-- <code>MIDI Controller</code> -->
-<div class="animated slideInLeft" id="square">
-  <div class="animated bounceInUp" id="leftSquare">
-    <div class="animated bounceInUp" id="circle">
-    </div>
+<div id="square">
+  <div id="leftSquareMIDI">
   </div>
-  <div class="animated bounceInDown" id="rightSquare">
+  <div id="rightSquare">
     <div id="container">
       <h2 class="signup">{{title}}</h2>
       <!-- <form className="animated slideInLeft"> -->
-      <select class="optin" className="animated slideInLeft" id="midiChange" ng-model="dropdown2.index" ng-change="changeMidi();">
+      <select class="optin2" id="midiChange" ng-model="dropdown2.index" ng-change="changeMidi();">
         <option>Oscillator Keyboard</option>
         <option>Sampler</option>
       </select>
-      <!-- </form> -->
-      <div id="controls2" ng-model="ngControls2">
-        <div id="oscillatorKeyboard" class="form-group">
-          <!-- <label>Wave Shape</label> -->
-          <!-- <div class="form-group"> -->
-          <div class="radio">
+      <br>
+      <div id="controls2" ng-model="ngControls2" id="midiWave">
+        <div id="oscillatorKeyboard" class="form-group optin5">
+          <label>WAVE SHAPE</label>
+          <br>
+          <div class="radio2">
             <label>
               <input type="radio" name="midiOscType" value="square" ng-model="formData.midiOscType"> Square
             </label>
           </div>
-          <div class="radio">
+          <div class="radio2">
             <label>
               <input type="radio" checked="checked" name="midiOscType" value="sine" ng-model="formData.midiOscType"> Sine
             </label>
           </div>
-          <div class="radio">
+          <div class="radio2">
             <label>
               <input type="radio" name="midiOscType" value="sawtooth" ng-model="formData.midiOscType"> Sawtooth
             </label>
           </div>
-          <div class="radio">
+          <div class="radio2">
             <label>
               <input type="radio" name="midiOscType" value="triangle" ng-model="formData.midiOscType"> Triangle
             </label>
@@ -86,4 +83,3 @@
   <div class="button" data-sound="audio/Larnac.wav"></div>
   <div class="button" data-sound="audio/the-price-is-right-losing-horn.mp3"></div>
 </div>
-

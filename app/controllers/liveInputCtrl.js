@@ -1,6 +1,7 @@
 'use strict';
 
 app.controller('liveInputCtrl', function($scope) {
+  // $('.row').toggleClass('animated slideInLeft');
   $scope.title = "Live Input";
   $scope.Math = window.Math;
   $scope.dropdown = { value: '' };

@@ -290,6 +290,17 @@ div.key {
   margin-left: 20px;
 }
 
+// MIDI page styling
+.radio2 {
+  display: inline;
+  // text-align: center;
+  margin-left: 10px;
+}
+
+#midiWave {
+  text-align: center;
+}
+
 li {
   // opacity: 0;
 }
@@ -547,6 +558,46 @@ body {
   box-shadow: 10px 11px 25px 0px rgba(0, 0, 0, 0.75);*/
 }
 
+#leftSquareMIDI {
+  width: 40%;
+  display: block;
+  margin: auto;
+  height: 100%;
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  /*  background: linear-gradient(rgba(251, 139, 166, 0.7), rgba(224, 140, 194, 0.8), rgba(194, 139, 228, 0.9)), url("");*/
+  background: url("../images/ballWave.gif");
+  // background: url("https://68.media.tumblr.com/96d47aa0646fc19e68691743955b9c77/tumblr_n1a0c2M2hN1sns7veo1_500.gif");
+  background-size: cover;
+  border-radius: 0%;
+  z-index: 1;
+  opacity: 0.9;
+  /*  -webkit-box-shadow: 10px 11px 25px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 10px 11px 25px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 10px 11px 25px 0px rgba(0, 0, 0, 0.75);*/
+}
+
+#leftSquareLive {
+  width: 40%;
+  display: block;
+  margin: auto;
+  height: 100%;
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  /*  background: linear-gradient(rgba(251, 139, 166, 0.7), rgba(224, 140, 194, 0.8), rgba(194, 139, 228, 0.9)), url("");*/
+  background: url("../images/basicWave.gif");
+  // background: url("https://68.media.tumblr.com/96d47aa0646fc19e68691743955b9c77/tumblr_n1a0c2M2hN1sns7veo1_500.gif");
+  background-size: cover;
+  border-radius: 0%;
+  z-index: 1;
+  opacity: 0.9;
+  /*  -webkit-box-shadow: 10px 11px 25px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 10px 11px 25px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 10px 11px 25px 0px rgba(0, 0, 0, 0.75);*/
+}
+
 #rightSquare {
   width: 60%;
   display: block;
@@ -642,6 +693,7 @@ body {
 #container {
   margin-top: 15%;
 }
+
 #container2 {
   // margin-top: 0%;
 }
@@ -660,7 +712,13 @@ body {
   text-align: center;
   text-transform: uppercase;
   z-index: 3;
+  margin-top: 30px;
   // color: green;
+}
+
+.liveInput {
+  // text-align: center;
+  margin-left: 140px;
 }
 
 .button {
@@ -757,9 +815,9 @@ form {
   outline: 0;
   border: 1px solid rgba(255, 255, 255, 0.8);
   background-color: rgba(255, 255, 255, 0.2);
-  width: 75%;
+  width: 65%;
   margin: auto;
-  // display: block;
+  display: block;
   margin-bottom: 10px;
   border-radius: 3px;
   padding: 10px 15px;
@@ -780,11 +838,121 @@ form {
 
 .optin2:focus {
   // background-color: RGBA(204, 204, 204, 1.00);
-  width: 90%;
+  // width: 90%;
   color: RGBA(95, 186, 255, 1.00);
   // color: RGBA(52, 167, 194, 1.00);
 }
 
+.optin3 {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  outline: 0;
+  // border: 1px solid rgba(255, 255, 255, 0.8);
+  // background-color: rgba(255, 255, 255, 0.2);
+  // width: 65%;
+  width: 200px;
+  margin: 0 auto;
+  display: block;
+  // margin-top: 30px;
+  margin-bottom: 10px;
+  border-radius: 3px;
+  padding: 10px 15px;
+  text-align: left;
+  font-size: 12px;
+  // color: #333333;
+  // color: RGBA(204, 204, 204, 1.00);
+  color: RGBA(95, 186, 255, 1.00);
+  -webkit-transition-duration: 0.25s;
+  transition-duration: 0.25s;
+  font-weight: 300;
+  background-color: none;
+}
+
+.optin3:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.optin3:focus {
+  // background-color: RGBA(204, 204, 204, 1.00);
+  // width: 90%;
+  color: RGBA(95, 186, 255, 1.00);
+  // color: RGBA(52, 167, 194, 1.00);
+}
+
+.optin4 {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  outline: 0;
+  // border: 1px solid rgba(255, 255, 255, 0.8);
+  // background-color: rgba(255, 255, 255, 0.2);
+  // width: 45%;
+  width: 200px;
+  margin: auto;
+  display: block;
+  // margin-top: 30px;
+  // margin-bottom: 10px;
+  border-radius: 3px;
+  padding: 10px 15px;
+  text-align: left;
+  font-size: 12px;
+  // color: #333333;
+  // color: RGBA(204, 204, 204, 1.00);
+  color: RGBA(95, 186, 255, 1.00);
+  -webkit-transition-duration: 0.25s;
+  transition-duration: 0.25s;
+  font-weight: 300;
+  background-color: none;
+}
+
+.optin4:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.optin4:focus {
+  // background-color: RGBA(204, 204, 204, 1.00);
+  // width: 90%;
+  color: RGBA(95, 186, 255, 1.00);
+  // color: RGBA(52, 167, 194, 1.00);
+}
+
+.optin5 {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  outline: 0;
+  // border: 1px solid rgba(255, 255, 255, 0.8);
+  // background-color: rgba(255, 255, 255, 0.2);
+  width: 65%;
+  // width: 200px;
+  margin: auto;
+  display: block;
+  // margin-top: 30px;
+  margin-bottom: 10px;
+  border-radius: 3px;
+  padding: 10px 15px;
+  text-align: left;
+  font-size: 12px;
+  // color: #333333;
+  // color: RGBA(204, 204, 204, 1.00);
+  color: RGBA(95, 186, 255, 1.00);
+  -webkit-transition-duration: 0.25s;
+  transition-duration: 0.25s;
+  font-weight: 300;
+  background-color: none;
+}
+
+.optin5:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.optin5:focus {
+  // background-color: RGBA(204, 204, 204, 1.00);
+  // width: 90%;
+  color: RGBA(95, 186, 255, 1.00);
+  // color: RGBA(52, 167, 194, 1.00);
+}
 
 .ng-scope {
   border: none;
@@ -815,7 +983,8 @@ div#controls div {
   padding: 10px;
   padding-top: 0px;
   padding-left: 0;
-  width: 728px;
+  // width: 728px;
+  // width: 100%;
 }
 
 div#controls div.display {
@@ -837,7 +1006,7 @@ div#controls div.display {
 
 input[type=range] {
   height: 20px;
-  width: 200px;
+  // width: 200px;
 }
 
 // RADIO BUTTONS
@@ -886,7 +1055,7 @@ input[type=range] {
  ****************************************************************************/
 
 .pad {
-  width: 4em;
+  width: 3em;
   height: 2em;
   margin-bottom: 15px;
   display: inline-block;
@@ -898,7 +1067,8 @@ input[type=range] {
 }
 
 .selected {
-  background-color: red;
+  // background-color: red;
+  background-color: RGBA(95, 186, 255, 1.00);
 }
 
 .playing {
@@ -921,6 +1091,7 @@ input[type=range] {
 #play-pause {
   // margin: 10px 0;
   background-color: red;
+
 }
 
 .control {
@@ -959,7 +1130,8 @@ input[type=range] {
 }
 
 h2 {
-  color: red;
+  // color: red;
+  color: RGBA(204, 204, 204, 1.00);
   margin-bottom: 20px;
   margin-top: 0px;
 }
