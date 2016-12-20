@@ -2,6 +2,7 @@
 
 app.controller('liveInputCtrl', function($scope) {
   $scope.title = "Live Input";
+  $scope.Math = window.Math;
   $scope.dropdown = { value: '' };
   $scope.dropdown2 = { value: '' };
   $scope.ngControls = { value: '' };
