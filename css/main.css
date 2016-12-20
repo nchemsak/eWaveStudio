@@ -211,6 +211,13 @@ div.key {
   display: inline;
   margin-left: 20px; }
 
+.radio2 {
+  display: inline;
+  margin-left: 10px; }
+
+#midiWave {
+  text-align: center; }
+
 .btn {
   background-color: black;
   border: 1px solid white; }
@@ -361,6 +368,42 @@ body {
   -moz-box-shadow: 10px 11px 25px 0px rgba(0, 0, 0, 0.75);
   box-shadow: 10px 11px 25px 0px rgba(0, 0, 0, 0.75);*/ }
 
+#leftSquareMIDI {
+  width: 40%;
+  display: block;
+  margin: auto;
+  height: 100%;
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  /*  background: linear-gradient(rgba(251, 139, 166, 0.7), rgba(224, 140, 194, 0.8), rgba(194, 139, 228, 0.9)), url("");*/
+  background: url("../images/ballWave.gif");
+  background-size: cover;
+  border-radius: 0%;
+  z-index: 1;
+  opacity: 0.9;
+  /*  -webkit-box-shadow: 10px 11px 25px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 10px 11px 25px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 10px 11px 25px 0px rgba(0, 0, 0, 0.75);*/ }
+
+#leftSquareLive {
+  width: 40%;
+  display: block;
+  margin: auto;
+  height: 100%;
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  /*  background: linear-gradient(rgba(251, 139, 166, 0.7), rgba(224, 140, 194, 0.8), rgba(194, 139, 228, 0.9)), url("");*/
+  background: url("../images/basicWave.gif");
+  background-size: cover;
+  border-radius: 0%;
+  z-index: 1;
+  opacity: 0.9;
+  /*  -webkit-box-shadow: 10px 11px 25px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 10px 11px 25px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 10px 11px 25px 0px rgba(0, 0, 0, 0.75);*/ }
+
 #rightSquare {
   width: 60%;
   display: block;
@@ -431,7 +474,11 @@ body {
   font-weight: 800;
   text-align: center;
   text-transform: uppercase;
-  z-index: 3; }
+  z-index: 3;
+  margin-top: 30px; }
+
+.liveInput {
+  margin-left: 140px; }
 
 .button {
   margin: 10px;
@@ -504,8 +551,9 @@ form {
   outline: 0;
   border: 1px solid rgba(255, 255, 255, 0.8);
   background-color: rgba(255, 255, 255, 0.2);
-  width: 75%;
+  width: 65%;
   margin: auto;
+  display: block;
   margin-bottom: 10px;
   border-radius: 3px;
   padding: 10px 15px;
@@ -521,7 +569,80 @@ form {
   background-color: rgba(255, 255, 255, 0.1); }
 
 .optin2:focus {
-  width: 90%;
+  color: RGBA(95, 186, 255, 1); }
+
+.optin3 {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  outline: 0;
+  width: 200px;
+  margin: 0 auto;
+  display: block;
+  margin-bottom: 10px;
+  border-radius: 3px;
+  padding: 10px 15px;
+  text-align: left;
+  font-size: 12px;
+  color: RGBA(95, 186, 255, 1);
+  -webkit-transition-duration: 0.25s;
+  transition-duration: 0.25s;
+  font-weight: 300;
+  background-color: none; }
+
+.optin3:hover {
+  background-color: rgba(255, 255, 255, 0.1); }
+
+.optin3:focus {
+  color: RGBA(95, 186, 255, 1); }
+
+.optin4 {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  outline: 0;
+  width: 200px;
+  margin: auto;
+  display: block;
+  border-radius: 3px;
+  padding: 10px 15px;
+  text-align: left;
+  font-size: 12px;
+  color: RGBA(95, 186, 255, 1);
+  -webkit-transition-duration: 0.25s;
+  transition-duration: 0.25s;
+  font-weight: 300;
+  background-color: none; }
+
+.optin4:hover {
+  background-color: rgba(255, 255, 255, 0.1); }
+
+.optin4:focus {
+  color: RGBA(95, 186, 255, 1); }
+
+.optin5 {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  outline: 0;
+  width: 65%;
+  margin: auto;
+  display: block;
+  margin-bottom: 10px;
+  border-radius: 3px;
+  padding: 10px 15px;
+  text-align: left;
+  font-size: 12px;
+  color: RGBA(95, 186, 255, 1);
+  -webkit-transition-duration: 0.25s;
+  transition-duration: 0.25s;
+  font-weight: 300;
+  background-color: none; }
+
+.optin5:hover {
+  background-color: rgba(255, 255, 255, 0.1); }
+
+.optin5:focus {
   color: RGBA(95, 186, 255, 1); }
 
 .ng-scope {
@@ -546,8 +667,7 @@ div#controls div {
   border-radius: 5px;
   padding: 10px;
   padding-top: 0px;
-  padding-left: 0;
-  width: 728px; }
+  padding-left: 0; }
 
 div#controls div.display {
   display: block; }
@@ -559,8 +679,7 @@ div#controls div.display {
   width: 750px; }
 
 input[type=range] {
-  height: 20px;
-  width: 200px; }
+  height: 20px; }
 
 .radioButtondemoBasicUsage body {
   padding: 20px; }
@@ -597,7 +716,7 @@ input[type=range] {
                              SEQUENCER
  ****************************************************************************/
 .pad {
-  width: 4em;
+  width: 3em;
   height: 2em;
   margin-bottom: 15px;
   display: inline-block;
@@ -608,7 +727,7 @@ input[type=range] {
   border-radius: 5px; }
 
 .selected {
-  background-color: red; }
+  background-color: RGBA(95, 186, 255, 1); }
 
 .playing {
   background: darkgrey; }
@@ -656,7 +775,7 @@ input[type=range] {
   margin-left: 5%; }
 
 h2 {
-  color: red;
+  color: RGBA(204, 204, 204, 1);
   margin-bottom: 20px;
   margin-top: 0px; }
 

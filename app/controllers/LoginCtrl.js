@@ -14,12 +14,25 @@ app.controller("LoginCtrl", function($scope, AuthFactory, $window) {
       });
   };
 
+  // $scope.slideOut = () => {
+  //   console.log("slideout bro");
+  //   $(".row").toggleClass('animated slideOutRight');
+  // };
+
   $scope.login = () => {
     AuthFactory.loginUser($scope.account)
       .then((user) => {
+        // $('.row').toggleClass('animated slideOutRight');
+
         $window.location.href = "#/liveInput";
+        // $('.row').toggleClass('animated slideInLeft');
+
+        // $('.animated slideInLeft').toggleClass('animated slideOutRight');
+        // $scope.login.toggleClass('animated slideInLeft');
       });
   };
+
+  // $("#login").toggleClass('animated slideOutRight');
 
 
   /********************************************
