@@ -1,111 +1,705 @@
-<h2>{{title}}</h2>
+<!-- <h2>{{title}}</h2> -->
 <div class="container">
-  <div class="row" data-instrument="kick">
-    <span class="instrument-label"><strong>Kick</strong></span>
-    <div class="pad column_0">
-    </div>
-    <div class="pad column_1">
-    </div>
-    <div class="pad column_2">
-    </div>
-    <div class="pad column_3">
-    </div>
-    <div class="pad column_4">
-    </div>
-    <div class="pad column_5">
-    </div>
-    <div class="pad column_6">
-    </div>
-    <div class="pad column_7">
-    </div>
-    <div class="pad column_8">
-    </div>
-    <div class="pad column_9">
-    </div>
-    <div class="pad column_10">
-    </div>
-    <div class="pad column_11">
-    </div>
-    <div class="pad column_12">
-    </div>
-    <div class="pad column_13">
-    </div>
-    <div class="pad column_14">
-    </div>
-    <div class="pad column_15">
-    </div>
-  </div>
-  <div class="row" data-instrument="snare">
-    <span class="instrument-label"><strong>Snare</strong></span>
-    <div class="pad column_0">
-    </div>
-    <div class="pad column_1">
-    </div>
-    <div class="pad column_2">
-    </div>
-    <div class="pad column_3">
-    </div>
-    <div class="pad column_4">
-    </div>
-    <div class="pad column_5">
-    </div>
-    <div class="pad column_6">
-    </div>
-    <div class="pad column_7">
-    </div>
-    <div class="pad column_8">
-    </div>
-    <div class="pad column_9">
-    </div>
-    <div class="pad column_10">
-    </div>
-    <div class="pad column_11">
-    </div>
-    <div class="pad column_12">
-    </div>
-    <div class="pad column_13">
-    </div>
-    <div class="pad column_14">
-    </div>
-    <div class="pad column_15">
-    </div>
-  </div>
-  <div class="row" data-instrument="hihat">
-    <span class="instrument-label"><strong>Hi-Hat</strong></span>
-    <div class="pad column_0">
-    </div>
-    <div class="pad column_1">
-    </div>
-    <div class="pad column_2">
-    </div>
-    <div class="pad column_3">
-    </div>
-    <div class="pad column_4">
-    </div>
-    <div class="pad column_5">
-    </div>
-    <div class="pad column_6">
-    </div>
-    <div class="pad column_7">
-    </div>
-    <div class="pad column_8">
-    </div>
-    <div class="pad column_9">
-    </div>
-    <div class="pad column_10">
-    </div>
-    <div class="pad column_11">
-    </div>
-    <div class="pad column_12">
-    </div>
-    <div class="pad column_13">
-    </div>
-    <div class="pad column_14">
-    </div>
-    <div class="pad column_15">
-    </div>
-  </div>
   <div class="row">
+    <button id="play-pause" type="button" class="btn btn-default btn- noselect">
+      <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
+    </button>
+    <span class="tempo-container optin6">
+        <label for="tempo-input">TEMPO: </label>
+        <input id="tempo-input" type="number">
+          <span id="increase-tempo" class="glyphicon glyphicon-plus btn btn-default tempo-btn"><span class='fontIncrease'> 1</span></span>
+    <span id="decrease-tempo" class="glyphicon glyphicon-minus btn btn-default tempo-btn"><span class='fontIncrease'> 1</span></span>
+    <!--     </span> -->
+    <!-- <span class="tempo-container"> -->
+    <span id="increase-tempo-by-five" class="glyphicon glyphicon-plus btn btn-default tempo-btn"><span class='fontIncrease'> 5</span></span>
+    <span id="decrease-tempo-by-five" class="glyphicon glyphicon-minus btn btn-default tempo-btn"><span class='fontIncrease'> 5</span></span>
+    </span>
+    VOLUME:
+    <input type='range' min='0' max='1' step='0.01' value='0.75' id='seqVolume' class="seqOptin">
+  </div>
+  <br>
+  <div class="row" data-instrument="hihat">
+    <span class="instrument-label"><strong>hihat 1</strong></span>
+    <div class="pad column_0 dark dark">
+    </div>
+    <div class="pad column_1 dark">
+    </div>
+    <div class="pad column_2 dark">
+    </div>
+    <div class="pad column_3 dark">
+    </div>
+    <div class="pad column_4">
+    </div>
+    <div class="pad column_5">
+    </div>
+    <div class="pad column_6">
+    </div>
+    <div class="pad column_7">
+    </div>
+    <div class="pad column_8 dark">
+    </div>
+    <div class="pad column_9 dark">
+    </div>
+    <div class="pad column_10 dark">
+    </div>
+    <div class="pad column_11 dark">
+    </div>
+    <div class="pad column_12">
+    </div>
+    <div class="pad column_13">
+    </div>
+    <div class="pad column_14">
+    </div>
+    <div class="pad column_15">
+    </div>
+  </div>
+  <div class="row" data-instrument="808-hihat-01">
+    <span class="instrument-label"><strong>hihat 2</strong></span>
+    <div class="pad column_0 dark">
+    </div>
+    <div class="pad column_1 dark">
+    </div>
+    <div class="pad column_2 dark">
+    </div>
+    <div class="pad column_3 dark">
+    </div>
+    <div class="pad column_4">
+    </div>
+    <div class="pad column_5">
+    </div>
+    <div class="pad column_6">
+    </div>
+    <div class="pad column_7">
+    </div>
+    <div class="pad column_8 dark">
+    </div>
+    <div class="pad column_9 dark">
+    </div>
+    <div class="pad column_10 dark">
+    </div>
+    <div class="pad column_11 dark">
+    </div>
+    <div class="pad column_12">
+    </div>
+    <div class="pad column_13">
+    </div>
+    <div class="pad column_14">
+    </div>
+    <div class="pad column_15">
+    </div>
+  </div>
+  <div class="row" data-instrument="808-hihat-02">
+    <span class="instrument-label"><strong>hihat 3</strong></span>
+    <div class="pad column_0 dark">
+    </div>
+    <div class="pad column_1 dark">
+    </div>
+    <div class="pad column_2 dark">
+    </div>
+    <div class="pad column_3 dark">
+    </div>
+    <div class="pad column_4">
+    </div>
+    <div class="pad column_5">
+    </div>
+    <div class="pad column_6">
+    </div>
+    <div class="pad column_7">
+    </div>
+    <div class="pad column_8 dark">
+    </div>
+    <div class="pad column_9 dark">
+    </div>
+    <div class="pad column_10 dark">
+    </div>
+    <div class="pad column_11 dark">
+    </div>
+    <div class="pad column_12">
+    </div>
+    <div class="pad column_13">
+    </div>
+    <div class="pad column_14">
+    </div>
+    <div class="pad column_15">
+    </div>
+  </div>
+  <div class="row" data-instrument="cym">
+    <span class="instrument-label"><strong>cymbal</strong></span>
+    <div class="pad column_0 dark">
+    </div>
+    <div class="pad column_1 dark">
+    </div>
+    <div class="pad column_2 dark">
+    </div>
+    <div class="pad column_3 dark">
+    </div>
+    <div class="pad column_4">
+    </div>
+    <div class="pad column_5">
+    </div>
+    <div class="pad column_6">
+    </div>
+    <div class="pad column_7">
+    </div>
+    <div class="pad column_8 dark">
+    </div>
+    <div class="pad column_9 dark">
+    </div>
+    <div class="pad column_10 dark">
+    </div>
+    <div class="pad column_11 dark">
+    </div>
+    <div class="pad column_12">
+    </div>
+    <div class="pad column_13">
+    </div>
+    <div class="pad column_14">
+    </div>
+    <div class="pad column_15">
+    </div>
+  </div>
+  <br>
+  <div class="row" data-instrument="kick">
+    <span class="instrument-label"><strong>kick 1</strong></span>
+    <div class="pad column_0 dark">
+    </div>
+    <div class="pad column_1 dark">
+    </div>
+    <div class="pad column_2 dark">
+    </div>
+    <div class="pad column_3 dark">
+    </div>
+    <div class="pad column_4">
+    </div>
+    <div class="pad column_5">
+    </div>
+    <div class="pad column_6">
+    </div>
+    <div class="pad column_7">
+    </div>
+    <div class="pad column_8 dark">
+    </div>
+    <div class="pad column_9 dark">
+    </div>
+    <div class="pad column_10 dark">
+    </div>
+    <div class="pad column_11 dark">
+    </div>
+    <div class="pad column_12">
+    </div>
+    <div class="pad column_13">
+    </div>
+    <div class="pad column_14">
+    </div>
+    <div class="pad column_15">
+    </div>
+  </div>
+  <div class="row" data-instrument="808-kick-01">
+    <span class="instrument-label"><strong>kick 2</strong></span>
+    <div class="pad column_0 dark">
+    </div>
+    <div class="pad column_1 dark">
+    </div>
+    <div class="pad column_2 dark">
+    </div>
+    <div class="pad column_3 dark">
+    </div>
+    <div class="pad column_4">
+    </div>
+    <div class="pad column_5">
+    </div>
+    <div class="pad column_6">
+    </div>
+    <div class="pad column_7">
+    </div>
+    <div class="pad column_8 dark">
+    </div>
+    <div class="pad column_9 dark">
+    </div>
+    <div class="pad column_10 dark">
+    </div>
+    <div class="pad column_11 dark">
+    </div>
+    <div class="pad column_12">
+    </div>
+    <div class="pad column_13">
+    </div>
+    <div class="pad column_14">
+    </div>
+    <div class="pad column_15">
+    </div>
+  </div>
+  <div class="row" data-instrument="808-kick-02">
+    <span class="instrument-label"><strong>kick 3</strong></span>
+    <div class="pad column_0 dark">
+    </div>
+    <div class="pad column_1 dark">
+    </div>
+    <div class="pad column_2 dark">
+    </div>
+    <div class="pad column_3 dark">
+    </div>
+    <div class="pad column_4">
+    </div>
+    <div class="pad column_5">
+    </div>
+    <div class="pad column_6">
+    </div>
+    <div class="pad column_7">
+    </div>
+    <div class="pad column_8 dark">
+    </div>
+    <div class="pad column_9 dark">
+    </div>
+    <div class="pad column_10 dark">
+    </div>
+    <div class="pad column_11 dark">
+    </div>
+    <div class="pad column_12">
+    </div>
+    <div class="pad column_13">
+    </div>
+    <div class="pad column_14">
+    </div>
+    <div class="pad column_15">
+    </div>
+  </div>
+  <div class="row" data-instrument="808-kick-03">
+    <span class="instrument-label"><strong>kick 4</strong></span>
+    <div class="pad column_0 dark">
+    </div>
+    <div class="pad column_1 dark">
+    </div>
+    <div class="pad column_2 dark">
+    </div>
+    <div class="pad column_3 dark">
+    </div>
+    <div class="pad column_4">
+    </div>
+    <div class="pad column_5">
+    </div>
+    <div class="pad column_6">
+    </div>
+    <div class="pad column_7">
+    </div>
+    <div class="pad column_8 dark">
+    </div>
+    <div class="pad column_9 dark">
+    </div>
+    <div class="pad column_10 dark">
+    </div>
+    <div class="pad column_11 dark">
+    </div>
+    <div class="pad column_12">
+    </div>
+    <div class="pad column_13">
+    </div>
+    <div class="pad column_14">
+    </div>
+    <div class="pad column_15">
+    </div>
+  </div>
+  <br>
+  <div class="row" data-instrument="snare">
+    <span class="instrument-label"><strong>snare 1</strong></span>
+    <div class="pad column_0 dark">
+    </div>
+    <div class="pad column_1 dark">
+    </div>
+    <div class="pad column_2 dark">
+    </div>
+    <div class="pad column_3 dark">
+    </div>
+    <div class="pad column_4">
+    </div>
+    <div class="pad column_5">
+    </div>
+    <div class="pad column_6">
+    </div>
+    <div class="pad column_7">
+    </div>
+    <div class="pad column_8 dark">
+    </div>
+    <div class="pad column_9 dark">
+    </div>
+    <div class="pad column_10 dark">
+    </div>
+    <div class="pad column_11 dark">
+    </div>
+    <div class="pad column_12">
+    </div>
+    <div class="pad column_13">
+    </div>
+    <div class="pad column_14">
+    </div>
+    <div class="pad column_15">
+    </div>
+  </div>
+  <div class="row" data-instrument="808-snare-01">
+    <span class="instrument-label"><strong>snare 2</strong></span>
+    <div class="pad column_0 dark">
+    </div>
+    <div class="pad column_1 dark">
+    </div>
+    <div class="pad column_2 dark">
+    </div>
+    <div class="pad column_3 dark">
+    </div>
+    <div class="pad column_4">
+    </div>
+    <div class="pad column_5">
+    </div>
+    <div class="pad column_6">
+    </div>
+    <div class="pad column_7">
+    </div>
+    <div class="pad column_8 dark">
+    </div>
+    <div class="pad column_9 dark">
+    </div>
+    <div class="pad column_10 dark">
+    </div>
+    <div class="pad column_11 dark">
+    </div>
+    <div class="pad column_12">
+    </div>
+    <div class="pad column_13">
+    </div>
+    <div class="pad column_14">
+    </div>
+    <div class="pad column_15">
+    </div>
+  </div>
+  <br>
+  <div class="row" data-instrument="808-tom-01">
+    <span class="instrument-label"><strong>tom 1</strong></span>
+    <div class="pad column_0 dark">
+    </div>
+    <div class="pad column_1 dark">
+    </div>
+    <div class="pad column_2 dark">
+    </div>
+    <div class="pad column_3 dark">
+    </div>
+    <div class="pad column_4">
+    </div>
+    <div class="pad column_5">
+    </div>
+    <div class="pad column_6">
+    </div>
+    <div class="pad column_7">
+    </div>
+    <div class="pad column_8 dark">
+    </div>
+    <div class="pad column_9 dark">
+    </div>
+    <div class="pad column_10 dark">
+    </div>
+    <div class="pad column_11 dark">
+    </div>
+    <div class="pad column_12">
+    </div>
+    <div class="pad column_13">
+    </div>
+    <div class="pad column_14">
+    </div>
+    <div class="pad column_15">
+    </div>
+  </div>
+  <br>
+  <br>
+  <!--**************************************************************
+                       arpeggiator
+<!**************************************************************-->
+  <div class="arpPos">
+    <br>
+    <br>
+    <div class="row white" data-instrument="c">
+      <span class="instrument-label"><strong>c</strong></span>
+      <div class="pad column_0 dark"></div>
+      <div class="pad column_1 dark"></div>
+      <div class="pad column_2 dark"></div>
+      <div class="pad column_3 dark"></div>
+      <div class="pad column_4"></div>
+      <div class="pad column_5"></div>
+      <div class="pad column_6"></div>
+      <div class="pad column_7"></div>
+      <div class="pad column_8 dark"></div>
+      <div class="pad column_9 dark"></div>
+      <div class="pad column_10 dark"></div>
+      <div class="pad column_11 dark"></div>
+      <div class="pad column_12"></div>
+      <div class="pad column_13"></div>
+      <div class="pad column_14"></div>
+      <div class="pad column_15"></div>
+    </div>
+    <div class="row black" data-instrument="c#">
+      <span class="instrument-label"><strong>c#</strong></span>
+      <div class="pad column_0 dark"></div>
+      <div class="pad column_1 dark"></div>
+      <div class="pad column_2 dark"></div>
+      <div class="pad column_3 dark"></div>
+      <div class="pad column_4"></div>
+      <div class="pad column_5"></div>
+      <div class="pad column_6"></div>
+      <div class="pad column_7"></div>
+      <div class="pad column_8 dark"></div>
+      <div class="pad column_9 dark"></div>
+      <div class="pad column_10 dark"></div>
+      <div class="pad column_11 dark"></div>
+      <div class="pad column_12"></div>
+      <div class="pad column_13"></div>
+      <div class="pad column_14"></div>
+      <div class="pad column_15"></div>
+    </div>
+    <div class="row white" data-instrument="d">
+      <span class="instrument-label"><strong>d</strong></span>
+      <div class="pad column_0 dark"></div>
+      <div class="pad column_1 dark"></div>
+      <div class="pad column_2 dark"></div>
+      <div class="pad column_3 dark"></div>
+      <div class="pad column_4"></div>
+      <div class="pad column_5"></div>
+      <div class="pad column_6"></div>
+      <div class="pad column_7"></div>
+      <div class="pad column_8 dark"></div>
+      <div class="pad column_9 dark"></div>
+      <div class="pad column_10 dark"></div>
+      <div class="pad column_11 dark"></div>
+      <div class="pad column_12"></div>
+      <div class="pad column_13"></div>
+      <div class="pad column_14"></div>
+      <div class="pad column_15"></div>
+    </div>
+    <div class="row black" data-instrument="d#">
+      <span class="instrument-label"><strong>d#</strong></span>
+      <div class="pad column_0 dark"></div>
+      <div class="pad column_1 dark"></div>
+      <div class="pad column_2 dark"></div>
+      <div class="pad column_3 dark"></div>
+      <div class="pad column_4"></div>
+      <div class="pad column_5"></div>
+      <div class="pad column_6"></div>
+      <div class="pad column_7"></div>
+      <div class="pad column_8 dark"></div>
+      <div class="pad column_9 dark"></div>
+      <div class="pad column_10 dark"></div>
+      <div class="pad column_11 dark"></div>
+      <div class="pad column_12"></div>
+      <div class="pad column_13"></div>
+      <div class="pad column_14"></div>
+      <div class="pad column_15"></div>
+    </div>
+    <div class="row white" data-instrument="e">
+      <span class="instrument-label"><strong>e</strong></span>
+      <div class="pad column_0 dark"></div>
+      <div class="pad column_1 dark"></div>
+      <div class="pad column_2 dark"></div>
+      <div class="pad column_3 dark"></div>
+      <div class="pad column_4"></div>
+      <div class="pad column_5"></div>
+      <div class="pad column_6"></div>
+      <div class="pad column_7"></div>
+      <div class="pad column_8 dark"></div>
+      <div class="pad column_9 dark"></div>
+      <div class="pad column_10 dark"></div>
+      <div class="pad column_11 dark"></div>
+      <div class="pad column_12"></div>
+      <div class="pad column_13"></div>
+      <div class="pad column_14"></div>
+      <div class="pad column_15"></div>
+    </div>
+    <div class="row white" data-instrument="f">
+      <span class="instrument-label"><strong>f</strong></span>
+      <div class="pad column_0 dark"></div>
+      <div class="pad column_1 dark"></div>
+      <div class="pad column_2 dark"></div>
+      <div class="pad column_3 dark"></div>
+      <div class="pad column_4"></div>
+      <div class="pad column_5"></div>
+      <div class="pad column_6"></div>
+      <div class="pad column_7"></div>
+      <div class="pad column_8 dark"></div>
+      <div class="pad column_9 dark"></div>
+      <div class="pad column_10 dark"></div>
+      <div class="pad column_11 dark"></div>
+      <div class="pad column_12"></div>
+      <div class="pad column_13"></div>
+      <div class="pad column_14"></div>
+      <div class="pad column_15"></div>
+    </div>
+    <div class="row black" data-instrument="f#">
+      <span class="instrument-label"><strong>f#</strong></span>
+      <div class="pad column_0 dark"></div>
+      <div class="pad column_1 dark"></div>
+      <div class="pad column_2 dark"></div>
+      <div class="pad column_3 dark"></div>
+      <div class="pad column_4"></div>
+      <div class="pad column_5"></div>
+      <div class="pad column_6"></div>
+      <div class="pad column_7"></div>
+      <div class="pad column_8 dark"></div>
+      <div class="pad column_9 dark"></div>
+      <div class="pad column_10 dark"></div>
+      <div class="pad column_11 dark"></div>
+      <div class="pad column_12"></div>
+      <div class="pad column_13"></div>
+      <div class="pad column_14"></div>
+      <div class="pad column_15"></div>
+    </div>
+    <div class="row white" data-instrument="g">
+      <span class="instrument-label"><strong>g</strong></span>
+      <div class="pad column_0 dark"></div>
+      <div class="pad column_1 dark"></div>
+      <div class="pad column_2 dark"></div>
+      <div class="pad column_3 dark"></div>
+      <div class="pad column_4"></div>
+      <div class="pad column_5"></div>
+      <div class="pad column_6"></div>
+      <div class="pad column_7"></div>
+      <div class="pad column_8 dark"></div>
+      <div class="pad column_9 dark"></div>
+      <div class="pad column_10 dark"></div>
+      <div class="pad column_11 dark"></div>
+      <div class="pad column_12"></div>
+      <div class="pad column_13"></div>
+      <div class="pad column_14"></div>
+      <div class="pad column_15"></div>
+    </div>
+    <div class="row black" data-instrument="g#">
+      <span class="instrument-label"><strong>g#</strong></span>
+      <div class="pad column_0 dark"></div>
+      <div class="pad column_1 dark"></div>
+      <div class="pad column_2 dark"></div>
+      <div class="pad column_3 dark"></div>
+      <div class="pad column_4"></div>
+      <div class="pad column_5"></div>
+      <div class="pad column_6"></div>
+      <div class="pad column_7"></div>
+      <div class="pad column_8 dark"></div>
+      <div class="pad column_9 dark"></div>
+      <div class="pad column_10 dark"></div>
+      <div class="pad column_11 dark"></div>
+      <div class="pad column_12"></div>
+      <div class="pad column_13"></div>
+      <div class="pad column_14"></div>
+      <div class="pad column_15"></div>
+    </div>
+    <div class="row white" data-instrument="a">
+      <span class="instrument-label"><strong>a</strong></span>
+      <div class="pad column_0 dark"></div>
+      <div class="pad column_1 dark"></div>
+      <div class="pad column_2 dark"></div>
+      <div class="pad column_3 dark"></div>
+      <div class="pad column_4"></div>
+      <div class="pad column_5"></div>
+      <div class="pad column_6"></div>
+      <div class="pad column_7"></div>
+      <div class="pad column_8 dark"></div>
+      <div class="pad column_9 dark"></div>
+      <div class="pad column_10 dark"></div>
+      <div class="pad column_11 dark"></div>
+      <div class="pad column_12"></div>
+      <div class="pad column_13"></div>
+      <div class="pad column_14"></div>
+      <div class="pad column_15"></div>
+    </div>
+    <div class="row black" data-instrument="a#">
+      <span class="instrument-label"><strong>a#</strong></span>
+      <div class="pad column_0 dark"></div>
+      <div class="pad column_1 dark"></div>
+      <div class="pad column_2 dark"></div>
+      <div class="pad column_3 dark"></div>
+      <div class="pad column_4"></div>
+      <div class="pad column_5"></div>
+      <div class="pad column_6"></div>
+      <div class="pad column_7"></div>
+      <div class="pad column_8 dark"></div>
+      <div class="pad column_9 dark"></div>
+      <div class="pad column_10 dark"></div>
+      <div class="pad column_11 dark"></div>
+      <div class="pad column_12"></div>
+      <div class="pad column_13"></div>
+      <div class="pad column_14"></div>
+      <div class="pad column_15"></div>
+    </div>
+    <div class="row white" data-instrument="b">
+      <span class="instrument-label"><strong>b</strong></span>
+      <div class="pad column_0 dark"></div>
+      <div class="pad column_1 dark"></div>
+      <div class="pad column_2 dark"></div>
+      <div class="pad column_3 dark"></div>
+      <div class="pad column_4"></div>
+      <div class="pad column_5"></div>
+      <div class="pad column_6"></div>
+      <div class="pad column_7"></div>
+      <div class="pad column_8 dark"></div>
+      <div class="pad column_9 dark"></div>
+      <div class="pad column_10 dark"></div>
+      <div class="pad column_11 dark"></div>
+      <div class="pad column_12"></div>
+      <div class="pad column_13"></div>
+      <div class="pad column_14"></div>
+      <div class="pad column_15"></div>
+    </div>
+  </div>
+  <div id='seq'>
+    <ul id='staggered'>
+      <li>
+        <div class='key' id='F3'></div>
+        <div class='upper-key' id='F3sh'></div>
+      </li>
+      <li>
+        <div class='key' id='G3'></div>
+        <div class='upper-key' id='G3sh'></div>
+      </li>
+      <li>
+        <div class='key' id='A3'></div>
+        <div class='upper-key' id='A3sh'></div>
+      </li>
+      <li>
+        <div class='key' id='B3'></div>
+      </li>
+      <li>
+        <div class='key' id='C4'></div>
+        <div class='upper-key' id='C4sh'></div>
+      </li>
+      <li>
+        <div class='key' id='D4'></div>
+        <div class='upper-key' id='D4sh'></div>
+      </li>
+      <li>
+        <div class='key' id='E4'></div>
+      </li>
+      <li>
+        <div class='key' id='F4'></div>
+        <div class='upper-key' id='F4sh'></div>
+      </li>
+      <li>
+        <div class='key' id='G4'></div>
+        <div class='upper-key' id='G4sh'></div>
+      </li>
+      <li>
+        <div class='key' id='A4'></div>
+        <div class='upper-key' id='A4sh'></div>
+      </li>
+      <li>
+        <div class='key' id='B4'></div>
+      </li>
+      <li>
+        <div class='key' id="C5"></div>
+        <div class='upper-key' id='C5sh'></div>
+      </li>
+      <li>
+        <div class='key' id='D5'></div>
+        <div class='upper-key' id='D5sh'></div>
+      </li>
+      <li>
+        <div class='key' id='E5'></div>
+      </li>
+    </ul>
+  </div>
+  <!-- <div class="row">
     <button id="play-pause" type="button" class="btn btn-default btn- noselect">
       <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
     </button>
@@ -119,5 +713,5 @@
         <span id="decrease-tempo-by-five" class="glyphicon glyphicon-minus btn btn-default tempo-btn"></span>
     <span id="increase-tempo-by-five" class="glyphicon glyphicon-plus btn btn-default tempo-btn"></span>
     </span>
-  </div>
+  </div> -->
 </div>

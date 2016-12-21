@@ -184,8 +184,6 @@ app.controller('liveInputCtrl', function($scope) {
     dryGain.gain.value = gain1;
     let gain2 = Math.cos((1.0 - $scope.slider.value) * 0.5 * Math.PI);
     wetGain.gain.value = gain2;
-    // console.log("gain1: ", gain1);
-    // console.log("gain2: ", gain2);
   };
   var lastEffect = -1;
 
@@ -427,6 +425,115 @@ app.controller('liveInputCtrl', function($scope) {
   };
 
 
+
+
+  // $scope.visualize = function() {
+  //   // function visualize() {
+  //   WIDTH = canvas.width;
+  //   HEIGHT = canvas.height;
+
+
+  //   var visualSetting = visualSelect.value;
+  //   console.log(visualSetting);
+
+  //   if (visualSetting == "sinewave") {
+  //     analyser.fftSize = 2048;
+  //     var bufferLength = analyser.fftSize;
+  //     console.log(bufferLength);
+  //     var dataArray = new Uint8Array(bufferLength);
+
+  //     canvasCtx.clearRect(0, 0, WIDTH, HEIGHT);
+
+  //     function draw() {
+
+  //       drawVisual = requestAnimationFrame(draw);
+
+  //       analyser.getByteTimeDomainData(dataArray);
+
+  //       canvasCtx.fillStyle = 'rgb(200, 200, 200)';
+  //       canvasCtx.fillRect(0, 0, WIDTH, HEIGHT);
+
+  //       canvasCtx.lineWidth = 2;
+  //       canvasCtx.strokeStyle = 'rgb(0, 0, 0)';
+
+  //       canvasCtx.beginPath();
+
+  //       var sliceWidth = WIDTH * 1.0 / bufferLength;
+  //       var x = 0;
+
+  //       for (var i = 0; i < bufferLength; i++) {
+
+  //         var v = dataArray[i] / 128.0;
+  //         var y = v * HEIGHT / 2;
+
+  //         if (i === 0) {
+  //           canvasCtx.moveTo(x, y);
+  //         } else {
+  //           canvasCtx.lineTo(x, y);
+  //         }
+
+  //         x += sliceWidth;
+  //       }
+
+  //       canvasCtx.lineTo(canvas.width, canvas.height / 2);
+  //       canvasCtx.stroke();
+  //     }
+
+  //     draw();
+
+  //   } else if (visualSetting == "frequencybars") {
+  //     analyser.fftSize = 256;
+  //     var bufferLength = analyser.frequencyBinCount;
+  //     console.log(bufferLength);
+  //     var dataArray = new Uint8Array(bufferLength);
+
+  //     canvasCtx.clearRect(0, 0, WIDTH, HEIGHT);
+
+  //     function draw() {
+  //       drawVisual = requestAnimationFrame(draw);
+
+  //       analyser.getByteFrequencyData(dataArray);
+
+  //       canvasCtx.fillStyle = 'rgb(0, 0, 0)';
+  //       canvasCtx.fillRect(0, 0, WIDTH, HEIGHT);
+
+  //       var barWidth = (WIDTH / bufferLength) * 2.5;
+  //       var barHeight;
+  //       var x = 0;
+
+  //       for (var i = 0; i < bufferLength; i++) {
+  //         barHeight = dataArray[i];
+
+  //         canvasCtx.fillStyle = 'rgb(' + (barHeight + 100) + ',50,50)';
+  //         canvasCtx.fillRect(x, HEIGHT - barHeight / 2, barWidth, barHeight / 2);
+
+  //         x += barWidth + 1;
+  //       }
+  //     };
+
+  //     draw();
+
+  //   } else if (visualSetting == "off") {
+  //     canvasCtx.clearRect(0, 0, WIDTH, HEIGHT);
+  //     canvasCtx.fillStyle = "red";
+  //     canvasCtx.fillRect(0, 0, WIDTH, HEIGHT);
+  //   }
+
+  // };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   // $scope.createReverb = function() {
   //   // function createReverb() {
   //   var convolver = audioContext.createConvolver();
@@ -501,40 +608,40 @@ app.controller('liveInputCtrl', function($scope) {
   console.log("sample rate:", audioContext.sampleRate);
 
 
-  // /**********************************************************************
-  //                                KICK DRUM
-  // **********************************************************************/
+  //   // /**********************************************************************
+  //   //                                KICK DRUM
+  //   // **********************************************************************/
 
-  // the sound starts at a higher frequency — the ‘attack’ phase -
-  // and then rapidly falls away to a lower frequency.
-  // While this is happening, the volume of the sound also decreases.
+  //   // the sound starts at a higher frequency — the ‘attack’ phase -
+  //   // and then rapidly falls away to a lower frequency.
+  //   // While this is happening, the volume of the sound also decreases.
 
-  $scope.Kick = function(audioContext) {
-    this.audioContext = audioContext;
-  };
+  //   $scope.Kick = function(audioContext) {
+  //     this.audioContext = audioContext;
+  //   };
 
-  $scope.Kick.prototype.setup = function() {
-    this.osc = this.audioContext.createOscillator();
-    this.gain = this.audioContext.createGain();
-    this.osc.connect(this.gain);
-    this.gain.connect(this.audioContext.destination);
-  };
+  //   $scope.Kick.prototype.setup = function() {
+  //     this.osc = this.audioContext.createOscillator();
+  //     this.gain = this.audioContext.createGain();
+  //     this.osc.connect(this.gain);
+  //     this.gain.connect(this.audioContext.destination);
+  //   };
 
-  $scope.Kick.prototype.trigger = function(time) {
-    this.setup();
+  //   $scope.Kick.prototype.trigger = function(time) {
+  //     this.setup();
 
-    this.osc.frequency.setValueAtTime(150, time);
-    // the “envelope” of the sound:
-    this.gain.gain.setValueAtTime(1, time);
+  //     this.osc.frequency.setValueAtTime(150, time);
+  //     // the “envelope” of the sound:
+  //     this.gain.gain.setValueAtTime(1, time);
 
-    // // drop the FREQUENCY of the oscillator rapidly after the initial attack.
-    this.osc.frequency.exponentialRampToValueAtTime(0.01, time + 0.5);
+  //     // // drop the FREQUENCY of the oscillator rapidly after the initial attack.
+  //     this.osc.frequency.exponentialRampToValueAtTime(0.01, time + 0.5);
 
-    // // decrease the GAIN to close to zero over the next 0.5 seconds
-    this.gain.gain.exponentialRampToValueAtTime(0.01, time + 0.5);
+  //     // // decrease the GAIN to close to zero over the next 0.5 seconds
+  //     this.gain.gain.exponentialRampToValueAtTime(0.01, time + 0.5);
 
-    this.osc.start(time);
+  //     this.osc.start(time);
 
-    this.osc.stop(time + 0.5);
-  };
+  //     this.osc.stop(time + 0.5);
+  //   };
 });

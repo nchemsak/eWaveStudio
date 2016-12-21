@@ -1,100 +1,115 @@
 'use strict';
-
-
 app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
+
+  // $scope.vol = { value: 0 };
 
   $scope.title = "Sequencer";
 
 
-
-  //audio node variables
-  var context;
-  var compressor;
-  var masterGainNode;
-  var effectLevelNode;
-  var lowPassFilterNode;
-
-  var noteTime;
-  var startTime;
-  var lastDrawTime = -1;
-  var LOOP_LENGTH = 16;
-  var rhythmIndex = 0;
-  var timeoutId;
-  var testBuffer = null;
-
-  var currentKit = null;
-  var reverbImpulseResponse = null;
-
-  var tempo = 120;
-  var TEMPO_MAX = 300;
-  var TEMPO_MIN = 20;
-  var TEMPO_STEP = 1;
-  var TEMPO_STEP_5 = 5;
+  let context;
+  let compressor;
+  let masterGainNode;
+  let effectLevelNode;
+  let lowPassFilterNode;
+  let noteTime;
+  let startTime;
+  let lastDrawTime = -1;
+  let LOOP_LENGTH = 16;
+  let rhythmIndex = 0;
+  let timeoutId;
+  let testBuffer = null;
+  let currentKit = null;
+  let reverbImpulseResponse = null;
+  let tempo = 120;
+  let TEMPO_MAX = 300;
+  let TEMPO_MIN = 20;
+  let TEMPO_STEP = 1;
+  let TEMPO_STEP_5 = 5;
 
   window.webkitAudioContext = AudioContext;
 
-
   $(function() {
-    init();
-    toggleSelectedListener();
-    playPauseListener();
+    $scope.init();
+    $scope.toggleSelectedListener();
+    $scope.playPauseListener();
     // lowPassFilterListener();
     // reverbListener();
     // createLowPassFilterSliders();
-    initializeTempo();
-    changeTempoListener();
-    changeTempoListenerByFive();
+    $scope.initializeTempo();
+    $scope.changeTempoListener();
+    $scope.changeTempoListenerByFive();
   });
 
+  // DRUM KIT
 
-
-  // DRUM KIT CODE
-
-  var NUM_INSTRUMENTS = 2;
-
-  function Kit(name) {
+  let NUM_INSTRUMENTS = 2;
+  $scope.Kit = function(name) {
+    // function Kit(name) {
     this.SAMPLE_BASE_PATH = "sounds/drum-samples/";
     this.name = name;
 
-    this.kickBuffer = null;
-    this.snareBuffer = null;
-    this.hihatBuffer = null;
+    // this.kickBuffer = null;
+    // this.snareBuffer = null;
+    // this.hihatBuffer = null;
+    // this.cymBuffer = null;
+    // this.hihat01Buffer = null;
+    // this.hihat02Buffer = null;
+    // this.kick01Buffer = null;
+    // this.kick02Buffer = null;
+    // this.kick03Buffer = null;
+    // this.snare01Buffer = null;
+    // this.tom01Buffer = null;
 
     this.startedLoading = false;
     this.isLoaded = false;
     this.instrumentLoadCount = 0;
-  }
+  };
 
-  Kit.prototype.pathName = function() {
+  $scope.Kit.prototype.pathName = function() {
     return this.SAMPLE_BASE_PATH + this.name + "/";
   };
 
-  Kit.prototype.load = function() {
+  $scope.Kit.prototype.load = function() {
     if (this.startedLoading) {
       return;
     }
 
     this.startedLoading = true;
 
-    var pathName = this.pathName();
-
-    //don't want to have set number of instruments
-    var kickPath = pathName + "kick.mp3";
-    var snarePath = pathName + "snare.mp3";
-    var hihatPath = pathName + "hihat.mp3";
+    let pathName = this.pathName();
+    let kickPath = pathName + "kick.mp3";
+    let snarePath = pathName + "snare.mp3";
+    let hihatPath = pathName + "hihat.mp3";
+    let cymPath = pathName + "cym.mp3";
+    let hihat01Path = pathName + "808-hihat-01.wav";
+    let hihat02Path = pathName + "808-hihat-02.wav";
+    let kick01Path = pathName + "808-kick-01.wav";
+    let kick02Path = pathName + "808-kick-02.wav";
+    let kick03Path = pathName + "808-kick-03.wav";
+    let snare01Path = pathName + "808-snare-01.wav";
+    let tom01Path = pathName + "808-tom-01.wav";
 
     this.loadSample(kickPath, "kick");
     this.loadSample(snarePath, "snare");
     this.loadSample(hihatPath, "hihat");
+    this.loadSample(cymPath, "cym");
+    this.loadSample(hihat01Path, "808-hihat-01");
+    this.loadSample(hihat02Path, "808-hihat-02");
+    this.loadSample(kick01Path, "808-kick-01");
+    this.loadSample(kick02Path, "808-kick-02");
+    this.loadSample(kick03Path, "808-kick-03");
+    this.loadSample(snare01Path, "808-snare-01");
+    this.loadSample(tom01Path, "808-tom-01");
+
   };
 
-  Kit.prototype.loadSample = function(url, instrumentName) {
+  $scope.Kit.prototype.loadSample = function(url, instrumentName) {
     //need 2 load asynchronously
-    var request = new XMLHttpRequest();
+    let request = new XMLHttpRequest();
     request.open("GET", url, true);
     request.responseType = "arraybuffer";
 
-    var kit = this;
+    let kit = this;
 
     request.onload = function() {
       context.decodeAudioData(
@@ -109,6 +124,30 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
               break;
             case "hihat":
               kit.hihatBuffer = buffer;
+              break;
+            case "cym":
+              kit.cymBuffer = buffer;
+              break;
+            case "808-hihat-01":
+              kit.hihat01Buffer = buffer;
+              break;
+            case "808-hihat-02":
+              kit.hihat02Buffer = buffer;
+              break;
+            case "808-kick-01":
+              kit.kick01Buffer = buffer;
+              break;
+            case "808-kick-02":
+              kit.kick02Buffer = buffer;
+              break;
+            case "808-kick-03":
+              kit.kick03Buffer = buffer;
+              break;
+            case "808-snare-01":
+              kit.snare01Buffer = buffer;
+              break;
+            case "808-tom-01":
+              kit.tom01Buffer = buffer;
               break;
           }
           kit.instrumentLoadCount++;
@@ -127,39 +166,53 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
 
 
   // sequencer
-
-  function playPauseListener() {
+  $scope.playPauseListener = function() {
+    // function playPauseListener() {
     $('#play-pause').click(function() {
-      var $span = $(this).children("span");
+      let $span = $(this).children("span");
       if ($span.hasClass('glyphicon-play')) {
         $span.removeClass('glyphicon-play');
         $span.addClass('glyphicon-pause');
-        handlePlay();
+        $scope.handlePlay();
       } else {
         $span.addClass('glyphicon-play');
         $span.removeClass('glyphicon-pause');
-        handleStop();
+        $scope.handleStop();
       }
     });
-  }
+  };
 
-  function toggleSelectedListener() {
+  $scope.toggleSelectedListener = function() {
+    // function toggleSelectedListener() {
     $('.pad').click(function() {
       $(this).toggleClass("selected");
     });
-  }
+  };
 
-  function init() {
-    initializeAudioNodes();
-    loadKits();
-  }
+  $scope.init = function() {
+    // function init() {
+    $scope.initializeAudioNodes();
+    $scope.loadKits();
+  };
 
-  function initializeAudioNodes() {
+
+  $scope.initializeAudioNodes = function() {
+    // function initializeAudioNodes() {
     context = new window.webkitAudioContext();
-    var finalMixNode;
+
+    let vol = context.createGain();
+
+    let volControl = document.getElementById("seqVolume");
+    vol.gain.value = volControl.value;
+    vol.connect(context.destination);
+    volControl.addEventListener("input", function() {
+      vol.gain.value = volControl.value;
+    });
+
+    let finalMixNode;
     if (context.createDynamicsCompressor) {
       compressor = context.createDynamicsCompressor();
-      compressor.connect(context.destination);
+      compressor.connect(vol);
       finalMixNode = compressor;
     } else {
       finalMixNode = context.destination;
@@ -167,6 +220,11 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
 
     // Create master volume.
     // for now, the master volume is static, but in the future there will be a slider
+
+
+
+
+
     masterGainNode = context.createGain();
     masterGainNode.gain.value = 0.7; // reduce overall volume to avoid clipping
     masterGainNode.connect(finalMixNode);
@@ -179,48 +237,73 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
     lowPassFilterNode.frequency.value = context.sampleRate / 2;
     lowPassFilterNode.connect(masterGainNode);
     lowPassFilterNode.active = false;
-  }
+  };
 
-  function loadKits() {
+  $scope.loadKits = function() {
+    // function loadKits() {
     //name must be same as path
-    var kit = new Kit("TR808");
+    let kit = new $scope.Kit("TR808");
     kit.load();
     currentKit = kit;
-  }
+  };
 
-
-
-  function playNote(buffer, noteTime) {
-    var voice = context.createBufferSource();
+  $scope.playNote = function(buffer, noteTime) {
+    // function playNote(buffer, noteTime) {
+    let voice = context.createBufferSource();
     voice.buffer = buffer;
 
-    var currentLastNode = masterGainNode;
+    let currentLastNode = masterGainNode;
 
     voice.connect(currentLastNode);
     voice.start(noteTime);
-  }
+  };
 
-  function schedule() {
-    var currentTime = context.currentTime;
+  $scope.schedule = function() {
+    // function schedule() {
+    let currentTime = context.currentTime;
 
     // The sequence starts at startTime, so normalize currentTime so that it's 0 at the start of the sequence.
     currentTime -= startTime;
 
     while (noteTime < currentTime + 0.200) {
-      var contextPlayTime = noteTime + startTime;
-      var $currentPads = $(".column_" + rhythmIndex);
+      let contextPlayTime = noteTime + startTime;
+      let $currentPads = $(".column_" + rhythmIndex);
       $currentPads.each(function() {
         if ($(this).hasClass("selected")) {
-          var instrumentName = $(this).parents().data("instrument");
+          let instrumentName = $(this).parents().data("instrument");
           switch (instrumentName) {
             case "kick":
-              playNote(currentKit.kickBuffer, contextPlayTime);
+              $scope.playNote(currentKit.kickBuffer, contextPlayTime);
               break;
             case "snare":
-              playNote(currentKit.snareBuffer, contextPlayTime);
+              $scope.playNote(currentKit.snareBuffer, contextPlayTime);
               break;
             case "hihat":
-              playNote(currentKit.hihatBuffer, contextPlayTime);
+              $scope.playNote(currentKit.hihatBuffer, contextPlayTime);
+              break;
+            case "cym":
+              $scope.playNote(currentKit.cymBuffer, contextPlayTime);
+              break;
+            case "808-hihat-01":
+              $scope.playNote(currentKit.hihat01Buffer, contextPlayTime);
+              break;
+            case "808-hihat-02":
+              $scope.playNote(currentKit.hihat02Buffer, contextPlayTime);
+              break;
+            case "808-kick-01":
+              $scope.playNote(currentKit.kick01Buffer, contextPlayTime);
+              break;
+            case "808-kick-02":
+              $scope.playNote(currentKit.kick02Buffer, contextPlayTime);
+              break;
+            case "808-kick-03":
+              $scope.playNote(currentKit.kick03Buffer, contextPlayTime);
+              break;
+            case "808-snare-01":
+              $scope.playNote(currentKit.snare01Buffer, contextPlayTime);
+              break;
+            case "808-tom-01":
+              $scope.playNote(currentKit.tom01Buffer, contextPlayTime);
               break;
           }
 
@@ -228,31 +311,33 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
       });
       if (noteTime != lastDrawTime) {
         lastDrawTime = noteTime;
-        drawPlayhead(rhythmIndex);
+        $scope.drawPlayhead(rhythmIndex);
       }
-      advanceNote();
+      $scope.advanceNote();
     }
 
-    timeoutId = requestAnimationFrame(schedule);
-  }
+    timeoutId = requestAnimationFrame($scope.schedule);
+  };
 
-  function drawPlayhead(xindex) {
-    var lastIndex = (xindex + LOOP_LENGTH - 1) % LOOP_LENGTH;
+  $scope.drawPlayhead = function(xindex) {
+    // function drawPlayhead(xindex) {
+    let lastIndex = (xindex + LOOP_LENGTH - 1) % LOOP_LENGTH;
 
     //can change this to class selector to select a column
-    var $newRows = $('.column_' + xindex);
-    var $oldRows = $('.column_' + lastIndex);
+    let $newRows = $('.column_' + xindex);
+    let $oldRows = $('.column_' + lastIndex);
 
     $newRows.addClass("playing");
     $oldRows.removeClass("playing");
-  }
+  };
 
-  function advanceNote() {
+  $scope.advanceNote = function() {
+    // function advanceNote() {
     // Advance time by a 16th note...
-    // var secondsPerBeat = 60.0 / theBeat.tempo;
+    // let secondsPerBeat = 60.0 / theBeat.tempo;
     //TODO CHANGE TEMPO HERE, convert to float
     tempo = Number($("#tempo-input").val());
-    var secondsPerBeat = 60.0 / tempo;
+    let secondsPerBeat = 60.0 / tempo;
     rhythmIndex++;
     if (rhythmIndex === LOOP_LENGTH) {
       rhythmIndex = 0;
@@ -265,26 +350,28 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
     // } else {
     //     noteTime += (0.25 - kMaxSwing * theBeat.swingFactor) * secondsPerBeat;
     // }
-
-  }
-
-  function handlePlay(event) {
+  };
+  $scope.handlePlay = function(event) {
+    // function handlePlay(event) {
     rhythmIndex = 0;
     noteTime = 0.0;
     startTime = context.currentTime + 0.005;
-    schedule();
-  }
+    $scope.schedule();
+  };
 
-  function handleStop(event) {
+  $scope.handleStop = function(event) {
+    // function handleStop(event) {
     cancelAnimationFrame(timeoutId);
     $(".pad").removeClass("playing");
-  }
+  };
 
-  function initializeTempo() {
+  $scope.initializeTempo = function() {
+    // function initializeTempo() {
     $("#tempo-input").val(tempo);
-  }
+  };
 
-  function changeTempoListener() {
+  $scope.changeTempoListener = function() {
+    // function changeTempoListener() {
     $("#increase-tempo").click(function() {
       if (tempo < TEMPO_MAX) {
         tempo += TEMPO_STEP;
@@ -298,10 +385,10 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
         $("#tempo-input").val(tempo);
       }
     });
-  }
+  };
 
-
-  function changeTempoListenerByFive() {
+  $scope.changeTempoListenerByFive = function() {
+    // function changeTempoListenerByFive() {
     // $("#increase-tempo").click(function() {
     $("#increase-tempo-by-five").click(function() {
       if (tempo < TEMPO_MAX) {
@@ -317,9 +404,50 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
         $("#tempo-input").val(tempo);
       }
     });
-  }
+  };
 
 
+
+
+
+
+
+  // /**********************************************************************
+  //                                KICK DRUM
+  // **********************************************************************/
+
+  // the sound starts at a higher frequency — the ‘attack’ phase -
+  // and then rapidly falls away to a lower frequency.
+  // While this is happening, the volume of the sound also decreases.
+
+  // $scope.Kick = function(audioContext) {
+  //   this.audioContext = audioContext;
+  // };
+
+  // $scope.Kick.prototype.setup = function() {
+  //   this.osc = this.audioContext.createOscillator();
+  //   this.gain = this.audioContext.createGain();
+  //   this.osc.connect(this.gain);
+  //   this.gain.connect(this.audioContext.destination);
+  // };
+
+  // $scope.Kick.prototype.trigger = function(time) {
+  //   this.setup();
+
+  //   this.osc.frequency.setValueAtTime(150, time);
+  //   // the “envelope” of the sound:
+  //   this.gain.gain.setValueAtTime(1, time);
+
+  //   // // drop the FREQUENCY of the oscillator rapidly after the initial attack.
+  //   this.osc.frequency.exponentialRampToValueAtTime(0.01, time + 0.5);
+
+  //   // // decrease the GAIN to close to zero over the next 0.5 seconds
+  //   this.gain.gain.exponentialRampToValueAtTime(0.01, time + 0.5);
+
+  //   this.osc.start(time);
+
+  //   this.osc.stop(time + 0.5);
+  // };
 
 
 
