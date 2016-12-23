@@ -904,15 +904,15 @@ div.key {
   color: RGBA(95, 186, 255, 1); }
 
 .pad {
-  width: 30px;
-  height: 30px;
-  margin-bottom: 10px;
+  width: 25px;
+  height: 25px;
+  margin-bottom: 2px;
   display: inline-block;
   background: #DADADA;
-  margin-right: 2px;
+  margin-right: 1px;
   cursor: pointer;
   border: 1px solid white;
-  border-radius: 5px; }
+  border-radius: 3px; }
 
 .dark {
   background-color: RGBA(248, 248, 248, 0.6); }
@@ -1140,5 +1140,38 @@ h2 {
 .glossy-selectbox input:checked ~ ul {
   visibility: visible;
   opacity: 1; }
+
+img #controls {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  height: 20%;
+  width: 100%; }
+
+img #record {
+  height: 15vh; }
+
+img #record.recording {
+  background: white;
+  background: -webkit-radial-gradient(center, ellipse cover, #ff0000 0%, lightgrey 75%, lightgrey 100%, #7db9e8 100%);
+  background: -moz-radial-gradient(center, ellipse cover, #ff0000 0%, lightgrey 75%, lightgrey 100%, #7db9e8 100%);
+  background: radial-gradient(center, ellipse cover, #ff0000 0%, lightgrey 75%, lightgrey 100%, #7db9e8 100%); }
+
+#save,
+#save img {
+  height: 10vh; }
+
+#save {
+  opacity: 0.25; }
+
+#save[download] {
+  opacity: 1; }
+
+#viz {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center; }
 
 /*# sourceMappingURL=main.css.map */
