@@ -1,12 +1,10 @@
 'use strict';
 app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
-
   $scope.title = "Sequencer";
 
   /********************************************************************
                           VARIABLES
   ********************************************************************/
-
   let context,
     compressor,
     masterGainNode,
@@ -42,7 +40,6 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
   });
 
   // DRUM KIT
-
   let NUM_INSTRUMENTS = 2;
   $scope.Kit = function(name) {
     this.SAMPLE_BASE_PATH = "sounds/drum-samples/";
@@ -57,10 +54,9 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
   };
 
 
-
   /********************************************************************
                         LOADING SOUNDS
-      ********************************************************************/
+  ********************************************************************/
 
   $scope.Kit.prototype.load = function() {
     if (this.startedLoading) {
@@ -73,20 +69,29 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
     let kickPath = pathName + "kick.mp3",
       kick01Path = pathName + "808-kick-01.wav",
       kick02Path = pathName + "808-kick-02.wav",
-      kick03Path = pathName + "808-kick-03.wav";
+      kick03Path = pathName + "808-kick-03.wav",
+      kick05Path = pathName + "kick05.wav",
+      kick06Path = pathName + "kick06.wav";
 
     // snares
     let snarePath = pathName + "snare.mp3",
-      snare01Path = pathName + "808-snare-01.wav";
+      snare01Path = pathName + "808-snare-01.wav",
+      snare03Path = pathName + "snare03.wav",
+      snare04Path = pathName + "snare04.wav";
 
     // cymbals
     let hihatPath = pathName + "hihat.mp3",
       hihat01Path = pathName + "808-hihat-01.wav",
       hihat02Path = pathName + "808-hihat-02.wav",
-      cymPath = pathName + "cym.mp3";
+      cymPath = pathName + "crash01.wav",
+      cym02Path = pathName + "crash02.wav",
+      cym03Path = pathName + "crash03.wav",
+      ride01Path = pathName + "ride01.wav";
 
-    // others
-    let tom01Path = pathName + "808-tom-01.wav";
+    // toms
+    let tom01Path = pathName + "808-tom-01.wav",
+      tom03Path = pathName + "tom03.wav",
+      tom04Path = pathName + "tom04.wav";
 
     // piano
     let piano_aPath = pathName + "piano_a.mp3",
@@ -102,25 +107,33 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
       piano_gPath = pathName + "piano_g.mp3",
       piano_gshPath = pathName + "piano_gsh.mp3";
 
-
     // kicks
     this.loadSample(kickPath, "kick");
     this.loadSample(kick01Path, "808-kick-01");
     this.loadSample(kick02Path, "808-kick-02");
     this.loadSample(kick03Path, "808-kick-03");
+    this.loadSample(kick05Path, "kick05");
+    this.loadSample(kick06Path, "kick06");
 
     // snares
     this.loadSample(snarePath, "snare");
     this.loadSample(snare01Path, "808-snare-01");
+    this.loadSample(snare03Path, "snare03");
+    this.loadSample(snare04Path, "snare04");
 
     // cymbals
     this.loadSample(hihatPath, "hihat");
     this.loadSample(hihat01Path, "808-hihat-01");
     this.loadSample(hihat02Path, "808-hihat-02");
     this.loadSample(cymPath, "cym");
+    this.loadSample(cym02Path, "cym02");
+    this.loadSample(cym03Path, "cym03");
+    this.loadSample(ride01Path, "ride01");
 
     // others
     this.loadSample(tom01Path, "808-tom-01");
+    this.loadSample(tom03Path, "tom03");
+    this.loadSample(tom04Path, "tom04");
 
     // piano
     this.loadSample(piano_aPath, "piano_a");
@@ -153,23 +166,9 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
         request.response,
         function(buffer) {
           switch (instrumentName) {
+            // kicks
             case "kick":
               kit.kickBuffer = buffer;
-              break;
-            case "snare":
-              kit.snareBuffer = buffer;
-              break;
-            case "hihat":
-              kit.hihatBuffer = buffer;
-              break;
-            case "cym":
-              kit.cymBuffer = buffer;
-              break;
-            case "808-hihat-01":
-              kit.hihat01Buffer = buffer;
-              break;
-            case "808-hihat-02":
-              kit.hihat02Buffer = buffer;
               break;
             case "808-kick-01":
               kit.kick01Buffer = buffer;
@@ -180,13 +179,58 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
             case "808-kick-03":
               kit.kick03Buffer = buffer;
               break;
+            case "kick05":
+              kit.kick05Buffer = buffer;
+              break;
+            case "kick06":
+              kit.kick06Buffer = buffer;
+              break;
+              // snares
+            case "snare":
+              kit.snareBuffer = buffer;
+              break;
             case "808-snare-01":
               kit.snare01Buffer = buffer;
               break;
+            case "snare03":
+              kit.snare03Buffer = buffer;
+              break;
+            case "snare04":
+              kit.snare04Buffer = buffer;
+              break;
+              // cymbals
+            case "hihat":
+              kit.hihatBuffer = buffer;
+              break;
+            case "cym":
+              kit.cymBuffer = buffer;
+              break;
+            case "cym02":
+              kit.cym02Buffer = buffer;
+              break;
+            case "cym03":
+              kit.cym03Buffer = buffer;
+              break;
+            case "808-hihat-01":
+              kit.hihat01Buffer = buffer;
+              break;
+            case "808-hihat-02":
+              kit.hihat02Buffer = buffer;
+              break;
+            case "ride01":
+              kit.ride01Buffer = buffer;
+              break;
+              // toms
             case "808-tom-01":
               kit.tom01Buffer = buffer;
               break;
-
+            case "tom03":
+              kit.tom03Buffer = buffer;
+              break;
+            case "tom04":
+              kit.tom04Buffer = buffer;
+              break;
+              // piano
             case "piano_a":
               kit.pianoaBuffer = buffer;
               break;
@@ -337,23 +381,10 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
         if ($(this).hasClass("selected")) {
           let instrumentName = $(this).parents().data("instrument");
           switch (instrumentName) {
+            // kicks
             case "kick":
               $scope.playNote(currentKit.kickBuffer, contextPlayTime);
-              break;
-            case "snare":
-              $scope.playNote(currentKit.snareBuffer, contextPlayTime);
-              break;
-            case "hihat":
-              $scope.playNote(currentKit.hihatBuffer, contextPlayTime);
-              break;
-            case "cym":
-              $scope.playNote(currentKit.cymBuffer, contextPlayTime);
-              break;
-            case "808-hihat-01":
-              $scope.playNote(currentKit.hihat01Buffer, contextPlayTime);
-              break;
-            case "808-hihat-02":
-              $scope.playNote(currentKit.hihat02Buffer, contextPlayTime);
+              console.log("kick played: ");
               break;
             case "808-kick-01":
               $scope.playNote(currentKit.kick01Buffer, contextPlayTime);
@@ -364,13 +395,58 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
             case "808-kick-03":
               $scope.playNote(currentKit.kick03Buffer, contextPlayTime);
               break;
+            case "kick05":
+              $scope.playNote(currentKit.kick05Buffer, contextPlayTime);
+              break;
+            case "kick06":
+              $scope.playNote(currentKit.kick06Buffer, contextPlayTime);
+              break;
+              // snares
+            case "snare":
+              $scope.playNote(currentKit.snareBuffer, contextPlayTime);
+              break;
             case "808-snare-01":
               $scope.playNote(currentKit.snare01Buffer, contextPlayTime);
               break;
+            case "snare03":
+              $scope.playNote(currentKit.snare03Buffer, contextPlayTime);
+              break;
+            case "snare04":
+              $scope.playNote(currentKit.snare04Buffer, contextPlayTime);
+              break;
+              // cymbals
+            case "hihat":
+              $scope.playNote(currentKit.hihatBuffer, contextPlayTime);
+              break;
+            case "cym":
+              $scope.playNote(currentKit.cymBuffer, contextPlayTime);
+              break;
+            case "cym02":
+              $scope.playNote(currentKit.cym02Buffer, contextPlayTime);
+              break;
+            case "cym03":
+              $scope.playNote(currentKit.cym03Buffer, contextPlayTime);
+              break;
+            case "808-hihat-01":
+              $scope.playNote(currentKit.hihat01Buffer, contextPlayTime);
+              break;
+            case "808-hihat-02":
+              $scope.playNote(currentKit.hihat02Buffer, contextPlayTime);
+              break;
+            case "ride01":
+              $scope.playNote(currentKit.ride01Buffer, contextPlayTime);
+              break;
+              // toms
             case "808-tom-01":
               $scope.playNote(currentKit.tom01Buffer, contextPlayTime);
               break;
-
+            case "tom03":
+              $scope.playNote(currentKit.tom03Buffer, contextPlayTime);
+              break;
+            case "tom04":
+              $scope.playNote(currentKit.tom04Buffer, contextPlayTime);
+              break;
+              // piano
             case "piano_a":
               $scope.playNote(currentKit.pianoaBuffer, contextPlayTime);
               break;
@@ -408,7 +484,6 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
               $scope.playNote(currentKit.pianogshBuffer, contextPlayTime);
               break;
           }
-
         }
       });
       if (noteTime != lastDrawTime) {
@@ -417,7 +492,6 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
       }
       $scope.advanceNote();
     }
-
     timeoutId = requestAnimationFrame($scope.schedule);
   };
 
@@ -433,9 +507,6 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
   };
 
   $scope.advanceNote = function() {
-    // Advance time by a 16th note...
-    // let secondsPerBeat = 60.0 / theBeat.tempo;
-    //TODO CHANGE TEMPO HERE, convert to float
     tempo = Number($("#tempo-input").val());
     let secondsPerBeat = 60.0 / tempo;
     rhythmIndex++;
@@ -448,7 +519,6 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
 
   };
   $scope.handlePlay = function(event) {
-    // function handlePlay(event) {
     rhythmIndex = 0;
     noteTime = 0.0;
     startTime = context.currentTime + 0.005;
@@ -466,7 +536,6 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
   $scope.initializeTempo = function() {
     $("#tempo-input").val(tempo);
   };
-
 
   $scope.changeTempoListener = function() {
     $("#increase-tempo").click(function() {
@@ -500,9 +569,134 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
     });
   };
 
+/*******************************************************************************
+                            MEDIA RECORDER
+/******************************************************************************/
 
+/*******************************************************************************
+                            VARIABLES
+/******************************************************************************/
+let mediaSource = new MediaSource();
+// mediaSource.addEventListener('sourceopen', false);
+let mediaRecorder;
+let blobs;
+let liveVideo = document.getElementById('live');
+let recordedVideo = document.getElementById('recorded');
 
+// Button Variables
+let recordButton = document.getElementById('recordButton');
+recordButton.onclick = toggleRecording;
 
+let playButton = document.getElementById('playButton');
+playButton.onclick = play;
+
+let downloadButton = document.getElementById('downloadButton');
+downloadButton.onclick = download;
+
+// Indicate whether to record audio and/or video
+let audioVideo = {
+  audio: true,
+  video: true
+};
+/*******************************************************************************
+                               LIVE STREAM
+/******************************************************************************/
+function handleSuccess(stream) {
+  recordButton.disabled = false;
+  console.log('stream: ', stream);
+  window.stream = stream;
+  if (window.URL) {
+    console.log("window.URL: ", window.URL);
+    console.log("window: ", window);
+
+// The Window.URL property returns an object that provides static methods used for creating and managing object URLs. It can also be called as a constructor to construct URL objects.
+
+    liveVideo.src = window.URL.createObjectURL(stream);
+  } else {
+    liveVideo.src = stream;
+  }
+}
+
+navigator.mediaDevices.getUserMedia(audioVideo).
+then(handleSuccess);
+
+function handleDataAvailable(event) {
+  if (event.data && event.data.size > 0) {
+    blobs.push(event.data);
+  }
+}
+
+function handleStop(event) {
+  console.log('Recorder stopped: ', event);
+}
+
+/*******************************************************************************
+                             TOGGLE Recording (start/stop)
+/******************************************************************************/
+
+function toggleRecording() {
+  if (recordButton.textContent === 'Start Recording') {
+    startRecording();
+  } else {
+    stopRecording();
+    recordButton.textContent = 'Start Recording';
+    playButton.disabled = false;
+    downloadButton.disabled = false;
+  }
+}
+
+/*******************************************************************************
+                             Start Recording FUNCTION
+/******************************************************************************/
+
+function startRecording() {
+  blobs = [];
+  mediaRecorder = new MediaRecorder(window.stream);
+  recordButton.textContent = 'STOP Recording';
+  playButton.disabled = true;
+  downloadButton.disabled = true;
+  mediaRecorder.onstop = handleStop;
+  mediaRecorder.ondataavailable = handleDataAvailable;
+  // mediaRecorder.start(10); this indicates 10ms of data per blob...not sure how that affects anything quite yet....
+  mediaRecorder.start(10);
+  console.log('MediaRecorder start: ', mediaRecorder);
+}
+
+/*******************************************************************************
+                            STOP RECORDING function
+/******************************************************************************/
+
+function stopRecording() {
+  mediaRecorder.stop();
+  console.log('blobs: ', blobs);
+  recordedVideo.controls = true;
+}
+
+function play() {
+  let playBack = new Blob(blobs, {
+    type: 'video/webm'
+  });
+  recordedVideo.src = window.URL.createObjectURL(playBack);
+  console.log("playBack: ", playBack);
+}
+
+/*******************************************************************************
+                             DOWNLOAD FUNCTION
+/******************************************************************************/
+function download() {
+  let blob = new Blob(blobs, { type: 'video/webm' });
+  let url = window.URL.createObjectURL(blob);
+  let a = document.createElement('a');
+  a.style.display = 'none';
+  a.href = url;
+  a.download = 'test.webm';
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(function() {
+    document.body.removeChild(a);
+    window.URL.revokeObjectURL(url);
+  }, 100);
+}
 
 
 

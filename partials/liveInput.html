@@ -96,4 +96,26 @@
       <a href="https://www.ephemeralwave.com" class="fa  fa-paint-brush fa-lg" target="_blank"></a></h3>
   </div>
 </div>
+<!-- canvas for audio recording -->
+<div id="viz">
+  <!-- <canvas id="analyser" width="300" height="100"></canvas> -->
+  <canvas id="wavedisplay" width="300" height="100"></canvas>
+</div>
+<div id="controls">
+  <!--     <img id="record" src="images/brick-wall-dark.png" onclick="toggleRecording(this);"> -->
+  <!--     <a id="save" href="#"><img src="images/brick-wall-dark.png"></a> -->
+  <button id="record" class="btn waves-effect waves-red" onclick="toggleRecording(this);">Start Recording</button>
+  <!--     <button id="playButton" class="btn waves-effect waves-red" disabled>Play</button>
+ -->
+  <button id="save" class="btn waves-effect waves-red" disabled>Download</button>
+</div>
+<div id="container">
+  <video id="live" autoplay muted></video>
+  <video id="recorded" autoplay loop></video>
+  <div>
+    <button id="recordButton" class="btn waves-effect waves-red" disabled>Start Recording</button>
+    <button id="playButton" class="btn waves-effect waves-red" disabled>Play</button>
+    <button id="downloadButton" class="btn waves-effect waves-red" disabled>Download</button>
+  </div>
+</div>
 </div>
