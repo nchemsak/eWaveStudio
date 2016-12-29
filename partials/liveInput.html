@@ -43,11 +43,12 @@
         <!-- LFO -->
         <div id="gainLFOControls">
           LFO Shape:
-          <select id="lfotype" ng-model="lfoDropdown.value" ng-change="changeEffect();" class="optin">
-            <option selected="selected" value="sine">SINE</option>
-            <option value="square">SQUARE</option>
-            <option value="sawtooth">SAWTOOTH</option>
-            <option value="triangle">TRIANGLE</option>
+          <select id="lfotype webmenu" name="webmenu" ng-model="lfoDropdown.value" ng-change="changeEffect();" class="optin">
+            <option value="sine" data-image="/lib/node_modules/msdropdown/icons/sine1.png">SINE</option>
+            <option value="square" data-image="./lib/node_modules/msdropdown/icons/sine1.png">SQUARE</option>
+            <option value="sawtooth" data-image="../lib/node_modules/msdropdown/icons/sine1.png">SAWTOOTH</option>
+            <option value="triangle" data-image="lib/node_modules/msdropdown/icons/sine1.png">TRIANGLE</option>
+
           </select>
           BPM: {{60 * lfoSlider1.value}}
           <input id="lfo" type="range" min="0.25" max="20" step="0.25" value="3" ng-model="lfoSlider1.value" ng-change="changeEffect();">
@@ -92,22 +93,18 @@
     </form>
     <div class="centeredbuttons">
     </div>
-    <h3 id="footer"><a href="https://github.com/nchemsak/eWaveStudio" id="terms" class="fa fa-code-fork fa-lg" target="_blank"></a>
-      <a href="https://www.ephemeralwave.com" class="fa  fa-paint-brush fa-lg" target="_blank"></a></h3>
+    <h3 id="footer">
+    <i class="fa fa-play fa-lg"></i>
+    <i class="fa fa-circle fa-lg" onclick="toggleRecording(this);"> </i>
+    <i class="fa fa-save fa-lg"></i>
+    <i id="save" class="fa fa-download fa-lg" aria-hidden="true"></i>
+<!--     <a href="https://github.com/nchemsak/eWaveStudio" id="terms" class="fa fa-code-fork fa-lg" target="_blank"></a>
+      <a href="https://www.ephemeralwave.com" class="fa fa-paint-brush fa-lg" target="_blank"></a></h3> -->
   </div>
 </div>
 <!-- canvas for audio recording -->
 <div id="viz">
-  <!-- <canvas id="analyser" width="300" height="100"></canvas> -->
   <canvas id="wavedisplay" width="300" height="100"></canvas>
-</div>
-<div id="controls">
-  <!--     <img id="record" src="images/brick-wall-dark.png" onclick="toggleRecording(this);"> -->
-  <!--     <a id="save" href="#"><img src="images/brick-wall-dark.png"></a> -->
-  <button id="record" class="btn waves-effect waves-red" onclick="toggleRecording(this);">Start Recording</button>
-  <!--     <button id="playButton" class="btn waves-effect waves-red" disabled>Play</button>
- -->
-  <button id="save" class="btn waves-effect waves-red" disabled>Download</button>
 </div>
 <div id="container">
   <video id="live" autoplay muted></video>

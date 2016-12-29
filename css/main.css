@@ -211,9 +211,11 @@ div.key {
   display: inline;
   margin-left: 20px; }
 
+/************************************************************************************
+                                  MIDI PAGE
+************************************************************************************/
 .radio2 {
-  display: inline;
-  margin-left: 10px; }
+  display: inline; }
 
 #midiWave {
   text-align: center; }
@@ -221,6 +223,9 @@ div.key {
 .btn {
   background-color: black;
   border: 1px solid white; }
+
+#key_data {
+  text-align: center; }
 
 /************************************************************************************
                                   RECORDER
@@ -237,6 +242,10 @@ header {
   background-color: rgba(0, 0, 0, 0.1);
   height: calc(100% - 240px - 0.7rem);
   overflow: scroll; }
+
+label {
+  display: inline;
+  margin-left: 12px; }
 
 aside {
   position: fixed;
@@ -326,9 +335,15 @@ video#live {
   color: white; }
 
 img {
-  color: white;
-  background-color: blue;
-  border: 1px solid yellow; }
+  width: 15%;
+  height: 15%;
+  color: silver;
+  display: inline; }
+
+.smaller {
+  width: 40px;
+  height: 40px;
+  margin-left: 10px; }
 
 .container-fluid {
   background-color: RGBA(22, 28, 27, 1);
@@ -869,13 +884,6 @@ div.key {
   display: inline;
   margin-left: 20px; }
 
-.radio2 {
-  display: inline;
-  margin-left: 10px; }
-
-#midiWave {
-  text-align: center; }
-
 #seqVolume {
   width: 300px; }
 
@@ -1158,20 +1166,37 @@ img #record.recording {
   background: -moz-radial-gradient(center, ellipse cover, #ff0000 0%, lightgrey 75%, lightgrey 100%, #7db9e8 100%);
   background: radial-gradient(center, ellipse cover, #ff0000 0%, lightgrey 75%, lightgrey 100%, #7db9e8 100%); }
 
-#save,
-#save img {
-  height: 10vh; }
-
-#save {
-  opacity: 0.25; }
-
-#save[download] {
-  opacity: 1; }
+#save:hover {
+  opacity: 0.50;
+  color: silver;
+  cursor: pointer; }
 
 #viz {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  align-items: center; }
+  float: right; }
+
+.fa-circle:hover {
+  color: red;
+  cursor: pointer;
+  opacity: 0.90; }
+
+.fa-circle {
+  color: darkred; }
+
+#wavedisplay {
+  width: 400px;
+  height: 100px; }
+
+.fa-play {
+  color: darkgreen; }
+
+.fa-play:hover {
+  color: lightgreen;
+  cursor: pointer;
+  opacity: 0.70; }
+
+.fa-save:hover {
+  color: silver;
+  cursor: pointer;
+  opacity: 0.50; }
 
 /*# sourceMappingURL=main.css.map */

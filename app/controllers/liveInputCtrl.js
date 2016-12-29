@@ -1,5 +1,15 @@
 'use strict';
 
+
+$(document).ready(function(e) {
+  try {
+    $("body select").msDropDown();
+  } catch (e) {
+    window.alert(e.message);
+  }
+});
+
+
 app.controller('liveInputCtrl', function($scope) {
   // $('.row').toggleClass('animated slideInLeft');
   $scope.title = "Live Input";
