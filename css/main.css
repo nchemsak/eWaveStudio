@@ -445,6 +445,18 @@ body {
   top: 8%;
   right: 20%; }
 
+.glyphicon {
+  display: inline-block;
+  font-style: normal;
+  font-weight: bold;
+  line-height: 1; }
+
+.glyphicon-pause {
+  color: red; }
+
+.glyphicon-play {
+  color: green; }
+
 .brand {
   position: absolute;
   display: block;
@@ -666,7 +678,7 @@ form {
   appearance: none;
   outline: 0;
   background-color: rgba(255, 255, 255, 0.1);
-  width: 450px;
+  width: 470px;
   margin: auto;
   display: block;
   margin-bottom: 10px;
@@ -684,6 +696,25 @@ form {
   background-color: rgba(255, 255, 255, 0.3); }
 
 .optin6:focus {
+  color: RGBA(95, 186, 255, 1); }
+
+.optin7 {
+  background-color: rgba(255, 255, 255, 0.1);
+  width: 510px;
+  float: left;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  border-radius: 3px;
+  padding: 10px 15px;
+  font-size: 12px;
+  color: RGBA(95, 186, 255, 1);
+  transition-duration: 0.65s; }
+
+.optin7:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white; }
+
+.optin7:focus {
   color: RGBA(95, 186, 255, 1); }
 
 .ng-scope {
@@ -885,7 +916,27 @@ div.key {
   margin-left: 20px; }
 
 #seqVolume {
-  width: 300px; }
+  width: 65%;
+  float: left;
+  height: 30px;
+  background-color: black; }
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none !important;
+  width: 25px;
+  height: 25px;
+  -webkit-appearance: none;
+  border-radius: 8px;
+  -moz-border-radius: 8px;
+  -webkit-border-radius: 8px;
+  border: 1px solid black;
+  background: #a90329;
+  background: -moz-linear-gradient(left, #a90329 0%, #8f0222 50%, #6d0019 100%);
+  background: -webkit-gradient(linear, left top, right top, color-stop(0%, #a90329), color-stop(50%, #8f0222), color-stop(100%, #6d0019));
+  background: -webkit-linear-gradient(left, #a90329 0%, #8f0222 50%, #6d0019 100%);
+  background: -o-linear-gradient(left, #a90329 0%, #8f0222 50%, #6d0019 100%);
+  background: -ms-linear-gradient(left, #a90329 0%, #8f0222 50%, #6d0019 100%);
+  background: linear-gradient(to right, #a90329 0%, #8f0222 50%, #6d0019 100%); }
 
 .seqOptin {
   -webkit-appearance: none;
@@ -895,7 +946,6 @@ div.key {
   background-color: rgba(255, 255, 255, 0.2);
   width: 75%;
   display: inline;
-  margin-bottom: 10px;
   border-radius: 3px;
   font-size: 18px;
   color: RGBA(95, 186, 255, 1);
@@ -942,8 +992,18 @@ div.key {
   -ms-user-select: none;
   user-select: none; }
 
-#play-pause {
-  background-color: red; }
+button#play-pause {
+  border: none;
+  margin-left: 35px;
+  color: silver; }
+
+button#play-pause:hover {
+  background-color: darkgrey;
+  color: black; }
+
+button#play-pause:focus {
+  background-color: black;
+  color: silver; }
 
 .control {
   margin: 10px 0; }
@@ -964,10 +1024,19 @@ div.key {
 #tempo-input {
   margin: 0 10px;
   line-height: 30px;
+  border-radius: 3px;
   font-size: 20px;
-  color: black;
+  padding-left: 5px;
+  color: silver;
+  background-color: black;
   width: 60px;
-  vertical-align: middle; }
+  height: 30px;
+  vertical-align: middle;
+  text-align: center;
+  border: 2px solid white; }
+
+.space {
+  margin-left: 20px; }
 
 .tempo-btn {
   margin: 0 5px;
