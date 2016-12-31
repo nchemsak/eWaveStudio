@@ -142,24 +142,9 @@ app.controller('liveInputCtrl', function($scope) {
     audioInput.connect(effectInput);
     dryGain.connect(outputMix);
     wetGain.connect(outputMix);
-
-  //    osc.connect(dest);
-  dryGain.connect(dest);
-  wetGain.connect(dest);
-// nick
-
-
-    // if (recordButton.textContent === 'Start Recording') {
-    //   startRecording();
-    // } else {
-    //   stopRecording();
-    //   recordButton.textContent = 'Start Recording';
-    //   playButton.disabled = false;
-    //   downloadButton.disabled = false;
-    // }
-  console.log("outputMix: ", outputMix);
-
-
+    dryGain.connect(dest);
+    wetGain.connect(dest);
+    console.log("outputMix: ", outputMix);
     outputMix.connect(audioContext.destination);
     $scope.crossfade(1.0);
     $scope.changeEffect();
@@ -453,6 +438,9 @@ app.controller('liveInputCtrl', function($scope) {
   let playButton = document.getElementById('playButton');
   playButton.onclick = play;
 
+  // let pauseButton = document.getElementById('pauseButton');
+  // pauseButton.onclick = stopRecording;
+
   let downloadButton = document.getElementById('downloadButton');
   downloadButton.onclick = download;
 
@@ -504,6 +492,7 @@ app.controller('liveInputCtrl', function($scope) {
       stopRecording();
       recordButton.textContent = 'Start Recording';
       playButton.disabled = false;
+      // pauseButton.disabled = false;
       downloadButton.disabled = false;
     }
   }
@@ -517,6 +506,7 @@ app.controller('liveInputCtrl', function($scope) {
     mediaRecorder = new MediaRecorder(dest.stream);
     recordButton.textContent = 'STOP Recording';
     playButton.disabled = true;
+    // pauseButton.disabled = true;
     downloadButton.disabled = true;
     mediaRecorder.onstop = handleStop;
     mediaRecorder.ondataavailable = handleDataAvailable;
@@ -792,7 +782,7 @@ app.controller('liveInputCtrl', function($scope) {
   //   };
 
 
-// // media Recorder
+  // // media Recorder
 
 
 
@@ -801,162 +791,162 @@ app.controller('liveInputCtrl', function($scope) {
 
 
 
-// /* globals MediaRecorder */
+  // /* globals MediaRecorder */
 
-// // This code is adapted from
-// // https://rawgit.com/Miguelao/demos/master/mediarecorder.html
+  // // This code is adapted from
+  // // https://rawgit.com/Miguelao/demos/master/mediarecorder.html
 
-// var mediaSource = new MediaSource();
-mediaSource.addEventListener('sourceopen', handleSourceOpen, false);
-// var mediaRecorder;
-// var recordedBlobs;
-var sourceBuffer;
+  // var mediaSource = new MediaSource();
+  mediaSource.addEventListener('sourceopen', handleSourceOpen, false);
+  // var mediaRecorder;
+  // var recordedBlobs;
+  var sourceBuffer;
 
-// var gumVideo = document.querySelector('video#gum');
-// var recordedVideo = document.querySelector('video#recorded');
+  // var gumVideo = document.querySelector('video#gum');
+  // var recordedVideo = document.querySelector('video#recorded');
 
-// var recordButton = document.querySelector('button#record');
-// var playButton = document.querySelector('button#play');
-// var downloadButton = document.querySelector('button#download');
-// recordButton.onclick = toggleRecording;
-// playButton.onclick = play;
-// downloadButton.onclick = download;
+  // var recordButton = document.querySelector('button#record');
+  // var playButton = document.querySelector('button#play');
+  // var downloadButton = document.querySelector('button#download');
+  // recordButton.onclick = toggleRecording;
+  // playButton.onclick = play;
+  // downloadButton.onclick = download;
 
-// // window.isSecureContext could be used for Chrome
-// var isSecureOrigin = location.protocol === 'https:' ||
-// location.host === 'localhost';
-// if (!isSecureOrigin) {
-//   alert('getUserMedia() must be run from a secure origin: HTTPS or localhost.' +
-//     '\n\nChanging protocol to HTTPS');
-//   location.protocol = 'HTTPS';
-// }
+  // // window.isSecureContext could be used for Chrome
+  // var isSecureOrigin = location.protocol === 'https:' ||
+  // location.host === 'localhost';
+  // if (!isSecureOrigin) {
+  //   alert('getUserMedia() must be run from a secure origin: HTTPS or localhost.' +
+  //     '\n\nChanging protocol to HTTPS');
+  //   location.protocol = 'HTTPS';
+  // }
 
-// // Use old-style gUM to avoid requirement to enable the
-// // Enable experimental Web Platform features flag in Chrome 49
+  // // Use old-style gUM to avoid requirement to enable the
+  // // Enable experimental Web Platform features flag in Chrome 49
 
-// navigator.getUserMedia = navigator.getUserMedia ||
-//   navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+  // navigator.getUserMedia = navigator.getUserMedia ||
+  //   navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 
-// var constraints = {
-//   audio: false,
-//   video: true
-// };
+  // var constraints = {
+  //   audio: false,
+  //   video: true
+  // };
 
-// navigator.getUserMedia(constraints, successCallback, errorCallback);
+  // navigator.getUserMedia(constraints, successCallback, errorCallback);
 
-// function successCallback(stream) {
-//   console.log('getUserMedia() got stream: ', stream);
-//   window.stream = stream;
-//   if (window.URL) {
-//     gumVideo.src = window.URL.createObjectURL(stream);
-//   } else {
-//     gumVideo.src = stream;
-//   }
-// }
+  // function successCallback(stream) {
+  //   console.log('getUserMedia() got stream: ', stream);
+  //   window.stream = stream;
+  //   if (window.URL) {
+  //     gumVideo.src = window.URL.createObjectURL(stream);
+  //   } else {
+  //     gumVideo.src = stream;
+  //   }
+  // }
 
-// function errorCallback(error) {
-//   console.log('navigator.getUserMedia error: ', error);
-// }
+  // function errorCallback(error) {
+  //   console.log('navigator.getUserMedia error: ', error);
+  // }
 
-// // navigator.mediaDevices.getUserMedia(constraints)
-// // .then(function(stream) {
-// //   console.log('getUserMedia() got stream: ', stream);
-// //   window.stream = stream; // make available to browser console
-// //   if (window.URL) {
-// //     gumVideo.src = window.URL.createObjectURL(stream);
-// //   } else {
-// //     gumVideo.src = stream;
-// //   }
-// // }).catch(function(error) {
-// //   console.log('navigator.getUserMedia error: ', error);
-// // });
+  // // navigator.mediaDevices.getUserMedia(constraints)
+  // // .then(function(stream) {
+  // //   console.log('getUserMedia() got stream: ', stream);
+  // //   window.stream = stream; // make available to browser console
+  // //   if (window.URL) {
+  // //     gumVideo.src = window.URL.createObjectURL(stream);
+  // //   } else {
+  // //     gumVideo.src = stream;
+  // //   }
+  // // }).catch(function(error) {
+  // //   console.log('navigator.getUserMedia error: ', error);
+  // // });
 
-function handleSourceOpen(event) {
-  console.log('MediaSource opened');
-  sourceBuffer = mediaSource.addSourceBuffer('audio/mp3');
-  console.log('Source buffer: ', sourceBuffer);
-}
+  function handleSourceOpen(event) {
+    console.log('MediaSource opened');
+    sourceBuffer = mediaSource.addSourceBuffer('audio/mp3');
+    console.log('Source buffer: ', sourceBuffer);
+  }
 
-// function handleDataAvailable(event) {
-//   if (event.data && event.data.size > 0) {
-//     recordedBlobs.push(event.data);
-//   }
-// }
+  // function handleDataAvailable(event) {
+  //   if (event.data && event.data.size > 0) {
+  //     recordedBlobs.push(event.data);
+  //   }
+  // }
 
-// function handleStop(event) {
-//   console.log('Recorder stopped: ', event);
-// }
+  // function handleStop(event) {
+  //   console.log('Recorder stopped: ', event);
+  // }
 
-// function toggleRecording() {
-//   if (recordButton.textContent === 'Start Recording') {
-//     startRecording();
-//   } else {
-//     stopRecording();
-//     recordButton.textContent = 'Start Recording';
-//     playButton.disabled = false;
-//     downloadButton.disabled = false;
-//   }
-// }
+  // function toggleRecording() {
+  //   if (recordButton.textContent === 'Start Recording') {
+  //     startRecording();
+  //   } else {
+  //     stopRecording();
+  //     recordButton.textContent = 'Start Recording';
+  //     playButton.disabled = false;
+  //     downloadButton.disabled = false;
+  //   }
+  // }
 
-// // The nested try blocks will be simplified when Chrome 47 moves to Stable
-// function startRecording() {
-  var options = {mimeType: 'audio/mp3'};
-//   recordedBlobs = [];
-//   try {
-//     mediaRecorder = new MediaRecorder(window.stream, options);
-//   } catch (e0) {
-//     console.log('Unable to create MediaRecorder with options Object: ', e0);
-//     try {
-//       options = {mimeType: 'audio/mp3'};
-//       mediaRecorder = new MediaRecorder(window.stream, options);
-//     } catch (e1) {
-//       console.log('Unable to create MediaRecorder with options Object: ', e1);
-//       try {
-//         options = 'audio/mp3'; // Chrome 47
-//         mediaRecorder = new MediaRecorder(window.stream, options);
-//       } catch (e2) {
-//         alert('MediaRecorder is not supported by this browser.\n\n' +
-//             'Try Firefox 29 or later, or Chrome 47 or later, with Enable experimental Web Platform features enabled from chrome://flags.');
-//         console.error('Exception while creating MediaRecorder:', e2);
-//         return;
-//       }
-//     }
-//   }
-//   console.log('Created MediaRecorder', mediaRecorder, 'with options', options);
-//   recordButton.textContent = 'Stop Recording';
-//   playButton.disabled = true;
-//   downloadButton.disabled = true;
-//   mediaRecorder.onstop = handleStop;
-//   mediaRecorder.ondataavailable = handleDataAvailable;
-//   mediaRecorder.start(10); // collect 10ms of data
-//   console.log('MediaRecorder started', mediaRecorder);
-// }
+  // // The nested try blocks will be simplified when Chrome 47 moves to Stable
+  // function startRecording() {
+  var options = { mimeType: 'audio/mp3' };
+  //   recordedBlobs = [];
+  //   try {
+  //     mediaRecorder = new MediaRecorder(window.stream, options);
+  //   } catch (e0) {
+  //     console.log('Unable to create MediaRecorder with options Object: ', e0);
+  //     try {
+  //       options = {mimeType: 'audio/mp3'};
+  //       mediaRecorder = new MediaRecorder(window.stream, options);
+  //     } catch (e1) {
+  //       console.log('Unable to create MediaRecorder with options Object: ', e1);
+  //       try {
+  //         options = 'audio/mp3'; // Chrome 47
+  //         mediaRecorder = new MediaRecorder(window.stream, options);
+  //       } catch (e2) {
+  //         alert('MediaRecorder is not supported by this browser.\n\n' +
+  //             'Try Firefox 29 or later, or Chrome 47 or later, with Enable experimental Web Platform features enabled from chrome://flags.');
+  //         console.error('Exception while creating MediaRecorder:', e2);
+  //         return;
+  //       }
+  //     }
+  //   }
+  //   console.log('Created MediaRecorder', mediaRecorder, 'with options', options);
+  //   recordButton.textContent = 'Stop Recording';
+  //   playButton.disabled = true;
+  //   downloadButton.disabled = true;
+  //   mediaRecorder.onstop = handleStop;
+  //   mediaRecorder.ondataavailable = handleDataAvailable;
+  //   mediaRecorder.start(10); // collect 10ms of data
+  //   console.log('MediaRecorder started', mediaRecorder);
+  // }
 
-// function stopRecording() {
-//   mediaRecorder.stop();
-//   console.log('Recorded Blobs: ', recordedBlobs);
-//   recordedVideo.controls = true;
-// }
+  // function stopRecording() {
+  //   mediaRecorder.stop();
+  //   console.log('Recorded Blobs: ', recordedBlobs);
+  //   recordedVideo.controls = true;
+  // }
 
-// function play() {
-//   var superBuffer = new Blob(recordedBlobs, {type: 'audio/mp3'});
-//   recordedVideo.src = window.URL.createObjectURL(superBuffer);
-// }
+  // function play() {
+  //   var superBuffer = new Blob(recordedBlobs, {type: 'audio/mp3'});
+  //   recordedVideo.src = window.URL.createObjectURL(superBuffer);
+  // }
 
-// function download() {
-//   var blob = new Blob(recordedBlobs, {type: 'audio/mp3'});
-//   var url = window.URL.createObjectURL(blob);
-//   var a = document.createElement('a');
-//   a.style.display = 'none';
-//   a.href = url;
-//   a.download = 'test.mp3';
-//   document.body.appendChild(a);
-//   a.click();
-//   setTimeout(function() {
-//     document.body.removeChild(a);
-//     window.URL.revokeObjectURL(url);
-//   }, 100);
-// }
+  // function download() {
+  //   var blob = new Blob(recordedBlobs, {type: 'audio/mp3'});
+  //   var url = window.URL.createObjectURL(blob);
+  //   var a = document.createElement('a');
+  //   a.style.display = 'none';
+  //   a.href = url;
+  //   a.download = 'test.mp3';
+  //   document.body.appendChild(a);
+  //   a.click();
+  //   setTimeout(function() {
+  //     document.body.removeChild(a);
+  //     window.URL.revokeObjectURL(url);
+  //   }, 100);
+  // }
 
 
 

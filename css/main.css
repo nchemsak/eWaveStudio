@@ -308,7 +308,7 @@ p.borderBelow {
   padding: 0 0 20px 0; }
 
 video {
-  height: 232px;
+  height: 0px;
   margin: 0 12px 20px 0;
   vertical-align: top;
   width: calc(20em - 10px); }
@@ -787,6 +787,14 @@ input[type=range] {
 /****************************************************************************
                              SEQUENCER
  ****************************************************************************/
+input {
+  color: blue;
+  width: 30px; }
+
+input#audio_file {
+  color: red;
+  background-color: purple; }
+
 .arpPos {
   position: fixed;
   top: 250px;
@@ -1250,10 +1258,6 @@ img #record.recording {
 
 .fa-circle {
   color: darkred; }
-
-#wavedisplay {
-  width: 400px;
-  height: 100px; }
 
 .fa-play {
   color: darkgreen; }
