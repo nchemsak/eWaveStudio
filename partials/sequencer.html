@@ -1,7 +1,8 @@
 <!-- <h2>{{title}}</h2> -->
 <div class="container">
   <div class="col-md-6">
-    <div class="optin7">VOLUME<br>
+    <div class="optin7">VOLUME
+      <br>
       <input type='range' min='0' max='1' step='0.01' value='0.75' id='seqVolume' class="seqOptin">
       <button id="play-pause" type="button" class="btn btn-default btn- noselect">Play/Pause
         <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
@@ -374,7 +375,7 @@
     </div>
     <br>
     <!-- *********************************************************************
-                            TOMS AND OTHERS
+                            TOMS
 **************************************************************************-->
     <div class="tomDiv optin7">TOMS
       <div class="row" data-instrument="808-tom-01">
@@ -437,11 +438,13 @@
     </div>
     <br>
     <!-- *********************************************************************
-                            TOMS AND OTHERS
+                            LOOPS AND OTHERS
 **************************************************************************-->
-    <div class="tomDiv optin7">TOMS
+    <div class="tomDiv optin7">OTHERS
       <div class="row" data-instrument="808-tom-01">
-        <span class="instrument-label"><strong>808</strong></span>
+
+        <span class="instrument-label"><strong> <input id="audio_file" type="file" accept="audio/*" />
+        <audio id="audio_player"></audio></strong></span>
         <div class="pad column_0 dark"></div>
         <div class="pad column_1 dark"></div>
         <div class="pad column_2 dark"></div>
@@ -520,7 +523,7 @@
   </div>
 </div>
 <!-- live recording -->
-<div id="container">
+<!-- <div id="container">
   <video id="live" autoplay muted></video>
   <video id="recorded" autoplay loop></video>
   <div>
@@ -528,10 +531,10 @@
     <button id="playButton" class="btn waves-effect waves-red" disabled>Play</button>
     <button id="downloadButton" class="btn waves-effect waves-red" disabled>Download</button>
   </div>
-</div>
+</div> -->
 <!-- upload file -->
-<input id="audio_file" type="file" accept="audio/*" />
-<audio id="audio_player"></audio>
+<!-- <input id="audio_file" type="file" accept="audio/*" />
+<audio id="audio_player"></audio> -->
 <!--**************************************************************
   **************************************************************
                        PIANO arpeggiator

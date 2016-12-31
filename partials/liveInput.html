@@ -90,29 +90,36 @@
     </div>
     <!-- <input class="optin2" type="password" placeholder="password" ng-model="account.password"> -->
     </form>
-    <div class="centeredbuttons">
-    </div>
+    <!--  <div class="centeredbuttons">
+    </div> -->
     <h3 id="footer">
     <i class="fa fa-play fa-lg"></i>
     <i class="fa fa-circle fa-lg" onclick="toggleRecording(this);"> </i>
     <i class="fa fa-save fa-lg"></i>
     <i id="save" class="fa fa-download fa-lg" aria-hidden="true"></i>
-<!--     <a href="https://github.com/nchemsak/eWaveStudio" id="terms" class="fa fa-code-fork fa-lg" target="_blank"></a>
-      <a href="https://www.ephemeralwave.com" class="fa fa-paint-brush fa-lg" target="_blank"></a></h3> -->
+    <div class="optin6">
+  <button id="recordButton" class="btn waves-effect waves-red" disabled>Start Recording</button>
+  <button id="playButton" class="btn waves-effect waves-red" disabled>Play</button>
+  <!-- <button id="pauseButton" class="btn waves-effect waves-red" disabled>Pause</button> -->
+  <button id="downloadButton" class="btn waves-effect waves-red" disabled>Download</button>
+</div>
+    </h3>
+
   </div>
 </div>
 <!-- canvas for audio recording -->
+<!-- <div id="container"> -->
+<!-- <video id="live" autoplay muted></video> -->
+<br>
+<video id="recorded" autoplay loop></video>
+<!-- <div class="optin7">
+  <button id="recordButton" class="btn waves-effect waves-red" disabled>Start Recording</button>
+  <button id="playButton" class="btn waves-effect waves-red" disabled>Play</button>
+  <button id="pauseButton" class="btn waves-effect waves-red" disabled>Pause</button>
+  <button id="downloadButton" class="btn waves-effect waves-red" disabled>Download</button>
+</div> -->
+
 <div id="viz">
   <canvas id="wavedisplay" width="300" height="100"></canvas>
 </div>
-<div id="container">
-  <video id="live" autoplay muted></video>
-  <video id="recorded" autoplay loop></video>
-  <div>
-    <button id="recordButton" class="btn waves-effect waves-red" disabled>Start Recording</button>
-    <button id="playButton" class="btn waves-effect waves-red" disabled>Play</button>
-    <button id="downloadButton" class="btn waves-effect waves-red" disabled>Download</button>
-  </div>
 </div>
-</div>
-
