@@ -1,13 +1,13 @@
 'use strict';
 
 
-$(document).ready(function(e) {
-  try {
-    $("body select").msDropDown();
-  } catch (e) {
-    window.alert(e.message);
-  }
-});
+// $(document).ready(function(e) {
+//   try {
+//     $("body select").msDropDown();
+//   } catch (e) {
+//     window.alert(e.message);
+//   }
+// });
 
 
 app.controller('liveInputCtrl', function($scope) {
@@ -77,24 +77,26 @@ app.controller('liveInputCtrl', function($scope) {
   let sflrdepth = null;
   let sfllfb = null;
   let sflrfb = null;
+  var dest = audioContext.createMediaStreamDestination();
+  console.log("dest: ", dest);
+
+  // var mediaRecorder = new MediaRecorder(dest.stream);
+
 
   let constraints = {
     audio: {
       optional: [{
         echoCancellation: false
       }]
-
     }
   };
 
   MediaStreamTrack.getSources(gotSources);
-  // document.getElementById("effect").onchange = $scope.changeEffect;
 
   /*****************************************************************
   //        CONVERT TO MONO
   *****************************************************************/
   $scope.convertToMono = function(input) {
-    // function convertToMono(input) {
     var splitter = audioContext.createChannelSplitter(2);
     var merger = audioContext.createChannelMerger(2);
 
@@ -108,7 +110,6 @@ app.controller('liveInputCtrl', function($scope) {
   // feedback protection
   *****************************************************************/
   $scope.createLPInputFilter = function(input) {
-    // function createLPInputFilter() {
     lpInputFilter = audioContext.createBiquadFilter();
     lpInputFilter.frequency.value = 2048;
     return lpInputFilter;
@@ -119,7 +120,6 @@ app.controller('liveInputCtrl', function($scope) {
   // gotStream function
   *****************************************************************/
   $scope.gotStream = function(stream) {
-    // function gotStream(stream) {
     // Create an AudioNode from the stream.
     realAudioInput = audioContext.createMediaStreamSource(stream);
     let input = audioContext.createMediaStreamSource(stream);
@@ -142,6 +142,24 @@ app.controller('liveInputCtrl', function($scope) {
     audioInput.connect(effectInput);
     dryGain.connect(outputMix);
     wetGain.connect(outputMix);
+
+  //    osc.connect(dest);
+  dryGain.connect(dest);
+  wetGain.connect(dest);
+// nick
+
+
+    // if (recordButton.textContent === 'Start Recording') {
+    //   startRecording();
+    // } else {
+    //   stopRecording();
+    //   recordButton.textContent = 'Start Recording';
+    //   playButton.disabled = false;
+    //   downloadButton.disabled = false;
+    // }
+  console.log("outputMix: ", outputMix);
+
+
     outputMix.connect(audioContext.destination);
     $scope.crossfade(1.0);
     $scope.changeEffect();
@@ -151,7 +169,6 @@ app.controller('liveInputCtrl', function($scope) {
   // This selects the items from the dropdown  GET USER MEDIA API
   *****************************************************************/
   $scope.changeInput = function() {
-    // let audioSelect = document.getElementById("audioinput");
     var audioSource = $scope.dropdown.index;
 
     constraints.audio.optional.push({ sourceId: audioSource });
@@ -202,7 +219,6 @@ app.controller('liveInputCtrl', function($scope) {
   // Handles changing effects with a switch statement
   *****************************************************************/
   $scope.changeEffect = function() {
-    // function changeEffect() {
     dtime = null;
     dregen = null;
     fldelay = null;
@@ -233,8 +249,6 @@ app.controller('liveInputCtrl', function($scope) {
     if (effectInput)
       effectInput.disconnect();
 
-    // let audioSource = $scope.dropdown.index;
-
     var effect = document.getElementById("effect").selectedIndex;
     var effect2 = $scope.dropdown2.index;
 
@@ -251,31 +265,22 @@ app.controller('liveInputCtrl', function($scope) {
     switch (effect) {
       case 0: // Delay
         currentEffectNode = $scope.createdDelay();
-        // console.log("currentEffectNode: ", currentEffectNode);
         break;
-        // case 1: // mod delay
-        // currentEffectNode = $scope.createModDelay();
-        // console.log("currentEffectNode: ", currentEffectNode);
-        // break;
       case 1: // lfo
         currentEffectNode = $scope.lfo();
-        // console.log("currentEffectNode: ", currentEffectNode);
         break;
       case 2: // Flanger
         currentEffectNode = $scope.flanger();
-
-        // console.log("currentEffectNode: ", currentEffectNode);
         break;
       case 3: //Telephone EQ
         currentEffectNode = $scope.telephoneEQ();
         break;
-      case 4: // AutoWah
-        currentEffectNode = $scope.createAutowah();
-        break;
-      case 5: // Flanger2
+        // case 4: // AutoWah
+        // currentEffectNode = $scope.createAutowah();
+        // break;
+        // case 5: // Flanger2
         // currentEffectNode = $scope.createFlange();
-
-        break;
+        // break;
       default:
         break;
     }
@@ -287,11 +292,9 @@ app.controller('liveInputCtrl', function($scope) {
   //                    EFFECT FUNCTIONS
   *****************************************************************/
   $scope.createdDelay = function() {
-
     var delayNode = audioContext.createDelay();
     delayNode.delayTime.value = parseFloat($scope.slider2.value);
     dtime = delayNode;
-
     var gainNode = audioContext.createGain();
     gainNode.gain.value = parseFloat($scope.slider3.value);
     dregen = gainNode;
@@ -301,11 +304,9 @@ app.controller('liveInputCtrl', function($scope) {
     delayNode.connect(gainNode);
     delayNode.connect(wetGain);
     return delayNode;
-
   };
 
   $scope.createAutowah = function() {
-    // function createAutowah() {
     var inputNode = audioContext.createGain();
     var waveshaper = audioContext.createWaveShaper();
     awFollower = audioContext.createBiquadFilter();
@@ -335,7 +336,6 @@ app.controller('liveInputCtrl', function($scope) {
   };
 
   $scope.lfo = function() {
-    // function lfo() {
     var osc = audioContext.createOscillator();
     var gain = audioContext.createGain();
     var depth = audioContext.createGain();
@@ -384,8 +384,6 @@ app.controller('liveInputCtrl', function($scope) {
 
 
   $scope.flanger = function() {
-
-    // function flanger() {
     var splitter = audioContext.createChannelSplitter(2);
     var merger = audioContext.createChannelMerger(2);
     var inputNode = audioContext.createGain();
@@ -443,7 +441,6 @@ app.controller('liveInputCtrl', function($scope) {
                               VARIABLES
   /******************************************************************************/
   let mediaSource = new MediaSource();
-  // mediaSource.addEventListener('sourceopen', false);
   let mediaRecorder;
   let blobs;
   let liveVideo = document.getElementById('live');
@@ -462,7 +459,7 @@ app.controller('liveInputCtrl', function($scope) {
   // Indicate whether to record audio and/or video
   let audioVideo = {
     audio: true,
-    // video: true
+    video: false
   };
   /*******************************************************************************
                                  LIVE STREAM
@@ -517,7 +514,7 @@ app.controller('liveInputCtrl', function($scope) {
 
   function startRecording() {
     blobs = [];
-    mediaRecorder = new MediaRecorder(window.stream);
+    mediaRecorder = new MediaRecorder(dest.stream);
     recordButton.textContent = 'STOP Recording';
     playButton.disabled = true;
     downloadButton.disabled = true;
@@ -793,4 +790,182 @@ app.controller('liveInputCtrl', function($scope) {
 
   //     this.osc.stop(time + 0.5);
   //   };
+
+
+// // media Recorder
+
+
+
+
+
+
+
+
+// /* globals MediaRecorder */
+
+// // This code is adapted from
+// // https://rawgit.com/Miguelao/demos/master/mediarecorder.html
+
+// var mediaSource = new MediaSource();
+mediaSource.addEventListener('sourceopen', handleSourceOpen, false);
+// var mediaRecorder;
+// var recordedBlobs;
+var sourceBuffer;
+
+// var gumVideo = document.querySelector('video#gum');
+// var recordedVideo = document.querySelector('video#recorded');
+
+// var recordButton = document.querySelector('button#record');
+// var playButton = document.querySelector('button#play');
+// var downloadButton = document.querySelector('button#download');
+// recordButton.onclick = toggleRecording;
+// playButton.onclick = play;
+// downloadButton.onclick = download;
+
+// // window.isSecureContext could be used for Chrome
+// var isSecureOrigin = location.protocol === 'https:' ||
+// location.host === 'localhost';
+// if (!isSecureOrigin) {
+//   alert('getUserMedia() must be run from a secure origin: HTTPS or localhost.' +
+//     '\n\nChanging protocol to HTTPS');
+//   location.protocol = 'HTTPS';
+// }
+
+// // Use old-style gUM to avoid requirement to enable the
+// // Enable experimental Web Platform features flag in Chrome 49
+
+// navigator.getUserMedia = navigator.getUserMedia ||
+//   navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+
+// var constraints = {
+//   audio: false,
+//   video: true
+// };
+
+// navigator.getUserMedia(constraints, successCallback, errorCallback);
+
+// function successCallback(stream) {
+//   console.log('getUserMedia() got stream: ', stream);
+//   window.stream = stream;
+//   if (window.URL) {
+//     gumVideo.src = window.URL.createObjectURL(stream);
+//   } else {
+//     gumVideo.src = stream;
+//   }
+// }
+
+// function errorCallback(error) {
+//   console.log('navigator.getUserMedia error: ', error);
+// }
+
+// // navigator.mediaDevices.getUserMedia(constraints)
+// // .then(function(stream) {
+// //   console.log('getUserMedia() got stream: ', stream);
+// //   window.stream = stream; // make available to browser console
+// //   if (window.URL) {
+// //     gumVideo.src = window.URL.createObjectURL(stream);
+// //   } else {
+// //     gumVideo.src = stream;
+// //   }
+// // }).catch(function(error) {
+// //   console.log('navigator.getUserMedia error: ', error);
+// // });
+
+function handleSourceOpen(event) {
+  console.log('MediaSource opened');
+  sourceBuffer = mediaSource.addSourceBuffer('audio/mp3');
+  console.log('Source buffer: ', sourceBuffer);
+}
+
+// function handleDataAvailable(event) {
+//   if (event.data && event.data.size > 0) {
+//     recordedBlobs.push(event.data);
+//   }
+// }
+
+// function handleStop(event) {
+//   console.log('Recorder stopped: ', event);
+// }
+
+// function toggleRecording() {
+//   if (recordButton.textContent === 'Start Recording') {
+//     startRecording();
+//   } else {
+//     stopRecording();
+//     recordButton.textContent = 'Start Recording';
+//     playButton.disabled = false;
+//     downloadButton.disabled = false;
+//   }
+// }
+
+// // The nested try blocks will be simplified when Chrome 47 moves to Stable
+// function startRecording() {
+  var options = {mimeType: 'audio/mp3'};
+//   recordedBlobs = [];
+//   try {
+//     mediaRecorder = new MediaRecorder(window.stream, options);
+//   } catch (e0) {
+//     console.log('Unable to create MediaRecorder with options Object: ', e0);
+//     try {
+//       options = {mimeType: 'audio/mp3'};
+//       mediaRecorder = new MediaRecorder(window.stream, options);
+//     } catch (e1) {
+//       console.log('Unable to create MediaRecorder with options Object: ', e1);
+//       try {
+//         options = 'audio/mp3'; // Chrome 47
+//         mediaRecorder = new MediaRecorder(window.stream, options);
+//       } catch (e2) {
+//         alert('MediaRecorder is not supported by this browser.\n\n' +
+//             'Try Firefox 29 or later, or Chrome 47 or later, with Enable experimental Web Platform features enabled from chrome://flags.');
+//         console.error('Exception while creating MediaRecorder:', e2);
+//         return;
+//       }
+//     }
+//   }
+//   console.log('Created MediaRecorder', mediaRecorder, 'with options', options);
+//   recordButton.textContent = 'Stop Recording';
+//   playButton.disabled = true;
+//   downloadButton.disabled = true;
+//   mediaRecorder.onstop = handleStop;
+//   mediaRecorder.ondataavailable = handleDataAvailable;
+//   mediaRecorder.start(10); // collect 10ms of data
+//   console.log('MediaRecorder started', mediaRecorder);
+// }
+
+// function stopRecording() {
+//   mediaRecorder.stop();
+//   console.log('Recorded Blobs: ', recordedBlobs);
+//   recordedVideo.controls = true;
+// }
+
+// function play() {
+//   var superBuffer = new Blob(recordedBlobs, {type: 'audio/mp3'});
+//   recordedVideo.src = window.URL.createObjectURL(superBuffer);
+// }
+
+// function download() {
+//   var blob = new Blob(recordedBlobs, {type: 'audio/mp3'});
+//   var url = window.URL.createObjectURL(blob);
+//   var a = document.createElement('a');
+//   a.style.display = 'none';
+//   a.href = url;
+//   a.download = 'test.mp3';
+//   document.body.appendChild(a);
+//   a.click();
+//   setTimeout(function() {
+//     document.body.removeChild(a);
+//     window.URL.revokeObjectURL(url);
+//   }, 100);
+// }
+
+
+
+
+
+
+
+
+
+
+
 });
