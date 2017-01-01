@@ -573,6 +573,38 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
     });
   };
 
+
+  var selectedFile;
+
+
+  $("#audio_file").click(function(event) {
+    $scope.selectedFile = event.target.files[0];
+    console.log("$scope.selectedFile: ", $scope.selectedFile);
+  });
+
+  $scope.uploadFile = function() {
+    // $scope.selectedFile = event.target.files[0];
+    $scope.selectedFile = { value: '' };
+console.log("selectedFile: ", selectedFile);
+    // Create a root reference
+    console.log("you clicked to upload: ");
+    var filename = $scope.selectedFile.name;
+    var storageRef = firebase.storage().ref('/soundFiles/' + filename);
+    var uploadTask = storageRef.put($scope.selectedFile);
+    uploadTask.on('state_changed', function(snapshot) {
+
+    }, function(error) {
+
+    }, function() {
+      var downloadURL = uploadTask.snapshot.downloadURL;
+      console.log("downloadURL: ", downloadURL);
+    });
+
+  };
+
+
+
+
   // /*******************************************************************************
   //                             MEDIA RECORDER
   // /******************************************************************************/

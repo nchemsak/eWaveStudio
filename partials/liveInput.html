@@ -76,7 +76,7 @@
           <input id="awQ" type="range" min="0.0" max="20.0" step="0.1" value="5.0" onInput="if (awFilter) awFilter.Q.value = event.target.value;">
         </div>
         <!-- flanger -->
-        <div id="flangeControls">
+<!--         <div id="flangeControls">
           <br> Flanger speed:
           <input id="flspeed" type="range" min="0.05" max="1" step="0.05" ng-model="flangeSlider1.value" ng-change="changeEffect();">
           <br> Flanger delay:
@@ -85,7 +85,7 @@
           <input id="fldepth" type="range" min="0.0005" max="0.005" step="0.00025" ng-model="flangeSlider3.value" ng-change="changeEffect();">
           <br> Flanger feedback:
           <input id="flfb" type="range" min="0" max="1" step="0.01" ng-model="flangeSlider4.value" ng-change="changeEffect();">
-        </div>
+        </div> -->
       </div>
     </div>
     <!-- <input class="optin2" type="password" placeholder="password" ng-model="account.password"> -->
@@ -97,15 +97,15 @@
     <i class="fa fa-circle fa-lg" onclick="toggleRecording(this);"> </i>
     <i class="fa fa-save fa-lg"></i>
     <i id="save" class="fa fa-download fa-lg" aria-hidden="true"></i>
-    <div class="optin6">
-  <button id="recordButton" class="btn waves-effect waves-red" disabled>Start Recording</button>
-  <button id="playButton" class="btn waves-effect waves-red" disabled>Play</button>
-  <!-- <button id="pauseButton" class="btn waves-effect waves-red" disabled>Pause</button> -->
-  <button id="downloadButton" class="btn waves-effect waves-red" disabled>Download</button>
-</div>
-    </h3>
 
+    </h3>
   </div>
+</div>
+<div class="optin6">
+  <button id="recordButton" class="btn" disabled>RECORD LOOP</button>
+  <button id="playButton" class="btn" disabled>Play</button>
+  <button id="pauseButton" class="btn" disabled>Pause</button>
+  <button id="downloadButton" class="btn" disabled>Download</button>
 </div>
 <!-- canvas for audio recording -->
 <!-- <div id="container"> -->
@@ -118,7 +118,6 @@
   <button id="pauseButton" class="btn waves-effect waves-red" disabled>Pause</button>
   <button id="downloadButton" class="btn waves-effect waves-red" disabled>Download</button>
 </div> -->
-
 <div id="viz">
   <canvas id="wavedisplay" width="300" height="100"></canvas>
 </div>
