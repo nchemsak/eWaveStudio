@@ -787,10 +787,6 @@ input[type=range] {
 /****************************************************************************
                              SEQUENCER
  ****************************************************************************/
-input {
-  color: blue;
-  width: 30px; }
-
 input#audio_file {
   color: red;
   background-color: purple; }

@@ -1,17 +1,6 @@
 'use strict';
 
-
-// $(document).ready(function(e) {
-//   try {
-//     $("body select").msDropDown();
-//   } catch (e) {
-//     window.alert(e.message);
-//   }
-// });
-
-
 app.controller('liveInputCtrl', function($scope) {
-  // $('.row').toggleClass('animated slideInLeft');
   $scope.title = "Live Input";
   $scope.Math = window.Math;
   $scope.dropdown = { value: '' };
@@ -23,10 +12,10 @@ app.controller('liveInputCtrl', function($scope) {
   $scope.slider2 = { value: 0.5 };
   $scope.slider3 = { value: 0.5 };
   // FLANGER CONTROLS
-  $scope.flangeSlider1 = { value: 0.25 };
-  $scope.flangeSlider2 = { value: 0.005 };
-  $scope.flangeSlider3 = { value: 0.002 };
-  $scope.flangeSlider4 = { value: 0.5 };
+  // $scope.flangeSlider1 = { value: 0.25 };
+  // $scope.flangeSlider2 = { value: 0.005 };
+  // $scope.flangeSlider3 = { value: 0.002 };
+  // $scope.flangeSlider4 = { value: 0.5 };
   // LFO CONTROLS
   $scope.lfoDropdown = { value: 'sine' };
   $scope.lfoSlider1 = { value: 3.0 };
@@ -42,46 +31,43 @@ app.controller('liveInputCtrl', function($scope) {
   // $scope.check = { value: 'checked' };
 
   window.AudioContext = window.AudioContext || window.webkitAudioContext;
-  let audioContext = new AudioContext();
-  let audioInput = null;
-  let realAudioInput = null;
-  let useFeedbackReduction = true;
-  let lpInputFilter = null;
-  let outputMix = null;
-  let dryGain = null;
-  let wetGain = null;
-  let effectInput = null;
-  let currentEffectNode = null;
-  let dtime = null;
-  let dregen = null;
-  let reverbBuffer = null;
-  let fldelay = null;
-  let flspeed = null;
-  let fldepth = null;
-  let flfb = null;
-  let mddelay = null;
-  let mddepth = null;
-  let mdspeed = null;
-  let mdtime = null;
-  let mdfeedback = null;
-  let awFollower = null;
-  let awDepth = null;
-  let awFilter = null;
-  let lfo = null;
-  let lfotype = null;
-  let lfodepth = null;
-  let sflldelay = null;
-  let sflrdelay = null;
-  let sflspeed = null;
-  let sflldepth = null;
-  let sflrdepth = null;
-  let sfllfb = null;
-  let sflrfb = null;
-  var dest = audioContext.createMediaStreamDestination();
+  let audioContext = new AudioContext(),
+    audioInput = null,
+    realAudioInput = null,
+    useFeedbackReduction = true,
+    lpInputFilter = null,
+    outputMix = null,
+    dryGain = null,
+    wetGain = null,
+    effectInput = null,
+    currentEffectNode = null,
+    dtime = null,
+    dregen = null,
+    reverbBuffer = null,
+    // fldelay = null,
+    // flspeed = null,
+    // fldepth = null,
+    // flfb = null,
+    mddelay = null,
+    mddepth = null,
+    mdspeed = null,
+    mdtime = null,
+    mdfeedback = null,
+    awFollower = null,
+    awDepth = null,
+    awFilter = null,
+    lfo = null,
+    lfotype = null,
+    lfodepth = null,
+    sflldelay = null,
+    sflrdelay = null,
+    sflspeed = null,
+    sflldepth = null,
+    sflrdepth = null,
+    sfllfb = null,
+    sflrfb = null,
+    dest = audioContext.createMediaStreamDestination();
   console.log("dest: ", dest);
-
-  // var mediaRecorder = new MediaRecorder(dest.stream);
-
 
   let constraints = {
     audio: {
@@ -92,13 +78,15 @@ app.controller('liveInputCtrl', function($scope) {
   };
 
   MediaStreamTrack.getSources(gotSources);
+  // sample rate is the number of samples per second
+  console.log("sample rate:", audioContext.sampleRate);
 
   /*****************************************************************
   //        CONVERT TO MONO
   *****************************************************************/
   $scope.convertToMono = function(input) {
-    var splitter = audioContext.createChannelSplitter(2);
-    var merger = audioContext.createChannelMerger(2);
+    let splitter = audioContext.createChannelSplitter(2);
+    let merger = audioContext.createChannelMerger(2);
 
     input.connect(splitter);
     splitter.connect(merger, 0, 0);
@@ -109,11 +97,12 @@ app.controller('liveInputCtrl', function($scope) {
   /*****************************************************************
   // feedback protection
   *****************************************************************/
-  $scope.createLPInputFilter = function(input) {
-    lpInputFilter = audioContext.createBiquadFilter();
-    lpInputFilter.frequency.value = 2048;
-    return lpInputFilter;
-  };
+  // $scope.createLPInputFilter = function(input) {
+  //   lpInputFilter = audioContext.createBiquadFilter();
+  //   lpInputFilter.frequency.value = 2048;
+  //   console.log("hi feedback protection: ");
+  //   return lpInputFilter;
+  // };
 
 
   /*****************************************************************
@@ -123,14 +112,13 @@ app.controller('liveInputCtrl', function($scope) {
     // Create an AudioNode from the stream.
     realAudioInput = audioContext.createMediaStreamSource(stream);
     let input = audioContext.createMediaStreamSource(stream);
-
     audioInput = $scope.convertToMono(input);
 
-    if (useFeedbackReduction) {
-      audioInput.connect($scope.createLPInputFilter());
-      audioInput = lpInputFilter;
+    // if (useFeedbackReduction) {
+    //   audioInput.connect($scope.createLPInputFilter());
+    //   audioInput = lpInputFilter;
 
-    }
+    // }
     /*****************************************************************
     // Gain Mix Modes
     *****************************************************************/
@@ -144,18 +132,17 @@ app.controller('liveInputCtrl', function($scope) {
     wetGain.connect(outputMix);
     dryGain.connect(dest);
     wetGain.connect(dest);
-    console.log("outputMix: ", outputMix);
+    // console.log("outputMix: ", outputMix);
     outputMix.connect(audioContext.destination);
     $scope.crossfade(1.0);
     $scope.changeEffect();
   };
 
   /*****************************************************************
-  // This selects the items from the dropdown  GET USER MEDIA API
+     This selects the items from the dropdown  GET USER MEDIA API
   *****************************************************************/
   $scope.changeInput = function() {
-    var audioSource = $scope.dropdown.index;
-
+    let audioSource = $scope.dropdown.index;
     constraints.audio.optional.push({ sourceId: audioSource });
     navigator.getUserMedia(constraints, $scope.gotStream, function(e) {
       console.log(e);
@@ -163,20 +150,15 @@ app.controller('liveInputCtrl', function($scope) {
   };
 
   /*****************************************************************
-  // This produces the drop down list of inputs
+         Produce the drop down list of inputs
   *****************************************************************/
 
   function gotSources(sourceInfos) {
-    var audioSelect = document.getElementById("audioinput");
-
-    //add this back in to have "default" as the first selected option
-    // while (audioSelect.firstChild)
-    //   audioSelect.removeChild(audioSelect.firstChild);
-
-    for (var i = 0; i != sourceInfos.length; ++i) {
-      var sourceInfo = sourceInfos[i];
+    let audioSelect = document.getElementById("audioinput");
+    for (let i = 0; i != sourceInfos.length; ++i) {
+      let sourceInfo = sourceInfos[i];
       if (sourceInfo.kind === 'audio') {
-        var option = document.createElement("option");
+        let option = document.createElement("option");
         option.value = sourceInfo.id;
         option.text = sourceInfo.label;
         audioSelect.appendChild(option);
@@ -185,11 +167,9 @@ app.controller('liveInputCtrl', function($scope) {
     audioSelect.onchange = $scope.changeInput;
   }
 
-
-
   /*****************************************************************
-  // CROSSFADE is responsible for changing the amount of the effect relative
-  to volume (dry gain and wet gain)
+        CROSSFADE changes the amount of the effect relative
+        to volume (dry gain and wet gain)
   *****************************************************************/
   $scope.crossfade = function() {
     let gain1 = Math.cos($scope.slider.value * 0.5 * Math.PI);
@@ -197,19 +177,19 @@ app.controller('liveInputCtrl', function($scope) {
     let gain2 = Math.cos((1.0 - $scope.slider.value) * 0.5 * Math.PI);
     wetGain.gain.value = gain2;
   };
-  var lastEffect = -1;
+  let lastEffect = -1;
 
 
   /*****************************************************************
-  // Handles changing effects with a switch statement
+           Handles changing effects with a switch statement
   *****************************************************************/
   $scope.changeEffect = function() {
     dtime = null;
     dregen = null;
-    fldelay = null;
-    flspeed = null;
-    fldepth = null;
-    flfb = null;
+    // fldelay = null;
+    // flspeed = null;
+    // fldepth = null;
+    // flfb = null;
     mddelay = null;
     mddepth = null;
     mdspeed = null;
@@ -234,12 +214,9 @@ app.controller('liveInputCtrl', function($scope) {
     if (effectInput)
       effectInput.disconnect();
 
-    var effect = document.getElementById("effect").selectedIndex;
-    var effect2 = $scope.dropdown2.index;
-
-
-    var effectControls = document.getElementById("controls");
-
+    let effect = document.getElementById("effect").selectedIndex;
+    // let effect2 = $scope.dropdown2.index;
+    let effectControls = document.getElementById("controls");
 
     // Show and hide individual effects options
     if (lastEffect > -1)
@@ -272,106 +249,94 @@ app.controller('liveInputCtrl', function($scope) {
     audioInput.connect(currentEffectNode);
   };
 
-
   /*****************************************************************
   //                    EFFECT FUNCTIONS
   *****************************************************************/
   $scope.createdDelay = function() {
-    var delayNode = audioContext.createDelay();
+    let delayNode = audioContext.createDelay();
     delayNode.delayTime.value = parseFloat($scope.slider2.value);
     dtime = delayNode;
-    var gainNode = audioContext.createGain();
+    let gainNode = audioContext.createGain();
     gainNode.gain.value = parseFloat($scope.slider3.value);
     dregen = gainNode;
-
-    // audioInput.connect(delayNode);
     gainNode.connect(delayNode);
     delayNode.connect(gainNode);
     delayNode.connect(wetGain);
     return delayNode;
   };
 
-  $scope.createAutowah = function() {
-    var inputNode = audioContext.createGain();
-    var waveshaper = audioContext.createWaveShaper();
-    awFollower = audioContext.createBiquadFilter();
-    awFollower.type = "lowpass";
-    awFollower.frequency.value = 10.0;
+  // $scope.createAutowah = function() {
+  //   var inputNode = audioContext.createGain();
+  //   var waveshaper = audioContext.createWaveShaper();
+  //   awFollower = audioContext.createBiquadFilter();
+  //   awFollower.type = "lowpass";
+  //   awFollower.frequency.value = 10.0;
 
-    var curve = new Float32Array(65536);
-    for (var i = -32768; i < 32768; i++)
-      curve[i + 32768] = ((i > 0) ? i : -i) / 32768;
-    waveshaper.curve = curve;
-    waveshaper.connect(awFollower);
+  //   var curve = new Float32Array(65536);
+  //   for (var i = -32768; i < 32768; i++)
+  //     curve[i + 32768] = ((i > 0) ? i : -i) / 32768;
+  //   waveshaper.curve = curve;
+  //   waveshaper.connect(awFollower);
 
-    awDepth = audioContext.createGain();
-    awDepth.gain.value = 11585;
-    awFollower.connect(awDepth);
+  //   awDepth = audioContext.createGain();
+  //   awDepth.gain.value = 11585;
+  //   awFollower.connect(awDepth);
 
-    awFilter = audioContext.createBiquadFilter();
-    awFilter.type = "lowpass";
-    awFilter.Q.value = 15;
-    awFilter.frequency.value = 50;
-    awDepth.connect(awFilter.frequency);
-    awFilter.connect(wetGain);
+  //   awFilter = audioContext.createBiquadFilter();
+  //   awFilter.type = "lowpass";
+  //   awFilter.Q.value = 15;
+  //   awFilter.frequency.value = 50;
+  //   awDepth.connect(awFilter.frequency);
+  //   awFilter.connect(wetGain);
 
-    inputNode.connect(waveshaper);
-    inputNode.connect(awFilter);
-    return inputNode;
-  };
+  //   inputNode.connect(waveshaper);
+  //   inputNode.connect(awFilter);
+  //   return inputNode;
+  // };
 
   $scope.lfo = function() {
-    var osc = audioContext.createOscillator();
-    var gain = audioContext.createGain();
-    var depth = audioContext.createGain();
-
+    let osc = audioContext.createOscillator();
+    let gain = audioContext.createGain();
+    let depth = audioContext.createGain();
     osc.type = $scope.lfoDropdown.value;
     osc.frequency.value = parseFloat($scope.lfoSlider1.value);
-
-    // lfodepth.gain.value = parseFloat($scope.lfoSlider2.value);
-
     gain.gain.value = 1.0;
     depth.gain.value = 1.0;
     osc.connect(depth);
-
     depth.connect(gain.gain);
     gain.connect(wetGain);
     lfo = osc;
     lfotype = osc;
     lfodepth = depth;
-
-
     osc.start(0);
     return gain;
   };
 
   $scope.telephoneEQ = function() {
-    var lpf1 = audioContext.createBiquadFilter();
-    lpf1.type = "lowpass";
-    lpf1.frequency.value = 2000.0;
-    var lpf2 = audioContext.createBiquadFilter();
-    lpf2.type = "lowpass";
-    lpf2.frequency.value = 2000.0;
-    var hpf1 = audioContext.createBiquadFilter();
+    let lp1 = audioContext.createBiquadFilter();
+    lp1.type = "lowpass";
+    lp1.frequency.value = 2000.0;
+    let lp2 = audioContext.createBiquadFilter();
+    lp2.type = "lowpass";
+    lp2.frequency.value = 2000.0;
+    let hpf1 = audioContext.createBiquadFilter();
     hpf1.type = "highpass";
-    hpf1.frequency.value = 1000.0;
-    var hpf2 = audioContext.createBiquadFilter();
+    hpf1.frequency.value = 400.0;
+    let hpf2 = audioContext.createBiquadFilter();
     hpf2.type = "highpass";
-    hpf2.frequency.value = 1000.0;
-    lpf1.connect(lpf2);
-    lpf2.connect(hpf1);
+    hpf2.frequency.value = 400.0;
+    lp1.connect(lp2);
+    lp2.connect(hpf1);
     hpf1.connect(hpf2);
     hpf2.connect(wetGain);
-    currentEffectNode = lpf1;
-    return (lpf1);
+    currentEffectNode = lp1;
+    return (lp1);
   };
 
-
-
   $scope.flanger = function() {
-    var splitter = audioContext.createChannelSplitter(2);
-    var merger = audioContext.createChannelMerger(2);
-    var inputNode = audioContext.createGain();
+    let splitter = audioContext.createChannelSplitter(2);
+    let merger = audioContext.createChannelMerger(2);
+    let inputNode = audioContext.createGain();
     sfllfb = audioContext.createGain();
     sflrfb = audioContext.createGain();
     sflspeed = audioContext.createOscillator();
@@ -379,7 +344,6 @@ app.controller('liveInputCtrl', function($scope) {
     sflrdepth = audioContext.createGain();
     sflldelay = audioContext.createDelay();
     sflrdelay = audioContext.createDelay();
-
 
     sfllfb.gain.value = sflrfb.gain.value = parseFloat(document.getElementById("sflfb").value);
 
@@ -438,13 +402,13 @@ app.controller('liveInputCtrl', function($scope) {
   let playButton = document.getElementById('playButton');
   playButton.onclick = play;
 
-  // let pauseButton = document.getElementById('pauseButton');
-  // pauseButton.onclick = stopRecording;
+  let pauseButton = document.getElementById('pauseButton');
+  pauseButton.onclick = pause;
 
   let downloadButton = document.getElementById('downloadButton');
   downloadButton.onclick = download;
 
-  // Indicate whether to record audio and/or video
+  // ecord audio and/or video
   let audioVideo = {
     audio: true,
     video: false
@@ -460,7 +424,9 @@ app.controller('liveInputCtrl', function($scope) {
       console.log("window.URL: ", window.URL);
       console.log("window: ", window);
 
-      // The Window.URL property returns an object that provides static methods used for creating and managing object URLs. It can also be called as a constructor to construct URL objects.
+      // The Window.URL property returns an object that provides static
+      // methods used for creating and managing object URLs. It can also be
+      // called as a constructor to construct URL objects.
 
       liveVideo.src = window.URL.createObjectURL(stream);
     } else {
@@ -486,13 +452,13 @@ app.controller('liveInputCtrl', function($scope) {
   /******************************************************************************/
 
   function toggleRecording() {
-    if (recordButton.textContent === 'Start Recording') {
-      startRecording();
+    if (recordButton.textContent === 'RECORD LOOP') {
+      $scope.startRecording();
     } else {
-      stopRecording();
-      recordButton.textContent = 'Start Recording';
+      pause();
+      recordButton.textContent = 'RECORD LOOP';
       playButton.disabled = false;
-      // pauseButton.disabled = false;
+      pauseButton.disabled = false;
       downloadButton.disabled = false;
     }
   }
@@ -501,37 +467,62 @@ app.controller('liveInputCtrl', function($scope) {
                                Start Recording FUNCTION
   /******************************************************************************/
 
-  function startRecording() {
+  // $scope.playPauseListener = function() {
+  //   $('#play-pause').click(function() {
+  //     let $span = $(this).children("span");
+  //     if ($span.hasClass('glyphicon-play')) {
+  //       $span.removeClass('glyphicon-play');
+  //       $span.addClass('glyphicon-pause');
+  //       $scope.handlePlay();
+  //     } else {
+  //       $span.addClass('glyphicon-play');
+  //       $span.removeClass('glyphicon-pause');
+  //       $scope.handleStop();
+  //     }
+  //   });
+  // };
+
+  $scope.startRecording = function() {
+    // function startRecording() {
     blobs = [];
     mediaRecorder = new MediaRecorder(dest.stream);
-    recordButton.textContent = 'STOP Recording';
+    recordButton.textContent = 'STOP LOOP';
     playButton.disabled = true;
-    // pauseButton.disabled = true;
+    pauseButton.disabled = true;
     downloadButton.disabled = true;
     mediaRecorder.onstop = handleStop;
     mediaRecorder.ondataavailable = handleDataAvailable;
     // mediaRecorder.start(10); this indicates 10ms of data per blob...not sure how that affects anything quite yet....
     mediaRecorder.start(10);
     console.log('MediaRecorder start: ', mediaRecorder);
-  }
+  };
 
   /*******************************************************************************
                               STOP RECORDING function
   /******************************************************************************/
 
-  function stopRecording() {
-    mediaRecorder.stop();
-    console.log('blobs: ', blobs);
-    recordedVideo.controls = true;
-  }
+  // $scope.stopRecording = function() {
+  //   // function stopRecording() {
+  //     mediaRecorder.stop();
+  //     console.log('blobs: ', blobs);
+  //     recordedVideo.controls = false;
+  //   };
 
   function play() {
     let playBack = new Blob(blobs, {
       type: 'video/webm'
     });
     recordedVideo.src = window.URL.createObjectURL(playBack);
+    console.log("recordedVideo: ", recordedVideo);
+    console.log("recordedVideo.src: ", recordedVideo.src);
     console.log("playBack: ", playBack);
   }
+
+  function pause() {
+    let pausePlay = mediaRecorder.pause();
+    recordedVideo.src = window.URL.pausePlay;
+  }
+
 
   /*******************************************************************************
                                DOWNLOAD FUNCTION
@@ -542,7 +533,7 @@ app.controller('liveInputCtrl', function($scope) {
     let a = document.createElement('a');
     a.style.display = 'none';
     a.href = url;
-    a.download = 'test.webm';
+    a.download = 'eWaveLoop.webm';
     document.body.appendChild(a);
     a.click();
     setTimeout(function() {
@@ -551,196 +542,6 @@ app.controller('liveInputCtrl', function($scope) {
     }, 100);
   }
 
-
-
-
-  // $scope.visualize = function() {
-  //   // function visualize() {
-  //   WIDTH = canvas.width;
-  //   HEIGHT = canvas.height;
-
-
-  //   var visualSetting = visualSelect.value;
-  //   console.log(visualSetting);
-
-  //   if (visualSetting == "sinewave") {
-  //     analyser.fftSize = 2048;
-  //     var bufferLength = analyser.fftSize;
-  //     console.log(bufferLength);
-  //     var dataArray = new Uint8Array(bufferLength);
-
-  //     canvasCtx.clearRect(0, 0, WIDTH, HEIGHT);
-
-  //     function draw() {
-
-  //       drawVisual = requestAnimationFrame(draw);
-
-  //       analyser.getByteTimeDomainData(dataArray);
-
-  //       canvasCtx.fillStyle = 'rgb(200, 200, 200)';
-  //       canvasCtx.fillRect(0, 0, WIDTH, HEIGHT);
-
-  //       canvasCtx.lineWidth = 2;
-  //       canvasCtx.strokeStyle = 'rgb(0, 0, 0)';
-
-  //       canvasCtx.beginPath();
-
-  //       var sliceWidth = WIDTH * 1.0 / bufferLength;
-  //       var x = 0;
-
-  //       for (var i = 0; i < bufferLength; i++) {
-
-  //         var v = dataArray[i] / 128.0;
-  //         var y = v * HEIGHT / 2;
-
-  //         if (i === 0) {
-  //           canvasCtx.moveTo(x, y);
-  //         } else {
-  //           canvasCtx.lineTo(x, y);
-  //         }
-
-  //         x += sliceWidth;
-  //       }
-
-  //       canvasCtx.lineTo(canvas.width, canvas.height / 2);
-  //       canvasCtx.stroke();
-  //     }
-
-  //     draw();
-
-  //   } else if (visualSetting == "frequencybars") {
-  //     analyser.fftSize = 256;
-  //     var bufferLength = analyser.frequencyBinCount;
-  //     console.log(bufferLength);
-  //     var dataArray = new Uint8Array(bufferLength);
-
-  //     canvasCtx.clearRect(0, 0, WIDTH, HEIGHT);
-
-  //     function draw() {
-  //       drawVisual = requestAnimationFrame(draw);
-
-  //       analyser.getByteFrequencyData(dataArray);
-
-  //       canvasCtx.fillStyle = 'rgb(0, 0, 0)';
-  //       canvasCtx.fillRect(0, 0, WIDTH, HEIGHT);
-
-  //       var barWidth = (WIDTH / bufferLength) * 2.5;
-  //       var barHeight;
-  //       var x = 0;
-
-  //       for (var i = 0; i < bufferLength; i++) {
-  //         barHeight = dataArray[i];
-
-  //         canvasCtx.fillStyle = 'rgb(' + (barHeight + 100) + ',50,50)';
-  //         canvasCtx.fillRect(x, HEIGHT - barHeight / 2, barWidth, barHeight / 2);
-
-  //         x += barWidth + 1;
-  //       }
-  //     };
-
-  //     draw();
-
-  //   } else if (visualSetting == "off") {
-  //     canvasCtx.clearRect(0, 0, WIDTH, HEIGHT);
-  //     canvasCtx.fillStyle = "red";
-  //     canvasCtx.fillRect(0, 0, WIDTH, HEIGHT);
-  //   }
-
-  // };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  // $scope.createReverb = function() {
-  //   // function createReverb() {
-  //   var convolver = audioContext.createConvolver();
-  //   convolver.buffer = reverbBuffer; // impulseResponse( 2.5, 2.0 );  // reverbBuffer;
-  //   convolver.connect(wetGain);
-  //   return convolver;
-  // };
-
-  /*****************************************************************
-  // THis WAS FOR ICONS SELECTION IF I WANTED TO USE IT...PUT ABOVE CONVERT TO MONO FUNCTION
-  *****************************************************************/
-  // $(".classrow").click(function(event) {
-  //   let idValue = event.target.id;
-  //   console.log("idValue: ", idValue);
-  //   // MICROPHONE
-  //   if (idValue === "microphone") {
-  //     navigator.getUserMedia(constraints, gotStream, function(e) {
-  //       // console.log("error", e);
-  //     });
-  //     console.log("you clicked on microphone");
-  //     // USB
-  //   } else if (idValue === "usb") {
-  //     // navigator.getUserMedia(constraints, gotStream, function(e) {
-  //     // console.log("error", e);
-  //     // });
-  //     console.log("you clicked on usb");
-  //   }
-  // });
-
-
-
-  /*****************************************************************
-  //          TOGGLE MONO ON/OFF ...IF I WANT TO ADD BACK IN...
-  *****************************************************************/
-  // $scope.toggleMono = function() {
-  //   if (audioInput != realAudioInput) {
-  //     audioInput.disconnect();
-  //     realAudioInput.disconnect();
-  //     audioInput = realAudioInput;
-  //   } else {
-  //     realAudioInput.disconnect();
-  //     audioInput = $scope.convertToMono(realAudioInput);
-  //   }
-  //   $scope.createLPInputFilter();
-  //   lpInputFilter.connect(dryGain);
-  //   // lpInputFilter.connect(analyser1);
-  //   lpInputFilter.connect(effectInput);
-  // };
-
-
-
-  /*****************************************************************
-  // for the reverb effect
-  *****************************************************************/
-  // function initAudio() {
-  //   let irRRequest = new XMLHttpRequest();
-  //   irRRequest.open("GET", "audio/cardiod-rear-levelled.wav", true);
-  //   irRRequest.responseType = "arraybuffer";
-  //   irRRequest.onload = function() {
-  //     audioContext.decodeAudioData(irRRequest.response,
-  //       function(buffer) { reverbBuffer = buffer; });
-  //   };
-  //   document.getElementById("effect").onchange = changeEffect;
-  // }
-  // window.addEventListener('load', initAudio);
-
-
-
-
-  // var audioContext = new AudioContext();
-  // sample rate is the number of samples per second
-  console.log("sample rate:", audioContext.sampleRate);
-
-
-
-  // audioRecorder = new WebAudioRecorder(sourceNode, {
-  //   workerDir: "lib/node_modules/webAudioRecorder/"
-  // });
-
-  // console.log("audioRecorder: ", audioRecorder);
 
 
 
@@ -780,182 +581,6 @@ app.controller('liveInputCtrl', function($scope) {
 
   //     this.osc.stop(time + 0.5);
   //   };
-
-
-  // // media Recorder
-
-
-
-
-
-
-
-
-  // /* globals MediaRecorder */
-
-  // // This code is adapted from
-  // // https://rawgit.com/Miguelao/demos/master/mediarecorder.html
-
-  // var mediaSource = new MediaSource();
-  mediaSource.addEventListener('sourceopen', handleSourceOpen, false);
-  // var mediaRecorder;
-  // var recordedBlobs;
-  var sourceBuffer;
-
-  // var gumVideo = document.querySelector('video#gum');
-  // var recordedVideo = document.querySelector('video#recorded');
-
-  // var recordButton = document.querySelector('button#record');
-  // var playButton = document.querySelector('button#play');
-  // var downloadButton = document.querySelector('button#download');
-  // recordButton.onclick = toggleRecording;
-  // playButton.onclick = play;
-  // downloadButton.onclick = download;
-
-  // // window.isSecureContext could be used for Chrome
-  // var isSecureOrigin = location.protocol === 'https:' ||
-  // location.host === 'localhost';
-  // if (!isSecureOrigin) {
-  //   alert('getUserMedia() must be run from a secure origin: HTTPS or localhost.' +
-  //     '\n\nChanging protocol to HTTPS');
-  //   location.protocol = 'HTTPS';
-  // }
-
-  // // Use old-style gUM to avoid requirement to enable the
-  // // Enable experimental Web Platform features flag in Chrome 49
-
-  // navigator.getUserMedia = navigator.getUserMedia ||
-  //   navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-
-  // var constraints = {
-  //   audio: false,
-  //   video: true
-  // };
-
-  // navigator.getUserMedia(constraints, successCallback, errorCallback);
-
-  // function successCallback(stream) {
-  //   console.log('getUserMedia() got stream: ', stream);
-  //   window.stream = stream;
-  //   if (window.URL) {
-  //     gumVideo.src = window.URL.createObjectURL(stream);
-  //   } else {
-  //     gumVideo.src = stream;
-  //   }
-  // }
-
-  // function errorCallback(error) {
-  //   console.log('navigator.getUserMedia error: ', error);
-  // }
-
-  // // navigator.mediaDevices.getUserMedia(constraints)
-  // // .then(function(stream) {
-  // //   console.log('getUserMedia() got stream: ', stream);
-  // //   window.stream = stream; // make available to browser console
-  // //   if (window.URL) {
-  // //     gumVideo.src = window.URL.createObjectURL(stream);
-  // //   } else {
-  // //     gumVideo.src = stream;
-  // //   }
-  // // }).catch(function(error) {
-  // //   console.log('navigator.getUserMedia error: ', error);
-  // // });
-
-  function handleSourceOpen(event) {
-    console.log('MediaSource opened');
-    sourceBuffer = mediaSource.addSourceBuffer('audio/mp3');
-    console.log('Source buffer: ', sourceBuffer);
-  }
-
-  // function handleDataAvailable(event) {
-  //   if (event.data && event.data.size > 0) {
-  //     recordedBlobs.push(event.data);
-  //   }
-  // }
-
-  // function handleStop(event) {
-  //   console.log('Recorder stopped: ', event);
-  // }
-
-  // function toggleRecording() {
-  //   if (recordButton.textContent === 'Start Recording') {
-  //     startRecording();
-  //   } else {
-  //     stopRecording();
-  //     recordButton.textContent = 'Start Recording';
-  //     playButton.disabled = false;
-  //     downloadButton.disabled = false;
-  //   }
-  // }
-
-  // // The nested try blocks will be simplified when Chrome 47 moves to Stable
-  // function startRecording() {
-  var options = { mimeType: 'audio/mp3' };
-  //   recordedBlobs = [];
-  //   try {
-  //     mediaRecorder = new MediaRecorder(window.stream, options);
-  //   } catch (e0) {
-  //     console.log('Unable to create MediaRecorder with options Object: ', e0);
-  //     try {
-  //       options = {mimeType: 'audio/mp3'};
-  //       mediaRecorder = new MediaRecorder(window.stream, options);
-  //     } catch (e1) {
-  //       console.log('Unable to create MediaRecorder with options Object: ', e1);
-  //       try {
-  //         options = 'audio/mp3'; // Chrome 47
-  //         mediaRecorder = new MediaRecorder(window.stream, options);
-  //       } catch (e2) {
-  //         alert('MediaRecorder is not supported by this browser.\n\n' +
-  //             'Try Firefox 29 or later, or Chrome 47 or later, with Enable experimental Web Platform features enabled from chrome://flags.');
-  //         console.error('Exception while creating MediaRecorder:', e2);
-  //         return;
-  //       }
-  //     }
-  //   }
-  //   console.log('Created MediaRecorder', mediaRecorder, 'with options', options);
-  //   recordButton.textContent = 'Stop Recording';
-  //   playButton.disabled = true;
-  //   downloadButton.disabled = true;
-  //   mediaRecorder.onstop = handleStop;
-  //   mediaRecorder.ondataavailable = handleDataAvailable;
-  //   mediaRecorder.start(10); // collect 10ms of data
-  //   console.log('MediaRecorder started', mediaRecorder);
-  // }
-
-  // function stopRecording() {
-  //   mediaRecorder.stop();
-  //   console.log('Recorded Blobs: ', recordedBlobs);
-  //   recordedVideo.controls = true;
-  // }
-
-  // function play() {
-  //   var superBuffer = new Blob(recordedBlobs, {type: 'audio/mp3'});
-  //   recordedVideo.src = window.URL.createObjectURL(superBuffer);
-  // }
-
-  // function download() {
-  //   var blob = new Blob(recordedBlobs, {type: 'audio/mp3'});
-  //   var url = window.URL.createObjectURL(blob);
-  //   var a = document.createElement('a');
-  //   a.style.display = 'none';
-  //   a.href = url;
-  //   a.download = 'test.mp3';
-  //   document.body.appendChild(a);
-  //   a.click();
-  //   setTimeout(function() {
-  //     document.body.removeChild(a);
-  //     window.URL.revokeObjectURL(url);
-  //   }, 100);
-  // }
-
-
-
-
-
-
-
-
-
 
 
 });
