@@ -457,6 +457,12 @@ body {
 .glyphicon-play {
   color: green; }
 
+.glyphicon-stop {
+  color: darkred; }
+
+.glyphicon-record {
+  color: red; }
+
 .brand {
   position: absolute;
   display: block;
@@ -715,6 +721,35 @@ form {
   color: white; }
 
 .optin7:focus {
+  color: RGBA(95, 186, 255, 1); }
+
+.optin8 {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  outline: 0;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  background-color: rgba(255, 255, 255, 0.1);
+  width: 800px;
+  text-align: center;
+  border-radius: 3px;
+  font-size: 18px;
+  color: RGBA(95, 186, 255, 1);
+  -webkit-transition-duration: 0.25s;
+  transition-duration: 0.25s;
+  font-weight: 300;
+  background-color: none;
+  position: relative;
+  display: block;
+  margin: auto;
+  background: RGBA(47, 50, 56, 1);
+  background-image: url("../images/black-thread.png"); }
+
+.optin8:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white; }
+
+.optin8:focus {
   color: RGBA(95, 186, 255, 1); }
 
 .ng-scope {
@@ -1244,9 +1279,6 @@ img #record.recording {
   color: silver;
   cursor: pointer; }
 
-#viz {
-  float: right; }
-
 .fa-circle:hover {
   color: red;
   cursor: pointer;
@@ -1254,6 +1286,11 @@ img #record.recording {
 
 .fa-circle {
   color: darkred; }
+
+#wavedisplay {
+  width: 460px;
+  height: 50px;
+  margin-left: 40px; }
 
 .fa-play {
   color: darkgreen; }

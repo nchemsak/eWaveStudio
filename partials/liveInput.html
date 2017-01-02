@@ -76,7 +76,7 @@
           <input id="awQ" type="range" min="0.0" max="20.0" step="0.1" value="5.0" onInput="if (awFilter) awFilter.Q.value = event.target.value;">
         </div>
         <!-- flanger -->
-<!--         <div id="flangeControls">
+        <!--         <div id="flangeControls">
           <br> Flanger speed:
           <input id="flspeed" type="range" min="0.05" max="1" step="0.05" ng-model="flangeSlider1.value" ng-change="changeEffect();">
           <br> Flanger delay:
@@ -101,12 +101,37 @@
     </h3>
   </div>
 </div>
-<div class="optin6">
-  <button id="recordButton" class="btn" disabled>RECORD LOOP</button>
-  <button id="playButton" class="btn" disabled>Play</button>
-  <button id="pauseButton" class="btn" disabled>Pause</button>
-  <button id="downloadButton" class="btn" disabled>Download</button>
+<!-- <div class="optin6">
+  <div class="centeredbuttons"> -->
+<!-- <button id="recordButton" class="btn" disabled>RECORD LOOP</button> -->
+<!-- <div class="optin7"> -->
+<!-- <button id="playButton" class="btn" disabled>PLAY</button> -->
+<!-- <button id="pauseButton" class="btn" disabled>STOP</button> -->
+<!-- </div> -->
+<!-- <button id="downloadButton" class="btn" disabled>DOWNLOAD</button> -->
+<!--   </div>
+</div> -->
+<!-- <div class="col-md-6"> -->
+<div class="optin8">LOOP STATION:
+  <!-- <input type='range' min='0' max='1' step='0.01' value='0.75' id='seqVolume' class="seqOptin"> -->
+  <button id="recordStop" type="button" class="btn btn-default btn- noselect" onclick="toggleRecording(this);">
+    <span class="glyphicon glyphicon-record" aria-hidden="true"></span>
+  </button>
+  <button id="pausePlay" type="button" class="btn btn-default btn- noselect" disabled>
+    <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
+  </button>
+  <button id="downloadButton" type="button" class="btn btn-default btn- noselect" disabled>
+    <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>
+  </button>
+  <!-- <span id="viz"> -->
+    <!-- <canvas id="wavedisplay" width="250" height="50"></canvas> -->
+    <canvas id="wavedisplay"></canvas>
+  <!-- </span> -->
 </div>
+<!-- </div> -->
+<!-- <button id="play-pause" type="button" class="btn btn-default btn- noselect">Play/Pause
+  <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
+</button> -->
 <!-- canvas for audio recording -->
 <!-- <div id="container"> -->
 <!-- <video id="live" autoplay muted></video> -->
@@ -118,7 +143,7 @@
   <button id="pauseButton" class="btn waves-effect waves-red" disabled>Pause</button>
   <button id="downloadButton" class="btn waves-effect waves-red" disabled>Download</button>
 </div> -->
-<div id="viz">
+<!-- <div id="viz">
   <canvas id="wavedisplay" width="300" height="100"></canvas>
-</div>
+</div> -->
 </div>
