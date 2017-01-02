@@ -77,6 +77,12 @@ app.controller('liveInputCtrl', function($scope) {
     }
   };
 
+  $(function() {
+    // $scope.toggleSelectedListener();
+    $scope.recordStop();
+    $scope.pausePlay();
+  });
+
   MediaStreamTrack.getSources(gotSources);
   // sample rate is the number of samples per second
   console.log("sample rate:", audioContext.sampleRate);
@@ -389,6 +395,71 @@ app.controller('liveInputCtrl', function($scope) {
   /*******************************************************************************
                               VARIABLES
   /******************************************************************************/
+
+  // function toggleRecording() {
+  //   if (recordButton.textContent === 'RECORD LOOP') {
+  //     $scope.startRecording();
+  //   } else {
+  //     pause();
+  //     recordButton.textContent = 'RECORD LOOP';
+  //     playButton.disabled = false;
+  //     pauseButton.disabled = false;
+  //     downloadButton.disabled = false;
+  //   }
+  // }
+
+  $scope.recordStop = function() {
+    $('#recordStop').click(function() {
+      let $span = $(this).children("span");
+      if ($span.hasClass('glyphicon-record')) {
+        $span.removeClass('glyphicon-record');
+        $span.addClass('glyphicon-stop animated infinite pulse');
+        $scope.startRecording();
+      } else {
+        pause();
+        $span.addClass('glyphicon-record');
+        $span.removeClass('glyphicon-stop animated infinite pulse');
+        playButton.disabled = false;
+        // pauseButton.disabled = false;
+        downloadButton.disabled = false;
+      }
+    });
+  };
+
+
+  $scope.pausePlay = function() {
+    $('#pausePlay').click(function() {
+      let $span = $(this).children("span");
+      if ($span.hasClass('glyphicon-play')) {
+        $span.removeClass('glyphicon-play');
+        $span.addClass('glyphicon-stop animated infinite pulse');
+        // $scope.startRecording();
+      } else {
+        pause();
+        $span.addClass('glyphicon-play');
+        $span.removeClass('glyphicon-stop animated infinite pulse');
+        playButton.disabled = false;
+        // pauseButton.disabled = false;
+        downloadButton.disabled = false;
+      }
+    });
+  };
+
+
+  // $scope.handleStop = function(event) {
+  //   // cancelAnimationFrame(timeoutId);
+  //   $(".pad").removeClass("playing");
+  //   console.log("clicked stop");
+  // };
+
+  // $scope.toggleSelectedListener = function() {
+  //   $('.pad').click(function() {
+  //     $(this).toggleClass("selected");
+  //   });
+  // };
+
+
+
   let mediaSource = new MediaSource();
   let mediaRecorder;
   let blobs;
@@ -396,14 +467,14 @@ app.controller('liveInputCtrl', function($scope) {
   let recordedVideo = document.getElementById('recorded');
 
   // Button Variables
-  let recordButton = document.getElementById('recordButton');
-  recordButton.onclick = toggleRecording;
+  // let recordButton = document.getElementById('recordButton');
+  // recordButton.onclick = toggleRecording;
 
-  let playButton = document.getElementById('playButton');
+  let playButton = document.getElementById('pausePlay');
   playButton.onclick = play;
 
-  let pauseButton = document.getElementById('pauseButton');
-  pauseButton.onclick = pause;
+  // let pauseButton = document.getElementById('pauseButton');
+  // pauseButton.onclick = pause;
 
   let downloadButton = document.getElementById('downloadButton');
   downloadButton.onclick = download;
@@ -417,7 +488,7 @@ app.controller('liveInputCtrl', function($scope) {
                                  LIVE STREAM
   /******************************************************************************/
   function handleSuccess(stream) {
-    recordButton.disabled = false;
+    // recordButton.disabled = false;
     console.log('stream: ', stream);
     window.stream = stream;
     if (window.URL) {
@@ -451,23 +522,23 @@ app.controller('liveInputCtrl', function($scope) {
                                TOGGLE Recording (start/stop)
   /******************************************************************************/
 
-  function toggleRecording() {
-    if (recordButton.textContent === 'RECORD LOOP') {
-      $scope.startRecording();
-    } else {
-      pause();
-      recordButton.textContent = 'RECORD LOOP';
-      playButton.disabled = false;
-      pauseButton.disabled = false;
-      downloadButton.disabled = false;
-    }
-  }
+  // function toggleRecording() {
+  //   if (recordButton.textContent === 'RECORD LOOP') {
+  //     $scope.startRecording();
+  //   } else {
+  //     pause();
+  //     recordButton.textContent = 'RECORD LOOP';
+  //     playButton.disabled = false;
+  //     pauseButton.disabled = false;
+  //     downloadButton.disabled = false;
+  //   }
+  // }
 
   /*******************************************************************************
                                Start Recording FUNCTION
   /******************************************************************************/
 
-  // $scope.playPauseListener = function() {
+  // $scope.recordStop = function() {
   //   $('#play-pause').click(function() {
   //     let $span = $(this).children("span");
   //     if ($span.hasClass('glyphicon-play')) {
@@ -486,9 +557,9 @@ app.controller('liveInputCtrl', function($scope) {
     // function startRecording() {
     blobs = [];
     mediaRecorder = new MediaRecorder(dest.stream);
-    recordButton.textContent = 'STOP LOOP';
+    // recordButton.textContent = 'STOP LOOP';
     playButton.disabled = true;
-    pauseButton.disabled = true;
+    // pauseButton.disabled = true;
     downloadButton.disabled = true;
     mediaRecorder.onstop = handleStop;
     mediaRecorder.ondataavailable = handleDataAvailable;
