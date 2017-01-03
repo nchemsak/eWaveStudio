@@ -4,7 +4,7 @@
     <div class="optin7">VOLUME
       <br>
       <input type='range' min='0' max='1' step='0.01' value='0.75' id='seqVolume' class="seqOptin">
-      <button id="play-pause" type="button" class="btn btn-default btn- noselect">Play/Pause
+      <button id="play-pause" type="button" class="btn btn-default btn- noselect">Play/Stop
         <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
       </button>
     </div>
@@ -56,21 +56,21 @@
         </div>
         <div class="row" data-instrument="808-hihat-01">
           <span class="instrument-label"><strong>hihat 2</strong></span>
-          <div class="pad column_0 dark"></div>
+          <div class="pad column_0 dark selected"></div>
           <div class="pad column_1 dark"></div>
-          <div class="pad column_2 dark"></div>
+          <div class="pad column_2 dark selected"></div>
           <div class="pad column_3 dark"></div>
-          <div class="pad column_4"></div>
+          <div class="pad column_4 selected"></div>
           <div class="pad column_5"></div>
-          <div class="pad column_6"></div>
+          <div class="pad column_6 selected"></div>
           <div class="pad column_7"></div>
-          <div class="pad column_8 dark"></div>
+          <div class="pad column_8 dark selected"></div>
           <div class="pad column_9 dark"></div>
-          <div class="pad column_10 dark"></div>
+          <div class="pad column_10 dark selected"></div>
           <div class="pad column_11 dark"></div>
-          <div class="pad column_12"></div>
+          <div class="pad column_12 selected"></div>
           <div class="pad column_13"></div>
-          <div class="pad column_14"></div>
+          <div class="pad column_14 selected"></div>
           <div class="pad column_15"></div>
         </div>
         <div class="row" data-instrument="808-hihat-02">
@@ -446,19 +446,7 @@
         <label class="upload_group">Upload
         <input class="upload_group" id="audio_file" type="file" accept="audio/*"></label>
         <button type="button" class="btn btn-primary" id="uploadButton" ng-model="selectedFile" ng-click="uploadFile();">SUBMIT</button>
-        <!-- <audio id="audio_player"></audio> -->
         </strong></span>
- <!-- $scope.selectedFile = event.target.files[0]; -->
-
-<!--         <select class="optin2" id="effect" ng-model="dropdown2.index" ng-change="changeEffect();">
-            <option>Delay</option>
-            <option>LFO</option>
-            <option>Stereo Flanger</option>
-            <option>Telephone EQ Filter </option>
-
-          </select> -->
-
-
         <div class="pad column_0 dark"></div>
         <div class="pad column_1 dark"></div>
         <div class="pad column_2 dark"></div>
@@ -786,7 +774,8 @@
       <div class="pad column_15"></div>
     </div>
   </div> -->
-<div id='seq'>
+<!-- mini computer keyboard -->
+<!-- <div id='seq'>
   <ul id='staggered'>
     <li>
       <div class='key' id='F3'></div>
@@ -841,7 +830,7 @@
       <div class='key' id='E5'></div>
     </li>
   </ul>
-</div>
+</div> -->
 <!-- <div class="row">
     <button id="play-pause" type="button" class="btn btn-default btn- noselect">
       <span class="glyphicon glyphicon-play" aria-hidden="true"></span>

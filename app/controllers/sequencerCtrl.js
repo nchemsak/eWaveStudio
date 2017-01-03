@@ -282,7 +282,6 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
   };
 
 
-
   /********************************************************************
                           SEQUENCER
   ********************************************************************/
@@ -293,11 +292,11 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
       let $span = $(this).children("span");
       if ($span.hasClass('glyphicon-play')) {
         $span.removeClass('glyphicon-play');
-        $span.addClass('glyphicon-pause');
+        $span.addClass('glyphicon-stop');
         $scope.handlePlay();
       } else {
         $span.addClass('glyphicon-play');
-        $span.removeClass('glyphicon-pause');
+        $span.removeClass('glyphicon-stop');
         $scope.handleStop();
       }
     });
