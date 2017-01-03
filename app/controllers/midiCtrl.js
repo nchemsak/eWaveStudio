@@ -9,7 +9,7 @@ app.controller('midiCtrl', function($scope, $location, AuthFactory) {
   $scope.dropdown2 = { value: '' };
   let currentEffectNode = null;
   let audioInput = null;
-
+let ac = new AudioContext();
   /*****************************************************************
   /*****************************************************************
 
@@ -59,7 +59,7 @@ app.controller('midiCtrl', function($scope, $location, AuthFactory) {
       }
     };
 
-    let ac = new AudioContext();
+    // let ac = new AudioContext();
     let volume = ac.createGain();
     volume.connect(ac.destination);
     volume.gain.value = 0.25;
@@ -90,7 +90,7 @@ app.controller('midiCtrl', function($scope, $location, AuthFactory) {
   *****************************************************************
   *****************************************************************/
 
-  let context = new AudioContext();
+  // let ac = new AudioContext();
 
   $scope.midiSampler = function() {
     let keyData = document.getElementById('key_data');
@@ -98,7 +98,6 @@ app.controller('midiCtrl', function($scope, $location, AuthFactory) {
     let deviceInfoOutputs = document.getElementById('outputs'),
       midi;
 
-    // let AudioContext = AudioContext;
     let activeNotes = [];
     let btnBox = document.getElementById('content'),
       btn = document.getElementsByClassName('button');
@@ -112,10 +111,10 @@ app.controller('midiCtrl', function($scope, $location, AuthFactory) {
     }
 
     // add event listeners
-    for (let i = 0; i < btn.length; i++) {
-      btn[i].addEventListener('mousedown', $scope.clickPlayOn);
-      btn[i].addEventListener('mouseup', $scope.clickPlayOff);
-    }
+    // for (let i = 0; i < btn.length; i++) {
+    //   btn[i].addEventListener('mousedown', $scope.clickPlayOn);
+    //   btn[i].addEventListener('mouseup', $scope.clickPlayOff);
+    // }
     // prepare audio files
     for (let i = 0; i < btn.length; i++) {
       addAudioProperties(btn[i]);
@@ -149,16 +148,14 @@ app.controller('midiCtrl', function($scope, $location, AuthFactory) {
     };
 
     // user interaction
-    $scope.clickPlayOn = function(e) {
-      // function clickPlayOn(e) {
-      e.target.classList.add('active');
-      e.target.play();
-    };
+    // $scope.clickPlayOn = function(e) {
+    //   e.target.classList.add('active');
+    //   e.target.play();
+    // };
 
-    $scope.clickPlayOff = function(e) {
-      // function clickPlayOff(e) {
-      e.target.classList.remove('active');
-    };
+    // $scope.clickPlayOff = function(e) {
+    //   e.target.classList.remove('active');
+    // };
 
     // midi functions
     function onMIDISuccess(midiAccess) {
@@ -194,8 +191,6 @@ app.controller('midiCtrl', function($scope, $location, AuthFactory) {
 
     // this console.logs when midi is plugged in or taken out
     $scope.onStateChange = function(event) {
-      // function onStateChange(event) {
-      // showMIDIPorts(midi);
       let port = event.port,
         state = port.state,
         name = port.name,
@@ -204,21 +199,11 @@ app.controller('midiCtrl', function($scope, $location, AuthFactory) {
         console.log("name", name, "port", port, "state", state);
     };
 
-    // $scope.listInputs = function(inputs) {
-    //   // function listInputs(inputs) {
-    //   let input = inputs.value;
-    //   console.log("Input port : [ type:'" + input.type + "' id: '" + input.id +
-    //     "' manufacturer: '" + input.manufacturer + "' name: '" + input.name +
-    //     "' version: '" + input.version + "']");
-    // };
-
     $scope.noteOn = function(midiNote, velocity) {
-      // function noteOn(midiNote, velocity) {
       $scope.player(midiNote, velocity);
     };
 
     $scope.noteOff = function(midiNote, velocity) {
-      // function noteOff(midiNote, velocity) {
       $scope.player(midiNote, velocity);
     };
 
@@ -241,7 +226,7 @@ app.controller('midiCtrl', function($scope, $location, AuthFactory) {
       request.open('GET', url, true);
       request.responseType = 'arraybuffer';
       request.onload = function() {
-        context.decodeAudioData(request.response, function(buffer) {
+        ac.decodeAudioData(request.response, function(buffer) {
           object.buffer = buffer;
         });
       };
@@ -253,16 +238,15 @@ app.controller('midiCtrl', function($scope, $location, AuthFactory) {
       console.log("object.source: ", object.source);
       loadAudio(object, object.source);
       object.play = function(volume) {
-        let s = context.createBufferSource();
+        let s = ac.createBufferSource();
         s.buffer = object.buffer;
-        s.connect(context.destination);
+        s.connect(ac.destination);
         s.start();
       };
     }
 
     // this is the info in the DOM about keypresses
     $scope.logger = function(container, label, data) {
-      // function logger(container, label, data) {
       let messages = label + " note: " + data[1];
       container.textContent = messages;
     };
@@ -279,10 +263,10 @@ app.controller('midiCtrl', function($scope, $location, AuthFactory) {
     lastEffect = midiChange;
     effectControls.children[midiChange].classList.add("display");
     switch (midiChange) {
-      case 0: // Delay
+      case 0: // osc keyboard
         currentEffectNode = $scope.midiKeyboard();
         break;
-      case 1: // flanger
+      case 1: // sampler
         currentEffectNode = $scope.midiSampler();
         break;
       case 2:

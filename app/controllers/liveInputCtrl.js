@@ -81,6 +81,7 @@ app.controller('liveInputCtrl', function($scope) {
     // $scope.toggleSelectedListener();
     $scope.recordStop();
     $scope.pausePlay();
+    $scope.midiSampler();
   });
 
   MediaStreamTrack.getSources(gotSources);
@@ -414,8 +415,12 @@ app.controller('liveInputCtrl', function($scope) {
       if ($span.hasClass('glyphicon-record')) {
         $span.removeClass('glyphicon-record');
         $span.addClass('glyphicon-stop animated infinite pulse');
+        console.log("hi");
+
         $scope.startRecording();
+
       } else {
+        console.log("bye");
         pause();
         $span.addClass('glyphicon-record');
         $span.removeClass('glyphicon-stop animated infinite pulse');
@@ -425,6 +430,7 @@ app.controller('liveInputCtrl', function($scope) {
       }
     });
   };
+
 
 
   $scope.pausePlay = function() {
@@ -654,4 +660,105 @@ app.controller('liveInputCtrl', function($scope) {
   //   };
 
 
+  /*****************************************************************
+    /*****************************************************************
+
+                             MIDI SAMPLER
+
+    *****************************************************************
+    *****************************************************************/
+
+  $scope.midiSampler = function() {
+    let keyData = document.getElementById('key_data');
+    let deviceInfoInputs = document.getElementById('inputs');
+    let deviceInfoOutputs = document.getElementById('outputs'),
+      midi;
+
+    let data, cmd, channel, type, note, velocity;
+
+    // request MIDI access
+    if (navigator.requestMIDIAccess) {
+      navigator.requestMIDIAccess({
+        sysex: false
+      }).then(onMIDISuccess);
+    }
+
+
+
+    // midi functions
+    function onMIDISuccess(midiAccess) {
+      midi = midiAccess;
+      let inputs = midi.inputs.values();
+      console.log("inputs: ", inputs);
+      // loop through inputs
+      for (let input = inputs.next(); input && !input.done; input = inputs.next()) {
+        input.value.onmidimessage = $scope.onMIDIMessage;
+      }
+      // listen for connect/disconnect message
+      midi.onstatechange = $scope.onStateChange;
+    }
+
+    $scope.onMIDIMessage = function(event) {
+      data = event.data,
+        type = data[0] & 0xf0,
+        note = data[1],
+        velocity = data[2];
+      console.log('MIDI data', data);
+      switch (note) {
+        case 59:
+          $scope.midiRecord();
+          break;
+        case 60:
+          $scope.midiRecord();
+          break;
+        case 62:
+          $scope.stopMidiRecord();
+          break;
+        case 63:
+          $scope.stopMidiRecord();
+          break;
+      }
+    };
+
+    // this console.logs when midi is plugged in or taken out
+    $scope.onStateChange = function(event) {
+      let port = event.port,
+        state = port.state,
+        name = port.name,
+        type = port.type;
+      if (type == "input")
+        console.log("name", name, "port", port, "state", state);
+    };
+
+    $scope.midiRecord = function() {
+      let $span = $('#recordStop').children("span");
+      if ($span.hasClass('glyphicon-record')) {
+        $span.removeClass('glyphicon-record');
+        $span.addClass('glyphicon-stop animated infinite pulse');
+        $scope.startRecording();
+      }
+    };
+
+
+    $scope.stopMidiRecord = function() {
+      let $span = $('#recordStop').children("span");
+      pause();
+      $span.addClass('glyphicon-record');
+      $span.removeClass('glyphicon-stop animated infinite pulse');
+      playButton.disabled = false;
+      downloadButton.disabled = false;
+    };
+
+    function addAudioProperties(object) {
+      object.source = object.dataset.sound;
+      console.log("object.source: ", object.source);
+      // loadAudio(object, object.source);
+      object.play = function(volume) {
+        let s = audioContext.createBufferSource();
+        s.buffer = object.buffer;
+        s.connect(audioContext.destination);
+        s.start();
+      };
+    }
+  };
 });
