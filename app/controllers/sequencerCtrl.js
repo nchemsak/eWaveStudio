@@ -93,6 +93,15 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
       tom03Path = pathName + "tom03.wav",
       tom04Path = pathName + "tom04.wav";
 
+    //others
+    let loop01Path = pathName + "drumloop100bpm.wav",
+      loop02Path = pathName + "drumloop120bpm.wav",
+      loop03Path = pathName + "drumloop140bpm.wav",
+      loop04Path = pathName + "drumloop1.wav",
+      loop05Path = pathName + "drumloop2.wav";
+
+
+
     // piano
     let piano_aPath = pathName + "piano_a.mp3",
       piano_ashPath = pathName + "piano_ash.mp3",
@@ -106,6 +115,9 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
       piano_fshPath = pathName + "piano_fsh.mp3",
       piano_gPath = pathName + "piano_g.mp3",
       piano_gshPath = pathName + "piano_gsh.mp3";
+
+
+
 
     // kicks
     this.loadSample(kickPath, "kick");
@@ -130,10 +142,18 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
     this.loadSample(cym03Path, "cym03");
     this.loadSample(ride01Path, "ride01");
 
-    // others
+    // toms
     this.loadSample(tom01Path, "808-tom-01");
     this.loadSample(tom03Path, "tom03");
     this.loadSample(tom04Path, "tom04");
+
+    //others
+    this.loadSample(loop01Path, "drumloop100bpm");
+    this.loadSample(loop02Path, "drumloop120bpm");
+    this.loadSample(loop03Path, "drumloop140bpm");
+    this.loadSample(loop04Path, "drumloop1");
+    this.loadSample(loop05Path, "drumloop2");
+
 
     // piano
     this.loadSample(piano_aPath, "piano_a");
@@ -230,6 +250,23 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
             case "tom04":
               kit.tom04Buffer = buffer;
               break;
+              //others
+            case "drumloop100bpm":
+              kit.loop01Buffer = buffer;
+              break;
+            case "drumloop120bpm":
+              kit.loop02Buffer = buffer;
+              break;
+            case "drumloop140bpm":
+              kit.loop03Buffer = buffer;
+              break;
+            case "drumloop1":
+              kit.loop04Buffer = buffer;
+              break;
+            case "drumloop2":
+              kit.loop05Buffer = buffer;
+              break;
+
               // piano
             case "piano_a":
               kit.pianoaBuffer = buffer;
@@ -446,6 +483,23 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
             case "tom04":
               $scope.playNote(currentKit.tom04Buffer, contextPlayTime);
               break;
+              //others
+            case "drumloop100bpm":
+              console.log("loop100");
+              $scope.playNote(currentKit.loop01Buffer, contextPlayTime);
+              break;
+            case "drumloop120bpm":
+              $scope.playNote(currentKit.loop02Buffer, contextPlayTime);
+              break;
+            case "drumloop140bpm":
+              $scope.playNote(currentKit.loop03Buffer, contextPlayTime);
+              break;
+            case "drumloop1":
+              $scope.playNote(currentKit.loop04Buffer, contextPlayTime);
+              break;
+            case "drumloop2":
+              $scope.playNote(currentKit.loop05Buffer, contextPlayTime);
+              break;
               // piano
             case "piano_a":
               $scope.playNote(currentKit.pianoaBuffer, contextPlayTime);
@@ -581,7 +635,7 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
   $scope.uploadFile = function() {
     // $scope.selectedFile = event.target.files[0];
     $scope.selectedFile = { value: '' };
-console.log("selectedFile: ", selectedFile);
+    console.log("selectedFile: ", selectedFile);
     // Create a root reference
     console.log("you clicked to upload: ");
     var filename = $scope.selectedFile.name;
