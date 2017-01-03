@@ -998,6 +998,12 @@ div.key {
   height: 30px;
   background-color: black; }
 
+#liveVolume {
+  width: 65%;
+  float: left;
+  height: 30px;
+  background-color: black; }
+
 input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none !important;
   width: 25px;
