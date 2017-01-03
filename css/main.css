@@ -860,6 +860,52 @@ input[type=range] {
 /****************************************************************************
                              SEQUENCER
  ****************************************************************************/
+.seqButtonStyle {
+  width: 20px;
+  background-color: transparent;
+  cursor: default; }
+
+.seqButtonStyle:hover {
+  background-color: transparent;
+  cursor: default; }
+
+.seqButtonStyle2 {
+  width: 20px;
+  background-color: transparent; }
+
+.seqButtonStyle2:hover {
+  background-color: transparent; }
+
+.seqGlyphStyle {
+  width: 5px;
+  height: 5px;
+  margin-bottom: 10px;
+  margin-right: 20px;
+  text-align: center;
+  cursor: pointer; }
+
+.seqGlyphStyle2 {
+  width: 5px;
+  height: 5px;
+  margin-bottom: 10px;
+  margin-right: 20px;
+  text-align: center; }
+
+button#recordStop.seqButtonStyle:hover,
+button#downloadButton.seqButtonStyle:hover,
+button#downloadButton.seqButtonStyle2:hover {
+  background-color: transparent; }
+
+button#recordStop.seqButtonStyle:active,
+button#downloadButton.seqButtonStyle:active,
+button#downloadButton.seqButtonStyle2:active {
+  background-color: transparent; }
+
+button#recordStop.seqButtonStyle:focus,
+button#downloadButton.seqButtonStyle:focus,
+button#downloadButton.seqButtonStyle2:focus {
+  background-color: transparent; }
+
 input#audio_file {
   color: red;
   background-color: purple; }
