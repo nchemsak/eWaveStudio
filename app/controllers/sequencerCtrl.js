@@ -319,9 +319,6 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
     context = new window.webkitAudioContext();
 
     let vol = context.createGain();
-
-
-
     let volControl = document.getElementById("seqVolume");
     vol.gain.value = volControl.value;
     vol.connect(context.destination);

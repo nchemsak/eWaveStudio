@@ -126,6 +126,16 @@ app.controller('liveInputCtrl', function($scope) {
     //   audioInput = lpInputFilter;
 
     // }
+
+  let vol = audioContext.createGain();
+
+  let volControl = document.getElementById("liveVolume");
+  vol.gain.value = volControl.value;
+  vol.connect(audioContext.destination);
+  volControl.addEventListener("input", function() {
+    vol.gain.value = volControl.value;
+  });
+
     /*****************************************************************
     // Gain Mix Modes
     *****************************************************************/
@@ -140,10 +150,15 @@ app.controller('liveInputCtrl', function($scope) {
     dryGain.connect(dest);
     wetGain.connect(dest);
     // console.log("outputMix: ", outputMix);
-    outputMix.connect(audioContext.destination);
+    outputMix.connect(vol);
     $scope.crossfade(1.0);
     $scope.changeEffect();
   };
+
+
+
+
+
 
   /*****************************************************************
      This selects the items from the dropdown  GET USER MEDIA API
@@ -185,6 +200,7 @@ app.controller('liveInputCtrl', function($scope) {
     wetGain.gain.value = gain2;
   };
   let lastEffect = -1;
+
 
 
   /*****************************************************************
