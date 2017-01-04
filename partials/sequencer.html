@@ -169,10 +169,144 @@
           <div class="pad column_15"></div>
         </div>
       </div>
-      <br>
+      <!-- <br> -->
       <!-- *********************************************************************
+                            SNARE DRUMS
+**************************************************************************-->
+      <div class="snareDiv optin7">SNARES
+        <div class="row" data-instrument="snare">
+          <span class="instrument-label"><strong>snare 1</strong></span>
+          <div class="pad column_0 dark"></div>
+          <div class="pad column_1 dark"></div>
+          <div class="pad column_2 dark"></div>
+          <div class="pad column_3 dark"></div>
+          <div class="pad column_4"></div>
+          <div class="pad column_5"></div>
+          <div class="pad column_6"></div>
+          <div class="pad column_7"></div>
+          <div class="pad column_8 dark"></div>
+          <div class="pad column_9 dark"></div>
+          <div class="pad column_10 dark"></div>
+          <div class="pad column_11 dark"></div>
+          <div class="pad column_12"></div>
+          <div class="pad column_13"></div>
+          <div class="pad column_14"></div>
+          <div class="pad column_15"></div>
+        </div>
+        <div class="row" data-instrument="808-snare-01">
+          <span class="instrument-label"><strong>snare 2</strong></span>
+          <div class="pad column_0 dark"></div>
+          <div class="pad column_1 dark"></div>
+          <div class="pad column_2 dark"></div>
+          <div class="pad column_3 dark"></div>
+          <div class="pad column_4"></div>
+          <div class="pad column_5"></div>
+          <div class="pad column_6"></div>
+          <div class="pad column_7"></div>
+          <div class="pad column_8 dark"></div>
+          <div class="pad column_9 dark"></div>
+          <div class="pad column_10 dark"></div>
+          <div class="pad column_11 dark"></div>
+          <div class="pad column_12"></div>
+          <div class="pad column_13"></div>
+          <div class="pad column_14"></div>
+          <div class="pad column_15"></div>
+        </div>
+        <div class="row" data-instrument="snare03">
+          <span class="instrument-label"><strong>snare 3</strong></span>
+          <div class="pad column_0 dark"></div>
+          <div class="pad column_1 dark"></div>
+          <div class="pad column_2 dark"></div>
+          <div class="pad column_3 dark"></div>
+          <div class="pad column_4"></div>
+          <div class="pad column_5"></div>
+          <div class="pad column_6"></div>
+          <div class="pad column_7"></div>
+          <div class="pad column_8 dark"></div>
+          <div class="pad column_9 dark"></div>
+          <div class="pad column_10 dark"></div>
+          <div class="pad column_11 dark"></div>
+          <div class="pad column_12"></div>
+          <div class="pad column_13"></div>
+          <div class="pad column_14"></div>
+          <div class="pad column_15"></div>
+        </div>
+        <div class="row" data-instrument="snare04">
+          <span class="instrument-label"><strong>snare 4</strong></span>
+          <div class="pad column_0 dark"></div>
+          <div class="pad column_1 dark"></div>
+          <div class="pad column_2 dark"></div>
+          <div class="pad column_3 dark"></div>
+          <div class="pad column_4"></div>
+          <div class="pad column_5"></div>
+          <div class="pad column_6"></div>
+          <div class="pad column_7"></div>
+          <div class="pad column_8 dark"></div>
+          <div class="pad column_9 dark"></div>
+          <div class="pad column_10 dark"></div>
+          <div class="pad column_11 dark"></div>
+          <div class="pad column_12"></div>
+          <div class="pad column_13"></div>
+          <div class="pad column_14"></div>
+          <div class="pad column_15"></div>
+        </div>
+      </div>
+      <!-- SAMPLER -->
+      <div class="optin7">SAMPLER
+        <button id="recordStop" type="button" class="btn btn-default btn- noselect seqButtonStyle" onclick="toggleRecording(this);">
+          <span class="glyphicon glyphicon-record seqGlyphStyle"></span>
+        </button>
+        <button id="downloadButton" type="button" class="btn btn-default btn- noselect seqButtonStyle2" disabled>
+          <span class="glyphicon glyphicon-download-alt seqGlyphStyle2" aria-hidden="true"></span>
+        </button>
+        <div class="row" data-instrument="drumloop2">
+          <span class="instrument-label"><strong>
+        </strong>
+        </span>
+          <div id="pausePlay" class="pad  column_0 dark samplerPad"></div>
+          <div class="pad column_1 dark samplerPad"></div>
+          <div class="pad column_2 dark samplerPad"></div>
+          <div class="pad column_3 dark samplerPad"></div>
+          <div class="pad column_4 samplerPad"></div>
+          <div class="pad column_5 samplerPad"></div>
+          <div class="pad column_6 samplerPad"></div>
+          <div class="pad column_7 samplerPad"></div>
+          <div class="pad column_8 dark samplerPad"></div>
+          <div class="pad column_9 dark samplerPad"></div>
+          <div class="pad column_10 dark samplerPad"></div>
+          <div class="pad column_11 dark samplerPad"></div>
+          <div class="pad column_12 samplerPad"></div>
+          <div class="pad column_13 samplerPad"></div>
+          <div class="pad column_14 samplerPad"></div>
+          <div class="pad column_15 samplerPad"></div>
+        </div>
+      </div>
+      <div class="optin7">LIVE INPUT CONTROLS
+        <!-- <div class="seqDiv optin7"> -->
+        <select class="optin9" id="audioinput" ng-model="dropdown.index" ng-change="changeInput();">
+        </select>
+        <select class="optin9" id="effect" ng-model="dropdown2.index" ng-change="changeEffect();">
+          <option>Delay</option>
+          <option>LFO</option>
+          <option>Stereo Flanger</option>
+          <option>Telephone EQ Filter </option>
+          <!-- <option>Auto Wah </option> -->
+          <!-- <option>Flanger </option> -->
+        </select>
+
+        MIX: {{slider.value * 100 | number : 0}} %
+          <input type="range" min="0.0" max="1.0" step="0.01" ng-model="slider.value" ng-change="crossfade();" class="seqOptin liveVolume2 seqOptin2">
+
+        <input type='range' min='0' max='1' step='0.01' value='0.75' id='liveVolume' class="seqOptin2 liveVolume2">
+        <!-- </div> -->
+      </div>
+    </div>
+  </div>
+  <!-- *********************************************************************
                             KICK drums
 **************************************************************************-->
+  <div>
+    <div class="col-md-6">
       <div class="kickDiv optin7">KICKS
         <div class="row" data-instrument="kick">
           <span class="instrument-label"><strong>Drop 1</strong></span>
@@ -289,276 +423,164 @@
           <div class="pad column_15"></div>
         </div>
       </div>
-    </div>
-  </div>
-  <!-- *********************************************************************
-                            SNARE DRUMS
-**************************************************************************-->
-  <div class="col-md-6">
-    <div class="snareDiv optin7">SNARES
-      <div class="row" data-instrument="snare">
-        <span class="instrument-label"><strong>snare 1</strong></span>
-        <div class="pad column_0 dark"></div>
-        <div class="pad column_1 dark"></div>
-        <div class="pad column_2 dark"></div>
-        <div class="pad column_3 dark"></div>
-        <div class="pad column_4"></div>
-        <div class="pad column_5"></div>
-        <div class="pad column_6"></div>
-        <div class="pad column_7"></div>
-        <div class="pad column_8 dark"></div>
-        <div class="pad column_9 dark"></div>
-        <div class="pad column_10 dark"></div>
-        <div class="pad column_11 dark"></div>
-        <div class="pad column_12"></div>
-        <div class="pad column_13"></div>
-        <div class="pad column_14"></div>
-        <div class="pad column_15"></div>
-      </div>
-      <div class="row" data-instrument="808-snare-01">
-        <span class="instrument-label"><strong>snare 2</strong></span>
-        <div class="pad column_0 dark"></div>
-        <div class="pad column_1 dark"></div>
-        <div class="pad column_2 dark"></div>
-        <div class="pad column_3 dark"></div>
-        <div class="pad column_4"></div>
-        <div class="pad column_5"></div>
-        <div class="pad column_6"></div>
-        <div class="pad column_7"></div>
-        <div class="pad column_8 dark"></div>
-        <div class="pad column_9 dark"></div>
-        <div class="pad column_10 dark"></div>
-        <div class="pad column_11 dark"></div>
-        <div class="pad column_12"></div>
-        <div class="pad column_13"></div>
-        <div class="pad column_14"></div>
-        <div class="pad column_15"></div>
-      </div>
-      <div class="row" data-instrument="snare03">
-        <span class="instrument-label"><strong>snare 3</strong></span>
-        <div class="pad column_0 dark"></div>
-        <div class="pad column_1 dark"></div>
-        <div class="pad column_2 dark"></div>
-        <div class="pad column_3 dark"></div>
-        <div class="pad column_4"></div>
-        <div class="pad column_5"></div>
-        <div class="pad column_6"></div>
-        <div class="pad column_7"></div>
-        <div class="pad column_8 dark"></div>
-        <div class="pad column_9 dark"></div>
-        <div class="pad column_10 dark"></div>
-        <div class="pad column_11 dark"></div>
-        <div class="pad column_12"></div>
-        <div class="pad column_13"></div>
-        <div class="pad column_14"></div>
-        <div class="pad column_15"></div>
-      </div>
-      <div class="row" data-instrument="snare04">
-        <span class="instrument-label"><strong>snare 4</strong></span>
-        <div class="pad column_0 dark"></div>
-        <div class="pad column_1 dark"></div>
-        <div class="pad column_2 dark"></div>
-        <div class="pad column_3 dark"></div>
-        <div class="pad column_4"></div>
-        <div class="pad column_5"></div>
-        <div class="pad column_6"></div>
-        <div class="pad column_7"></div>
-        <div class="pad column_8 dark"></div>
-        <div class="pad column_9 dark"></div>
-        <div class="pad column_10 dark"></div>
-        <div class="pad column_11 dark"></div>
-        <div class="pad column_12"></div>
-        <div class="pad column_13"></div>
-        <div class="pad column_14"></div>
-        <div class="pad column_15"></div>
-      </div>
-    </div>
-    <br>
-    <!-- *********************************************************************
+      <!-- </div>
+</div>
+<br>
+ -->
+      <!-- *********************************************************************
                             TOMS
 **************************************************************************-->
-    <div class="tomDiv optin7">TOMS
-      <div class="row" data-instrument="808-tom-01">
-        <span class="instrument-label"><strong>808</strong></span>
-        <div class="pad column_0 dark"></div>
-        <div class="pad column_1 dark"></div>
-        <div class="pad column_2 dark"></div>
-        <div class="pad column_3 dark"></div>
-        <div class="pad column_4"></div>
-        <div class="pad column_5"></div>
-        <div class="pad column_6"></div>
-        <div class="pad column_7"></div>
-        <div class="pad column_8 dark"></div>
-        <div class="pad column_9 dark"></div>
-        <div class="pad column_10 dark"></div>
-        <div class="pad column_11 dark"></div>
-        <div class="pad column_12"></div>
-        <div class="pad column_13"></div>
-        <div class="pad column_14"></div>
-        <div class="pad column_15"></div>
+      <div class="tomDiv optin7">TOMS
+        <div class="row" data-instrument="808-tom-01">
+          <span class="instrument-label"><strong>808</strong></span>
+          <div class="pad column_0 dark"></div>
+          <div class="pad column_1 dark"></div>
+          <div class="pad column_2 dark"></div>
+          <div class="pad column_3 dark"></div>
+          <div class="pad column_4"></div>
+          <div class="pad column_5"></div>
+          <div class="pad column_6"></div>
+          <div class="pad column_7"></div>
+          <div class="pad column_8 dark"></div>
+          <div class="pad column_9 dark"></div>
+          <div class="pad column_10 dark"></div>
+          <div class="pad column_11 dark"></div>
+          <div class="pad column_12"></div>
+          <div class="pad column_13"></div>
+          <div class="pad column_14"></div>
+          <div class="pad column_15"></div>
+        </div>
+        <div class="row" data-instrument="tom04">
+          <span class="instrument-label"><strong>real 1</strong></span>
+          <div class="pad column_0 dark"></div>
+          <div class="pad column_1 dark"></div>
+          <div class="pad column_2 dark"></div>
+          <div class="pad column_3 dark"></div>
+          <div class="pad column_4"></div>
+          <div class="pad column_5"></div>
+          <div class="pad column_6"></div>
+          <div class="pad column_7"></div>
+          <div class="pad column_8 dark"></div>
+          <div class="pad column_9 dark"></div>
+          <div class="pad column_10 dark"></div>
+          <div class="pad column_11 dark"></div>
+          <div class="pad column_12"></div>
+          <div class="pad column_13"></div>
+          <div class="pad column_14"></div>
+          <div class="pad column_15"></div>
+        </div>
+        <div class="row" data-instrument="tom03">
+          <span class="instrument-label"><strong>real 2</strong></span>
+          <div class="pad column_0 dark"></div>
+          <div class="pad column_1 dark"></div>
+          <div class="pad column_2 dark"></div>
+          <div class="pad column_3 dark"></div>
+          <div class="pad column_4"></div>
+          <div class="pad column_5"></div>
+          <div class="pad column_6"></div>
+          <div class="pad column_7"></div>
+          <div class="pad column_8 dark"></div>
+          <div class="pad column_9 dark"></div>
+          <div class="pad column_10 dark"></div>
+          <div class="pad column_11 dark"></div>
+          <div class="pad column_12"></div>
+          <div class="pad column_13"></div>
+          <div class="pad column_14"></div>
+          <div class="pad column_15"></div>
+        </div>
       </div>
-      <div class="row" data-instrument="tom04">
-        <span class="instrument-label"><strong>real 1</strong></span>
-        <div class="pad column_0 dark"></div>
-        <div class="pad column_1 dark"></div>
-        <div class="pad column_2 dark"></div>
-        <div class="pad column_3 dark"></div>
-        <div class="pad column_4"></div>
-        <div class="pad column_5"></div>
-        <div class="pad column_6"></div>
-        <div class="pad column_7"></div>
-        <div class="pad column_8 dark"></div>
-        <div class="pad column_9 dark"></div>
-        <div class="pad column_10 dark"></div>
-        <div class="pad column_11 dark"></div>
-        <div class="pad column_12"></div>
-        <div class="pad column_13"></div>
-        <div class="pad column_14"></div>
-        <div class="pad column_15"></div>
-      </div>
-      <div class="row" data-instrument="tom03">
-        <span class="instrument-label"><strong>real 2</strong></span>
-        <div class="pad column_0 dark"></div>
-        <div class="pad column_1 dark"></div>
-        <div class="pad column_2 dark"></div>
-        <div class="pad column_3 dark"></div>
-        <div class="pad column_4"></div>
-        <div class="pad column_5"></div>
-        <div class="pad column_6"></div>
-        <div class="pad column_7"></div>
-        <div class="pad column_8 dark"></div>
-        <div class="pad column_9 dark"></div>
-        <div class="pad column_10 dark"></div>
-        <div class="pad column_11 dark"></div>
-        <div class="pad column_12"></div>
-        <div class="pad column_13"></div>
-        <div class="pad column_14"></div>
-        <div class="pad column_15"></div>
-      </div>
-    </div>
-    <br>
-    <!-- *********************************************************************
+      <!-- <br> -->
+      <!-- *********************************************************************
                             LOOPS AND OTHERS
 **************************************************************************-->
-    <div class="loopDiv optin7">LOOPS
-      <div class="row" data-instrument="drumloop100bpm">
-        <span class="instrument-label"><strong>50
+      <div class="loopDiv optin7">LOOPS
+        <div class="row" data-instrument="drumloop100bpm">
+          <span class="instrument-label"><strong>50
     <!--     <label class="upload_group">Upload
         <input class="upload_group" id="audio_file" type="file" accept="audio/*"></label>
         <button type="button" class="btn btn-primary" id="uploadButton" ng-model="selectedFile" ng-click="uploadFile();">SUBMIT</button> -->
         </strong></span>
-        <div class="pad column_0 dark"></div>
-        <div class="pad column_1 dark"></div>
-        <div class="pad column_2 dark"></div>
-        <div class="pad column_3 dark"></div>
-        <div class="pad column_4"></div>
-        <div class="pad column_5"></div>
-        <div class="pad column_6"></div>
-        <div class="pad column_7"></div>
-        <div class="pad column_8 dark"></div>
-        <div class="pad column_9 dark"></div>
-        <div class="pad column_10 dark"></div>
-        <div class="pad column_11 dark"></div>
-        <div class="pad column_12"></div>
-        <div class="pad column_13"></div>
-        <div class="pad column_14"></div>
-        <div class="pad column_15"></div>
+          <div class="pad column_0 dark"></div>
+          <div class="pad column_1 dark"></div>
+          <div class="pad column_2 dark"></div>
+          <div class="pad column_3 dark"></div>
+          <div class="pad column_4"></div>
+          <div class="pad column_5"></div>
+          <div class="pad column_6"></div>
+          <div class="pad column_7"></div>
+          <div class="pad column_8 dark"></div>
+          <div class="pad column_9 dark"></div>
+          <div class="pad column_10 dark"></div>
+          <div class="pad column_11 dark"></div>
+          <div class="pad column_12"></div>
+          <div class="pad column_13"></div>
+          <div class="pad column_14"></div>
+          <div class="pad column_15"></div>
+        </div>
+        <div class="row" data-instrument="drumloop120bpm">
+          <span class="instrument-label"><strong>60</strong></span>
+          <div class="pad column_0 dark"></div>
+          <div class="pad column_1 dark"></div>
+          <div class="pad column_2 dark"></div>
+          <div class="pad column_3 dark"></div>
+          <div class="pad column_4"></div>
+          <div class="pad column_5"></div>
+          <div class="pad column_6"></div>
+          <div class="pad column_7"></div>
+          <div class="pad column_8 dark"></div>
+          <div class="pad column_9 dark"></div>
+          <div class="pad column_10 dark"></div>
+          <div class="pad column_11 dark"></div>
+          <div class="pad column_12"></div>
+          <div class="pad column_13"></div>
+          <div class="pad column_14"></div>
+          <div class="pad column_15"></div>
+        </div>
+        <div class="row" data-instrument="drumloop140bpm">
+          <span class="instrument-label"><strong>70</strong></span>
+          <div class="pad column_0 dark"></div>
+          <div class="pad column_1 dark"></div>
+          <div class="pad column_2 dark"></div>
+          <div class="pad column_3 dark"></div>
+          <div class="pad column_4"></div>
+          <div class="pad column_5"></div>
+          <div class="pad column_6"></div>
+          <div class="pad column_7"></div>
+          <div class="pad column_8 dark"></div>
+          <div class="pad column_9 dark"></div>
+          <div class="pad column_10 dark"></div>
+          <div class="pad column_11 dark"></div>
+          <div class="pad column_12"></div>
+          <div class="pad column_13"></div>
+          <div class="pad column_14"></div>
+          <div class="pad column_15"></div>
+        </div>
+        <div class="row" data-instrument="drumloop1">
+          <span class="instrument-label"><strong>140</strong></span>
+          <div class="pad column_0 dark"></div>
+          <div class="pad column_1 dark"></div>
+          <div class="pad column_2 dark"></div>
+          <div class="pad column_3 dark"></div>
+          <div class="pad column_4"></div>
+          <div class="pad column_5"></div>
+          <div class="pad column_6"></div>
+          <div class="pad column_7"></div>
+          <div class="pad column_8 dark"></div>
+          <div class="pad column_9 dark"></div>
+          <div class="pad column_10 dark"></div>
+          <div class="pad column_11 dark"></div>
+          <div class="pad column_12"></div>
+          <div class="pad column_13"></div>
+          <div class="pad column_14"></div>
+          <div class="pad column_15"></div>
+        </div>
       </div>
-      <div class="row" data-instrument="drumloop120bpm">
-        <span class="instrument-label"><strong>60</strong></span>
-        <div class="pad column_0 dark"></div>
-        <div class="pad column_1 dark"></div>
-        <div class="pad column_2 dark"></div>
-        <div class="pad column_3 dark"></div>
-        <div class="pad column_4"></div>
-        <div class="pad column_5"></div>
-        <div class="pad column_6"></div>
-        <div class="pad column_7"></div>
-        <div class="pad column_8 dark"></div>
-        <div class="pad column_9 dark"></div>
-        <div class="pad column_10 dark"></div>
-        <div class="pad column_11 dark"></div>
-        <div class="pad column_12"></div>
-        <div class="pad column_13"></div>
-        <div class="pad column_14"></div>
-        <div class="pad column_15"></div>
-      </div>
-      <div class="row" data-instrument="drumloop140bpm">
-        <span class="instrument-label"><strong>70</strong></span>
-        <div class="pad column_0 dark"></div>
-        <div class="pad column_1 dark"></div>
-        <div class="pad column_2 dark"></div>
-        <div class="pad column_3 dark"></div>
-        <div class="pad column_4"></div>
-        <div class="pad column_5"></div>
-        <div class="pad column_6"></div>
-        <div class="pad column_7"></div>
-        <div class="pad column_8 dark"></div>
-        <div class="pad column_9 dark"></div>
-        <div class="pad column_10 dark"></div>
-        <div class="pad column_11 dark"></div>
-        <div class="pad column_12"></div>
-        <div class="pad column_13"></div>
-        <div class="pad column_14"></div>
-        <div class="pad column_15"></div>
-      </div>
-      <div class="row" data-instrument="drumloop1">
-        <span class="instrument-label"><strong>140</strong></span>
-        <div class="pad column_0 dark"></div>
-        <div class="pad column_1 dark"></div>
-        <div class="pad column_2 dark"></div>
-        <div class="pad column_3 dark"></div>
-        <div class="pad column_4"></div>
-        <div class="pad column_5"></div>
-        <div class="pad column_6"></div>
-        <div class="pad column_7"></div>
-        <div class="pad column_8 dark"></div>
-        <div class="pad column_9 dark"></div>
-        <div class="pad column_10 dark"></div>
-        <div class="pad column_11 dark"></div>
-        <div class="pad column_12"></div>
-        <div class="pad column_13"></div>
-        <div class="pad column_14"></div>
-        <div class="pad column_15"></div>
-      </div>
-    </div>
-    <!-- SAMPLER -->
-    <div class="loopDiv optin7">SAMPLER
-      <button id="recordStop" type="button" class="btn btn-default btn- noselect seqButtonStyle" onclick="toggleRecording(this);">
-        <span class="glyphicon glyphicon-record seqGlyphStyle"></span>
-      </button>
-      <button id="downloadButton" type="button" class="btn btn-default btn- noselect seqButtonStyle2" disabled>
-        <span class="glyphicon glyphicon-download-alt seqGlyphStyle2" aria-hidden="true"></span>
-      </button>
-      <div class="row" data-instrument="drumloop2">
-        <span class="instrument-label"><strong>
-        </strong>
-        </span>
-        <div id="pausePlay" class="pad column_0 dark"></div>
-        <div class="pad column_1 dark"></div>
-        <div class="pad column_2 dark"></div>
-        <div class="pad column_3 dark"></div>
-        <div class="pad column_4"></div>
-        <div class="pad column_5"></div>
-        <div class="pad column_6"></div>
-        <div class="pad column_7"></div>
-        <div class="pad column_8 dark"></div>
-        <div class="pad column_9 dark"></div>
-        <div class="pad column_10 dark"></div>
-        <div class="pad column_11 dark"></div>
-        <div class="pad column_12"></div>
-        <div class="pad column_13"></div>
-        <div class="pad column_14"></div>
-        <div class="pad column_15"></div>
-      </div>
-      <!-- <button id="pausePlay" type="button" class="btn btn-default btn- noselect" disabled>
-        <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
-      </button> -->
     </div>
     <!--     <div>
       <canvas id="wavedisplay"></canvas>
     </div> -->
   </div>
+</div>
 </div>
 <!-- live recording -->
 <!-- <div id="container">
@@ -882,87 +904,87 @@
     <span id="increase-tempo-by-five" class="glyphicon glyphicon-plus btn btn-default tempo-btn"></span>
     </span>
   </div> -->
-</div>
+<!-- </div> -->
 <!-- live input -->
-<div id="square">
-  <div id="leftSquareLive">
+<!-- <div id="square"> -->
+<!--   <div id="leftSquareLive">
+  </div> -->
+<!-- <div id="rightSquare"> -->
+<!-- <div id="container2"> -->
+<!-- <h2 class="signup">{{title}}</h2> -->
+<!-- <form class="form2" className="animated slideInLeft"> -->
+<!-- <div> -->
+<!-- <div class="liveInput"> -->
+<!-- SOURCE: -->
+<!-- </div> -->
+<!--     <select class="optin2" id="audioinput" ng-model="dropdown.index" ng-change="changeInput();">
+    </select> -->
+<!-- </div> -->
+<!--   <div class="liveInput"> EFFECT:
+  </div> -->
+<!-- <div> -->
+<!-- <select class="optin2" id="effect" ng-model="dropdown2.index" ng-change="changeEffect();">
+  <option>Delay</option>
+  <option>LFO</option>
+  <option>Stereo Flanger</option>
+  <option>Telephone EQ Filter </option> -->
+<!-- <option>Auto Wah </option> -->
+<!-- <option>Flanger </option> -->
+<!-- </select> -->
+<!-- {{ number_expression | number : fractionSize}} -->
+<!--    <div class="liveInput"> EFFECT MIX:
+    </div> -->
+<!-- <div class="optin4">{{slider.value * 100 | number : 0}} %
+  <input type="range" min="0.0" max="1.0" step="0.01" ng-model="slider.value" ng-change="crossfade();">
+</div> -->
+<!-- <input type="checkbox" checked ng-change="toggleMono();" ng-model="check.value"> -->
+<!-- </div> -->
+<!-- </form> -->
+<div id="controls" ng-model="ngControls" class="optin3">
+  <!-- delay -->
+  <div id="delayControls">
+    <br>BPM: {{60 / slider2.value | number : 0}}
+    <input id="dtime" type="range" min="0.2" max="1.0" step="0.01" ng-model="slider2.value" ng-change="changeEffect();">
+    <br>Feedback
+    <input id="dregen" type="range" min="0.1" max="1.0" step="0.01" ng-model="slider3.value" ng-change="changeEffect();">
   </div>
-  <div id="rightSquare">
-    <div id="container2">
-      <h2 class="signup">{{title}}</h2>
-      <form class="form2" className="animated slideInLeft">
-        <div>
-          <div class="liveInput">
-            SOURCE:
-          </div>
-          <select class="optin2" id="audioinput" ng-model="dropdown.index" ng-change="changeInput();">
-          </select>
-        </div>
-        <div class="liveInput"> EFFECT:
-        </div>
-        <div>
-          <select class="optin2" id="effect" ng-model="dropdown2.index" ng-change="changeEffect();">
-            <option>Delay</option>
-            <option>LFO</option>
-            <option>Stereo Flanger</option>
-            <option>Telephone EQ Filter </option>
-            <!-- <option>Auto Wah </option> -->
-            <!-- <option>Flanger </option> -->
-          </select>
-          <!-- {{ number_expression | number : fractionSize}} -->
-          <div class="liveInput"> EFFECT MIX:
-          </div>
-          <div class="optin4">{{slider.value * 100 | number : 0}} %
-            <input type="range" min="0.0" max="1.0" step="0.01" ng-model="slider.value" ng-change="crossfade();">
-          </div>
-          <!-- <input type="checkbox" checked ng-change="toggleMono();" ng-model="check.value"> -->
-        </div>
-      </form>
-      <div id="controls" ng-model="ngControls" class="optin3">
-        <!-- delay -->
-        <div id="delayControls">
-          <br>BPM: {{60 / slider2.value | number : 0}}
-          <input id="dtime" type="range" min="0.2" max="1.0" step="0.01" ng-model="slider2.value" ng-change="changeEffect();">
-          <br>Feedback
-          <input id="dregen" type="range" min="0.1" max="1.0" step="0.01" ng-model="slider3.value" ng-change="changeEffect();">
-        </div>
-        <!-- LFO -->
-        <div id="gainLFOControls">
-          LFO Shape:
-          <select id="lfotype webmenu" name="webmenu" ng-model="lfoDropdown.value" ng-change="changeEffect();" class="optin">
-            <option value="sine" data-image="/lib/node_modules/msdropdown/icons/sine1.png">SINE</option>
-            <option value="square" data-image="./lib/node_modules/msdropdown/icons/sine1.png">SQUARE</option>
-            <option value="sawtooth" data-image="../lib/node_modules/msdropdown/icons/sine1.png">SAWTOOTH</option>
-            <option value="triangle" data-image="lib/node_modules/msdropdown/icons/sine1.png">TRIANGLE</option>
-          </select>
-          BPM: {{60 * lfoSlider1.value}}
-          <input id="lfo" type="range" min="0.25" max="20" step="0.25" value="3" ng-model="lfoSlider1.value" ng-change="changeEffect();">
-        </div>
-        <!-- Stereo Flanger -->
-        <div id="stFlangeControls">
+  <!-- LFO -->
+  <div id="gainLFOControls">
+    LFO Shape:
+    <select id="lfotype webmenu" name="webmenu" ng-model="lfoDropdown.value" ng-change="changeEffect();" class="optin">
+      <option value="sine" data-image="/lib/node_modules/msdropdown/icons/sine1.png">SINE</option>
+      <option value="square" data-image="./lib/node_modules/msdropdown/icons/sine1.png">SQUARE</option>
+      <option value="sawtooth" data-image="../lib/node_modules/msdropdown/icons/sine1.png">SAWTOOTH</option>
+      <option value="triangle" data-image="lib/node_modules/msdropdown/icons/sine1.png">TRIANGLE</option>
+    </select>
+    BPM: {{60 * lfoSlider1.value}}
+    <input id="lfo" type="range" min="0.25" max="20" step="0.25" value="3" ng-model="lfoSlider1.value" ng-change="changeEffect();">
+  </div>
+  <!-- Stereo Flanger -->
+  <div id="stFlangeControls">
+    <br>
+    <option id="sflspeed" min="0.05" max="2" step="0.05" value="0.15">
+      <br>
+      <option id="sfldelay" min="0.001" max="0.02" step="0.001" value="0.003">
+        <br>
+        <option id="sfldepth" min="0.0005" max="0.02" step="0.00025" value="0.005">
           <br>
-          <option id="sflspeed" min="0.05" max="2" step="0.05" value="0.15">
-            <br>
-            <option id="sfldelay" min="0.001" max="0.02" step="0.001" value="0.003">
-              <br>
-              <option id="sfldepth" min="0.0005" max="0.02" step="0.00025" value="0.005">
-                <br>
-                <option id="sflfb" min="0" max="1" step="0.01" value="0.9">
-        </div>
-        <!-- telephone -->
-        <div id="telephoneControls">
-        </div>
-        <!-- autowah -->
-        <div id="autowahControls">
-          <br> Envelope follower filter frequency:
-          <input id="awEF" type="range" min="0.25" max="20" step="0.25" value="10" onInput="if (awFollower) awFollower.frequency.value = event.target.value;">
-          <br> Filter depth (log):
-          <input id="lfo" type="range" min="0" max="4" step="0.1" value="3.5" onInput="if (awDepth) awDepth.gain.value = Math.pow(2,10+parseFloat(event.target.value));">
-          <br> Filter Q:
-          <input id="awQ" type="range" min="0.0" max="20.0" step="0.1" value="5.0" onInput="if (awFilter) awFilter.Q.value = event.target.value;">
-        </div>
-        <!-- flanger -->
-        <!--         <div id="flangeControls">
+          <option id="sflfb" min="0" max="1" step="0.01" value="0.9">
+  </div>
+  <!-- telephone -->
+  <div id="telephoneControls">
+  </div>
+  <!-- autowah -->
+  <div id="autowahControls">
+    <br> Envelope follower filter frequency:
+    <input id="awEF" type="range" min="0.25" max="20" step="0.25" value="10" onInput="if (awFollower) awFollower.frequency.value = event.target.value;">
+    <br> Filter depth (log):
+    <input id="lfo" type="range" min="0" max="4" step="0.1" value="3.5" onInput="if (awDepth) awDepth.gain.value = Math.pow(2,10+parseFloat(event.target.value));">
+    <br> Filter Q:
+    <input id="awQ" type="range" min="0.0" max="20.0" step="0.1" value="5.0" onInput="if (awFilter) awFilter.Q.value = event.target.value;">
+  </div>
+  <!-- flanger -->
+  <!--         <div id="flangeControls">
           <br> Flanger speed:
           <input id="flspeed" type="range" min="0.05" max="1" step="0.05" ng-model="flangeSlider1.value" ng-change="changeEffect();">
           <br> Flanger delay:
@@ -972,30 +994,29 @@
           <br> Flanger feedback:
           <input id="flfb" type="range" min="0" max="1" step="0.01" ng-model="flangeSlider4.value" ng-change="changeEffect();">
         </div> -->
-      </div>
-    </div>
-    <!-- <input class="optin2" type="password" placeholder="password" ng-model="account.password"> -->
-    </form>
-    <!--  <div class="centeredbuttons">
+</div>
+<!-- </div> -->
+<!-- <input class="optin2" type="password" placeholder="password" ng-model="account.password"> -->
+<!-- </form> -->
+<!--  <div class="centeredbuttons">
     </div> -->
-    <!--     <h3 id="footer">
+<!--     <h3 id="footer">
     <i class="fa fa-play fa-lg"></i>
     <i class="fa fa-circle fa-lg" onclick="toggleRecording(this);"> </i>
     <i class="fa fa-save fa-lg"></i>
     <i id="save" class="fa fa-download fa-lg" aria-hidden="true"></i>
 
     </h3> -->
-  </div>
-</div>
+<!-- </div>
+</div> -->
 <!-- </div> -->
 <!-- <button id="play-pause" type="button" class="btn btn-default btn- noselect">Play/Pause
   <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
 </button> -->
-    <input type='range' min='0' max='1' step='0.01' value='0.75' id='liveVolume' class="seqOptin glyphicon glyphicon-volume-up">
-
+<!-- <input type='range' min='0' max='1' step='0.01' value='0.75' id='liveVolume' class="seqOptin glyphicon glyphicon-volume-up"> -->
 <!-- canvas for audio recording -->
 <!-- <div id="container"> -->
 <!-- <video id="live" autoplay muted></video> -->
 <br>
-<video id="recorded" autoplay loop></video>
+<video id="recorded" autoplay></video>
 </div>

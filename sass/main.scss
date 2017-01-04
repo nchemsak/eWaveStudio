@@ -1016,9 +1016,10 @@ form {
   width: 510px;
   float: left;
   margin-right: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 0px;
   border-radius: 3px;
-  padding: 10px 15px;
+  padding: 5px 15px;
+
   font-size: 12px;
   color: RGBA(95, 186, 255, 1.00);
   transition-duration: 0.65s;
@@ -1057,6 +1058,8 @@ form {
   background: RGBA(47, 50, 56, 1.00);
   background-image: url("../images/black-thread.png");
 }
+
+
 
 .glyphicon-volume-up:before {
   margin-left: 20px;
@@ -1120,6 +1123,8 @@ div#controls div {
   // width: 728px;
   // width: 100%;
 }
+
+
 
 div#controls div.display {
   display: block;
@@ -1187,6 +1192,9 @@ input[type=range] {
 /****************************************************************************
                              SEQUENCER
  ****************************************************************************/
+
+
+
 
 .seqButtonStyle {
   width: 20px;
@@ -1432,6 +1440,8 @@ div.key {
   height: 30px;
   background-color: black;
 }
+
+
 
 input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none !important;
@@ -1826,4 +1836,85 @@ img #record.recording {
   color: silver;
   cursor: pointer;
   opacity: 0.50;
+}
+
+
+.samplerPad.selected {
+
+  background-image: url("../images/cubes.png");
+  border: 0px;
+}
+
+.samplerPad {
+    background-image: url("../images/retroSpeaker.gif");
+
+}
+
+
+.optin9 {
+  background-color: rgba(255, 255, 255, 0.1);
+  width: 200px;
+  // float: left;
+  margin-left: 30px;
+  margin-bottom: 0px;
+  // margin: 0 auto;
+  border-radius: 3px;
+  // padding: 5px 15px;
+  text-align: center;
+  font-size: 12px;
+  color: RGBA(95, 186, 255, 1.00);
+  transition-duration: 0.65s;
+  background: RGBA(47, 50, 56, 1.00);
+  background-image: url("../images/black-thread.png");
+}
+
+.optin9:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+.optin9:focus {
+  color: RGBA(95, 186, 255, 1.00);
+}
+
+.seqOptin2 {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  outline: 0;
+  background-color: rgba(255, 255, 255, 0.2);
+  width: 75%;
+  display: inline;
+  border-radius: 3px;
+  font-size: 18px;
+  color: RGBA(95, 186, 255, 1.00);
+  -webkit-transition-duration: 0.25s;
+  transition-duration: 0.25s;
+  font-weight: 300;
+  background-color: none;
+  margin-bottom: 10px;
+}
+
+.seqOptin2:hover {
+  // background-color: rgba(255, 255, 255, 0.1);
+}
+
+.seqOptin2:focus {
+  // width: 90%;
+  color: RGBA(95, 186, 255, 1.00);
+}
+
+.liveVolume {
+  width: 65%;
+  float: left;
+  height: 30px;
+  background-color: black;
+}
+
+.liveVolume2 {
+  width: 100%;
+  // margin-top: 10px;
+  float: left;
+  height: 20px;
+  background-color: black;
 }
