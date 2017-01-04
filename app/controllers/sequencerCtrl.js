@@ -987,7 +987,7 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
 
   let vol = audioContext.createGain();
 
-  let volControl = document.getElementById("liveVolume");
+  let volControl = document.getElementById("liveVolume2");
   vol.gain.value = volControl.value;
   vol.connect(audioContext.destination);
   volControl.addEventListener("input", function() {

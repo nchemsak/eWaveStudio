@@ -4,7 +4,7 @@
     <div class="optin7">VOLUME
       <br>
       <input type='range' min='0' max='1' step='0.01' value='0.75' id='seqVolume' class="seqOptin">
-      <button id="play-pause" type="button" class="btn btn-default btn- noselect">Play/Stop
+      <button id="play-pause" type="button" class="btn btn-default btn- noselect">
         <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
       </button>
     </div>
@@ -37,15 +37,15 @@
       <div class="cymDiv optin7"><span class="bottomRoom">CYMBALS</span>
         <div class="row" data-instrument="hihat">
           <span class="instrument-label"><strong>hihat 1</strong></span>
-          <div class="pad column_0 dark"></div>
+          <div class="pad column_0 dark selected"></div>
           <div class="pad column_1 dark"></div>
           <div class="pad column_2 dark"></div>
           <div class="pad column_3 dark"></div>
-          <div class="pad column_4"></div>
+          <div class="pad column_4 selected"></div>
           <div class="pad column_5"></div>
           <div class="pad column_6"></div>
           <div class="pad column_7"></div>
-          <div class="pad column_8 dark"></div>
+          <div class="pad column_8 dark selected"></div>
           <div class="pad column_9 dark"></div>
           <div class="pad column_10 dark"></div>
           <div class="pad column_11 dark"></div>
@@ -56,19 +56,19 @@
         </div>
         <div class="row" data-instrument="808-hihat-01">
           <span class="instrument-label"><strong>hihat 2</strong></span>
-          <div class="pad column_0 dark selected"></div>
+          <div class="pad column_0 dark "></div>
           <div class="pad column_1 dark"></div>
           <div class="pad column_2 dark selected"></div>
           <div class="pad column_3 dark"></div>
-          <div class="pad column_4 selected"></div>
+          <div class="pad column_4 "></div>
           <div class="pad column_5"></div>
           <div class="pad column_6 selected"></div>
           <div class="pad column_7"></div>
-          <div class="pad column_8 dark selected"></div>
+          <div class="pad column_8 dark "></div>
           <div class="pad column_9 dark"></div>
           <div class="pad column_10 dark selected"></div>
           <div class="pad column_11 dark"></div>
-          <div class="pad column_12 selected"></div>
+          <div class="pad column_12 "></div>
           <div class="pad column_13"></div>
           <div class="pad column_14 selected"></div>
           <div class="pad column_15"></div>
@@ -87,7 +87,7 @@
           <div class="pad column_9 dark"></div>
           <div class="pad column_10 dark"></div>
           <div class="pad column_11 dark"></div>
-          <div class="pad column_12"></div>
+          <div class="pad column_12 selected"></div>
           <div class="pad column_13"></div>
           <div class="pad column_14"></div>
           <div class="pad column_15"></div>
@@ -252,7 +252,7 @@
         </div>
       </div>
       <!-- SAMPLER -->
-      <div class="optin7">SAMPLER
+      <div class="optin10"><strong>SAMPLER</strong>
         <button id="recordStop" type="button" class="btn btn-default btn- noselect seqButtonStyle" onclick="toggleRecording(this);">
           <span class="glyphicon glyphicon-record seqGlyphStyle"></span>
         </button>
@@ -280,8 +280,10 @@
           <div class="pad column_14 samplerPad"></div>
           <div class="pad column_15 samplerPad"></div>
         </div>
-      </div>
-      <div class="optin7">LIVE INPUT CONTROLS
+        <!-- </div> -->
+        <!-- <div class="optin7"> -->
+        LIVE INPUT CONTROLS
+        <br>
         <!-- <div class="seqDiv optin7"> -->
         <select class="optin9" id="audioinput" ng-model="dropdown.index" ng-change="changeInput();">
         </select>
@@ -293,12 +295,66 @@
           <!-- <option>Auto Wah </option> -->
           <!-- <option>Flanger </option> -->
         </select>
-
-        MIX: {{slider.value * 100 | number : 0}} %
-          <input type="range" min="0.0" max="1.0" step="0.01" ng-model="slider.value" ng-change="crossfade();" class="seqOptin liveVolume2 seqOptin2">
-
-        <input type='range' min='0' max='1' step='0.01' value='0.75' id='liveVolume' class="seqOptin2 liveVolume2">
+        <br> EFFECT MIX: {{slider.value * 100 | number : 0}} %
+        <input type="range" min="0.0" max="1.0" step="0.01" ng-model="slider.value" ng-change="crossfade();" class="liveVolume2 seqOptin2">
+        <br>VOLUME:
+        <input type='range' min='0' max='1' step='0.01' value='0.75' id='liveVolume2' class="seqOptin2 liveVolume2">
         <!-- </div> -->
+        <div id="controls" ng-model="ngControls">
+          <!-- delay -->
+          <div id="delayControls">
+            <br>BPM: {{60 / slider2.value | number : 0}}
+            <input id="dtime" type="range" min="0.2" max="1.0" step="0.01" ng-model="slider2.value" ng-change="changeEffect();" class="liveVolume2 seqOptin2">
+            <br>Feedback
+            <input id="dregen" type="range" min="0.1" max="1.0" step="0.01" ng-model="slider3.value" ng-change="changeEffect();" class="liveVolume2 seqOptin2">
+          </div>
+          <!-- LFO -->
+          <div id="gainLFOControls">
+            LFO Shape:
+            <select id="lfotype webmenu" name="webmenu" ng-model="lfoDropdown.value" ng-change="changeEffect();" class="optin">
+              <option value="sine" data-image="/lib/node_modules/msdropdown/icons/sine1.png">SINE</option>
+              <option value="square" data-image="./lib/node_modules/msdropdown/icons/sine1.png">SQUARE</option>
+              <option value="sawtooth" data-image="../lib/node_modules/msdropdown/icons/sine1.png">SAWTOOTH</option>
+              <option value="triangle" data-image="lib/node_modules/msdropdown/icons/sine1.png">TRIANGLE</option>
+            </select>
+            BPM: {{60 * lfoSlider1.value}}
+            <input id="lfo" type="range" min="0.25" max="20" step="0.25" value="3" ng-model="lfoSlider1.value" class="liveVolume2 seqOptin2" ng-change="changeEffect();">
+          </div>
+          <!-- Stereo Flanger -->
+          <div id="stFlangeControls">
+            <br>
+            <option id="sflspeed" min="0.05" max="2" step="0.05" value="0.15">
+              <br>
+              <option id="sfldelay" min="0.001" max="0.02" step="0.001" value="0.003">
+                <br>
+                <option id="sfldepth" min="0.0005" max="0.02" step="0.00025" value="0.005">
+                  <br>
+                  <option id="sflfb" min="0" max="1" step="0.01" value="0.9">
+          </div>
+          <!-- telephone -->
+          <div id="telephoneControls">
+          </div>
+          <!-- autowah -->
+          <div id="autowahControls">
+            <br> Envelope follower filter frequency:
+            <input id="awEF" type="range" min="0.25" max="20" step="0.25" value="10" onInput="if (awFollower) awFollower.frequency.value = event.target.value;">
+            <br> Filter depth (log):
+            <input id="lfo" type="range" min="0" max="4" step="0.1" value="3.5" onInput="if (awDepth) awDepth.gain.value = Math.pow(2,10+parseFloat(event.target.value));">
+            <br> Filter Q:
+            <input id="awQ" type="range" min="0.0" max="20.0" step="0.1" value="5.0" onInput="if (awFilter) awFilter.Q.value = event.target.value;">
+          </div>
+          <!-- flanger -->
+          <!--         <div id="flangeControls">
+          <br> Flanger speed:
+          <input id="flspeed" type="range" min="0.05" max="1" step="0.05" ng-model="flangeSlider1.value" ng-change="changeEffect();">
+          <br> Flanger delay:
+          <input id="fldelay" type="range" min="0.001" max="0.02" step="0.001" ng-model="flangeSlider2.value" ng-change="changeEffect();">
+          <br> Flanger depth:
+          <input id="fldepth" type="range" min="0.0005" max="0.005" step="0.00025" ng-model="flangeSlider3.value" ng-change="changeEffect();">
+          <br> Flanger feedback:
+          <input id="flfb" type="range" min="0" max="1" step="0.01" ng-model="flangeSlider4.value" ng-change="changeEffect();">
+        </div> -->
+        </div>
       </div>
     </div>
   </div>
@@ -435,13 +491,13 @@
           <span class="instrument-label"><strong>808</strong></span>
           <div class="pad column_0 dark"></div>
           <div class="pad column_1 dark"></div>
-          <div class="pad column_2 dark"></div>
+          <div class="pad column_2 dark selected"></div>
           <div class="pad column_3 dark"></div>
           <div class="pad column_4"></div>
-          <div class="pad column_5"></div>
+          <div class="pad column_5 selected"></div>
           <div class="pad column_6"></div>
           <div class="pad column_7"></div>
-          <div class="pad column_8 dark"></div>
+          <div class="pad column_8 dark selected"></div>
           <div class="pad column_9 dark"></div>
           <div class="pad column_10 dark"></div>
           <div class="pad column_11 dark"></div>
@@ -940,61 +996,6 @@
 <!-- <input type="checkbox" checked ng-change="toggleMono();" ng-model="check.value"> -->
 <!-- </div> -->
 <!-- </form> -->
-<div id="controls" ng-model="ngControls" class="optin3">
-  <!-- delay -->
-  <div id="delayControls">
-    <br>BPM: {{60 / slider2.value | number : 0}}
-    <input id="dtime" type="range" min="0.2" max="1.0" step="0.01" ng-model="slider2.value" ng-change="changeEffect();">
-    <br>Feedback
-    <input id="dregen" type="range" min="0.1" max="1.0" step="0.01" ng-model="slider3.value" ng-change="changeEffect();">
-  </div>
-  <!-- LFO -->
-  <div id="gainLFOControls">
-    LFO Shape:
-    <select id="lfotype webmenu" name="webmenu" ng-model="lfoDropdown.value" ng-change="changeEffect();" class="optin">
-      <option value="sine" data-image="/lib/node_modules/msdropdown/icons/sine1.png">SINE</option>
-      <option value="square" data-image="./lib/node_modules/msdropdown/icons/sine1.png">SQUARE</option>
-      <option value="sawtooth" data-image="../lib/node_modules/msdropdown/icons/sine1.png">SAWTOOTH</option>
-      <option value="triangle" data-image="lib/node_modules/msdropdown/icons/sine1.png">TRIANGLE</option>
-    </select>
-    BPM: {{60 * lfoSlider1.value}}
-    <input id="lfo" type="range" min="0.25" max="20" step="0.25" value="3" ng-model="lfoSlider1.value" ng-change="changeEffect();">
-  </div>
-  <!-- Stereo Flanger -->
-  <div id="stFlangeControls">
-    <br>
-    <option id="sflspeed" min="0.05" max="2" step="0.05" value="0.15">
-      <br>
-      <option id="sfldelay" min="0.001" max="0.02" step="0.001" value="0.003">
-        <br>
-        <option id="sfldepth" min="0.0005" max="0.02" step="0.00025" value="0.005">
-          <br>
-          <option id="sflfb" min="0" max="1" step="0.01" value="0.9">
-  </div>
-  <!-- telephone -->
-  <div id="telephoneControls">
-  </div>
-  <!-- autowah -->
-  <div id="autowahControls">
-    <br> Envelope follower filter frequency:
-    <input id="awEF" type="range" min="0.25" max="20" step="0.25" value="10" onInput="if (awFollower) awFollower.frequency.value = event.target.value;">
-    <br> Filter depth (log):
-    <input id="lfo" type="range" min="0" max="4" step="0.1" value="3.5" onInput="if (awDepth) awDepth.gain.value = Math.pow(2,10+parseFloat(event.target.value));">
-    <br> Filter Q:
-    <input id="awQ" type="range" min="0.0" max="20.0" step="0.1" value="5.0" onInput="if (awFilter) awFilter.Q.value = event.target.value;">
-  </div>
-  <!-- flanger -->
-  <!--         <div id="flangeControls">
-          <br> Flanger speed:
-          <input id="flspeed" type="range" min="0.05" max="1" step="0.05" ng-model="flangeSlider1.value" ng-change="changeEffect();">
-          <br> Flanger delay:
-          <input id="fldelay" type="range" min="0.001" max="0.02" step="0.001" ng-model="flangeSlider2.value" ng-change="changeEffect();">
-          <br> Flanger depth:
-          <input id="fldepth" type="range" min="0.0005" max="0.005" step="0.00025" ng-model="flangeSlider3.value" ng-change="changeEffect();">
-          <br> Flanger feedback:
-          <input id="flfb" type="range" min="0" max="1" step="0.01" ng-model="flangeSlider4.value" ng-change="changeEffect();">
-        </div> -->
-</div>
 <!-- </div> -->
 <!-- <input class="optin2" type="password" placeholder="password" ng-model="account.password"> -->
 <!-- </form> -->
