@@ -1,29 +1,16 @@
 'use strict';
 
 app.controller('computerKeyboardCtrl', function($scope) {
-
   $scope.title2 = "Keyboard";
 
   /*****************************************************************
   /*****************************************************************
-
                             PIANO
-
   *****************************************************************
   *****************************************************************/
 
-
-
   let keyboardContext = new AudioContext();
-  // let keyboard = new QwertyHancock({
-  //   id: 'keyboard',
-  //   octaves: 2
-  // });
-
-
-
   let oscType = "square"; //default wave type
-
   let F3 = 174.614,
     F3sh = 184.997,
     G3 = 195.998,
@@ -49,7 +36,6 @@ app.controller('computerKeyboardCtrl', function($scope) {
     D5sh = 622.254,
     E5 = 659.255;
 
-
   /********************************************
         RADIO BUTTONS CHOOSING WAVE FORM
   **********************************************/
@@ -66,10 +52,6 @@ app.controller('computerKeyboardCtrl', function($scope) {
     }
     return oscType;
   });
-
-
-
-
 
   /********************************************
             Keyboard Event Listener SHARPS
@@ -112,8 +94,6 @@ app.controller('computerKeyboardCtrl', function($scope) {
   /********************************************
             Keyboard Event Listener
   **********************************************/
-
-
   addEventListener("keydown", function() {
     if (event.keyCode === 9) {
       $('#F3').addClass('close4');
@@ -151,43 +131,25 @@ app.controller('computerKeyboardCtrl', function($scope) {
     } else if (event.keyCode === 219) {
       $('#C5').addClass('nick');
       keyPlay(C5);
-      // } else if (event.keyCode === 221) {
-      //   $('#D5').addClass('nick');
-      //   keyPlay(D5);
-      // } else if (event.keyCode === 220) {
-      //   $('#E5').addClass('nick');
-      //   keyPlay(E5);
     }
-
   });
-
-
 
   /********************************************
   Keyboard play note and listen for Keyup to stop
   **********************************************/
-
-
   function keyPlay(frequency) {
     var oscillator = keyboardContext.createOscillator();
     oscillator.type = oscType;
     oscillator.frequency.value = frequency;
-
-
     var osc = keyboardContext.createOscillator();
     var vol = keyboardContext.createGain();
-    // var panner = keyboardContext.createStereoPanner();
     var freqGain = keyboardContext.createGain();
     var lfo = keyboardContext.createOscillator();
     var distortion = keyboardContext.createWaveShaper();
 
-
     // get html controls
     var volControl = document.getElementById("volume");
     var panControl = document.getElementById("panner");
-
-    //PANNER
-    // panner.connect(keyboardContext.destination);
 
     // VOLUME
     vol.gain.value = volControl.value;
@@ -197,7 +159,6 @@ app.controller('computerKeyboardCtrl', function($scope) {
     distortion.oversample = '4x';
     distortion.connect(vol);
     oscillator.connect(distortion);
-
 
     // LISTENERS
     volControl.addEventListener("input", function() {
@@ -259,6 +220,4 @@ app.controller('computerKeyboardCtrl', function($scope) {
       oscillator.stop();
     });
   }
-
-
 });

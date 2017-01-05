@@ -9,12 +9,10 @@ app.controller('midiCtrl', function($scope, $location, AuthFactory) {
   $scope.dropdown2 = { value: '' };
   let currentEffectNode = null;
   let audioInput = null;
-let ac = new AudioContext();
+  let ac = new AudioContext();
   /*****************************************************************
   /*****************************************************************
-
                             MIDI controller
-
   *****************************************************************
   *****************************************************************/
 
@@ -24,9 +22,8 @@ let ac = new AudioContext();
       let velocity = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
       this.osc = ac.createOscillator();
 
-      // Math.pow() function returns the base to the exponent power
+      // the Math.pow() function returns the base to exponent power or something like that so says the internet
       this.osc.frequency.value = 440 * Math.pow(2, (number - 69) / 12);
-
       let midiOscType = $scope.formData.midiOscType;
       console.log("midiOscType: ", midiOscType);
       this.osc.type = midiOscType;
@@ -44,7 +41,6 @@ let ac = new AudioContext();
     };
 
     $scope.Instrument = function() {};
-
     $scope.Instrument.prototype.on = function on(number, velocity) {
       this.off(note);
       var note = new $scope.Note(number, Math.pow(velocity / 127, 1));
@@ -59,7 +55,6 @@ let ac = new AudioContext();
       }
     };
 
-    // let ac = new AudioContext();
     let volume = ac.createGain();
     volume.connect(ac.destination);
     volume.gain.value = 0.25;
@@ -84,13 +79,9 @@ let ac = new AudioContext();
   };
   /*****************************************************************
   /*****************************************************************
-
                            MIDI SAMPLER
-
   *****************************************************************
   *****************************************************************/
-
-  // let ac = new AudioContext();
 
   $scope.midiSampler = function() {
     let keyData = document.getElementById('key_data');
@@ -110,11 +101,6 @@ let ac = new AudioContext();
       }).then(onMIDISuccess);
     }
 
-    // add event listeners
-    // for (let i = 0; i < btn.length; i++) {
-    //   btn[i].addEventListener('mousedown', $scope.clickPlayOn);
-    //   btn[i].addEventListener('mouseup', $scope.clickPlayOff);
-    // }
     // prepare audio files
     for (let i = 0; i < btn.length; i++) {
       addAudioProperties(btn[i]);
@@ -147,16 +133,6 @@ let ac = new AudioContext();
       key83: 24
     };
 
-    // user interaction
-    // $scope.clickPlayOn = function(e) {
-    //   e.target.classList.add('active');
-    //   e.target.play();
-    // };
-
-    // $scope.clickPlayOff = function(e) {
-    //   e.target.classList.remove('active');
-    // };
-
     // midi functions
     function onMIDISuccess(midiAccess) {
       midi = midiAccess;
@@ -171,7 +147,6 @@ let ac = new AudioContext();
     }
 
     $scope.onMIDIMessage = function(event) {
-      // function onMIDIMessage(event) {
       data = event.data,
         type = data[0] & 0xf0,
         note = data[1],
@@ -187,7 +162,6 @@ let ac = new AudioContext();
       }
       $scope.logger(keyData, 'key data', data);
     };
-
 
     // this console.logs when midi is plugged in or taken out
     $scope.onStateChange = function(event) {
@@ -208,7 +182,6 @@ let ac = new AudioContext();
     };
 
     $scope.player = function(note, velocity) {
-      // function player(note, velocity) {
       let sample = sampleMap['key' + note];
       console.log("sampleMap: ", sampleMap);
       console.log("sample: ", sample);
@@ -252,7 +225,6 @@ let ac = new AudioContext();
     };
   };
 
-
   let lastEffect = -1;
   $scope.changeMidi = function() {
     let midiChange = document.getElementById("midiChange").selectedIndex;
@@ -275,7 +247,5 @@ let ac = new AudioContext();
       default:
         break;
     }
-    // audioInput.connect(currentEffectNode);
   };
-
 });

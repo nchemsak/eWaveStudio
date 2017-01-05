@@ -1,4 +1,3 @@
-<!-- <h2>{{title}}</h2> -->
 <div class="container">
   <div class="col-md-6">
     <div class="optin7">VOLUME
@@ -12,7 +11,6 @@
   <div class="col-md-6">
     <div class="tempo-container optin7">TEMPO
       <div class="row">
-        <!-- <label for="tempo-input"></label> -->
         <input id="tempo-input" type="number">
         <span class="space">
         <span id="decrease-tempo" class="glyphicon glyphicon-minus btn btn-default tempo-btn"><span class='fontIncrease'> 1</span></span>
@@ -169,7 +167,6 @@
           <div class="pad column_15"></div>
         </div>
       </div>
-      <!-- <br> -->
       <!-- *********************************************************************
                             SNARE DRUMS
 **************************************************************************-->
@@ -280,11 +277,8 @@
           <div class="pad column_14 samplerPad"></div>
           <div class="pad column_15 samplerPad"></div>
         </div>
-        <!-- </div> -->
-        <!-- <div class="optin7"> -->
         LIVE INPUT CONTROLS
         <br>
-        <!-- <div class="seqDiv optin7"> -->
         <select class="optin9" id="audioinput" ng-model="dropdown.index" ng-change="changeInput();">
         </select>
         <select class="optin9" id="effect" ng-model="dropdown2.index" ng-change="changeEffect();">
@@ -292,14 +286,11 @@
           <option>LFO</option>
           <option>Stereo Flanger</option>
           <option>Telephone EQ Filter </option>
-          <!-- <option>Auto Wah </option> -->
-          <!-- <option>Flanger </option> -->
         </select>
         <br> EFFECT MIX: {{slider.value * 100 | number : 0}} %
         <input type="range" min="0.0" max="1.0" step="0.01" ng-model="slider.value" ng-change="crossfade();" class="liveVolume2 seqOptin2">
         <br>VOLUME:
         <input type='range' min='0' max='1' step='0.01' value='0.75' id='liveVolume2' class="seqOptin2 liveVolume2">
-        <!-- </div> -->
         <div id="controls" ng-model="ngControls">
           <!-- delay -->
           <div id="delayControls">
@@ -479,10 +470,6 @@
           <div class="pad column_15"></div>
         </div>
       </div>
-      <!-- </div>
-</div>
-<br>
- -->
       <!-- *********************************************************************
                             TOMS
 **************************************************************************-->
@@ -545,7 +532,6 @@
           <div class="pad column_15"></div>
         </div>
       </div>
-      <!-- <br> -->
       <!-- *********************************************************************
                             LOOPS AND OTHERS
 **************************************************************************-->
@@ -632,25 +618,9 @@
         </div>
       </div>
     </div>
-    <!--     <div>
-      <canvas id="wavedisplay"></canvas>
-    </div> -->
   </div>
 </div>
 </div>
-<!-- live recording -->
-<!-- <div id="container">
-  <video id="live" autoplay muted></video>
-  <video id="recorded" autoplay loop></video>
-  <div>
-    <button id="recordButton" class="btn waves-effect waves-red" disabled>Start Recording</button>
-    <button id="playButton" class="btn waves-effect waves-red" disabled>Play</button>
-    <button id="downloadButton" class="btn waves-effect waves-red" disabled>Download</button>
-  </div>
-</div> -->
-<!-- upload file -->
-<!-- <input id="audio_file" type="file" accept="audio/*" />
-<audio id="audio_player"></audio> -->
 <!--**************************************************************
   **************************************************************
                        PIANO arpeggiator
@@ -888,136 +858,6 @@
       <div class="pad column_15"></div>
     </div>
   </div> -->
-<!-- mini computer keyboard -->
-<!-- <div id='seq'>
-  <ul id='staggered'>
-    <li>
-      <div class='key' id='F3'></div>
-      <div class='upper-key' id='F3sh'></div>
-    </li>
-    <li>
-      <div class='key' id='G3'></div>
-      <div class='upper-key' id='G3sh'></div>
-    </li>
-    <li>
-      <div class='key' id='A3'></div>
-      <div class='upper-key' id='A3sh'></div>
-    </li>
-    <li>
-      <div class='key' id='B3'></div>
-    </li>
-    <li>
-      <div class='key' id='C4'></div>
-      <div class='upper-key' id='C4sh'></div>
-    </li>
-    <li>
-      <div class='key' id='D4'></div>
-      <div class='upper-key' id='D4sh'></div>
-    </li>
-    <li>
-      <div class='key' id='E4'></div>
-    </li>
-    <li>
-      <div class='key' id='F4'></div>
-      <div class='upper-key' id='F4sh'></div>
-    </li>
-    <li>
-      <div class='key' id='G4'></div>
-      <div class='upper-key' id='G4sh'></div>
-    </li>
-    <li>
-      <div class='key' id='A4'></div>
-      <div class='upper-key' id='A4sh'></div>
-    </li>
-    <li>
-      <div class='key' id='B4'></div>
-    </li>
-    <li>
-      <div class='key' id="C5"></div>
-      <div class='upper-key' id='C5sh'></div>
-    </li>
-    <li>
-      <div class='key' id='D5'></div>
-      <div class='upper-key' id='D5sh'></div>
-    </li>
-    <li>
-      <div class='key' id='E5'></div>
-    </li>
-  </ul>
-</div> -->
-<!-- <div class="row">
-    <button id="play-pause" type="button" class="btn btn-default btn- noselect">
-      <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
-    </button>
-    <span class="tempo-container">
-        <label for="tempo-input">Tempo </label>
-        <input id="tempo-input" type="number">
-        <span id="decrease-tempo" class="glyphicon glyphicon-minus btn btn-default tempo-btn"></span>
-    <span id="increase-tempo" class="glyphicon glyphicon-plus btn btn-default tempo-btn"></span>
-    </span>
-    <span class="tempo-container">
-        <span id="decrease-tempo-by-five" class="glyphicon glyphicon-minus btn btn-default tempo-btn"></span>
-    <span id="increase-tempo-by-five" class="glyphicon glyphicon-plus btn btn-default tempo-btn"></span>
-    </span>
-  </div> -->
-<!-- </div> -->
-<!-- live input -->
-<!-- <div id="square"> -->
-<!--   <div id="leftSquareLive">
-  </div> -->
-<!-- <div id="rightSquare"> -->
-<!-- <div id="container2"> -->
-<!-- <h2 class="signup">{{title}}</h2> -->
-<!-- <form class="form2" className="animated slideInLeft"> -->
-<!-- <div> -->
-<!-- <div class="liveInput"> -->
-<!-- SOURCE: -->
-<!-- </div> -->
-<!--     <select class="optin2" id="audioinput" ng-model="dropdown.index" ng-change="changeInput();">
-    </select> -->
-<!-- </div> -->
-<!--   <div class="liveInput"> EFFECT:
-  </div> -->
-<!-- <div> -->
-<!-- <select class="optin2" id="effect" ng-model="dropdown2.index" ng-change="changeEffect();">
-  <option>Delay</option>
-  <option>LFO</option>
-  <option>Stereo Flanger</option>
-  <option>Telephone EQ Filter </option> -->
-<!-- <option>Auto Wah </option> -->
-<!-- <option>Flanger </option> -->
-<!-- </select> -->
-<!-- {{ number_expression | number : fractionSize}} -->
-<!--    <div class="liveInput"> EFFECT MIX:
-    </div> -->
-<!-- <div class="optin4">{{slider.value * 100 | number : 0}} %
-  <input type="range" min="0.0" max="1.0" step="0.01" ng-model="slider.value" ng-change="crossfade();">
-</div> -->
-<!-- <input type="checkbox" checked ng-change="toggleMono();" ng-model="check.value"> -->
-<!-- </div> -->
-<!-- </form> -->
-<!-- </div> -->
-<!-- <input class="optin2" type="password" placeholder="password" ng-model="account.password"> -->
-<!-- </form> -->
-<!--  <div class="centeredbuttons">
-    </div> -->
-<!--     <h3 id="footer">
-    <i class="fa fa-play fa-lg"></i>
-    <i class="fa fa-circle fa-lg" onclick="toggleRecording(this);"> </i>
-    <i class="fa fa-save fa-lg"></i>
-    <i id="save" class="fa fa-download fa-lg" aria-hidden="true"></i>
-
-    </h3> -->
-<!-- </div>
-</div> -->
-<!-- </div> -->
-<!-- <button id="play-pause" type="button" class="btn btn-default btn- noselect">Play/Pause
-  <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
-</button> -->
-<!-- <input type='range' min='0' max='1' step='0.01' value='0.75' id='liveVolume' class="seqOptin glyphicon glyphicon-volume-up"> -->
-<!-- canvas for audio recording -->
-<!-- <div id="container"> -->
-<!-- <video id="live" autoplay muted></video> -->
 <br>
 <video id="recorded" autoplay></video>
 </div>

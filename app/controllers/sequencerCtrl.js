@@ -31,9 +31,6 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
     $scope.init();
     $scope.toggleSelectedListener();
     $scope.playPauseListener();
-    // lowPassFilterListener();
-    // reverbListener();
-    // createLowPassFilterSliders();
     $scope.initializeTempo();
     $scope.changeTempoListener();
     $scope.changeTempoListenerByFive();
@@ -52,7 +49,6 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
   $scope.Kit.prototype.pathName = function() {
     return this.SAMPLE_BASE_PATH + this.name + "/";
   };
-
 
   /********************************************************************
                         LOADING SOUNDS
@@ -100,25 +96,6 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
       loop04Path = pathName + "drumloop1.wav",
       loop05Path = pathName + "drumloop2.wav";
 
-
-
-  // function play() {
-  //   let playBack = new Blob(blobs, {
-  //     type: 'video/webm'
-  //   });
-  //   recordedVideo.src = window.URL.createObjectURL(playBack);
-  //   console.log("recordedVideo: ", recordedVideo);
-  //   console.log("recordedVideo.src: ", recordedVideo.src);
-  //   console.log("playBack: ", playBack);
-  // }
-
-  // function pause() {
-  //   let pausePlay = mediaRecorder.pause();
-  //   recordedVideo.src = window.URL.pausePlay;
-  // }
-
-
-
     // piano
     let piano_aPath = pathName + "piano_a.mp3",
       piano_ashPath = pathName + "piano_ash.mp3",
@@ -132,9 +109,6 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
       piano_fshPath = pathName + "piano_fsh.mp3",
       piano_gPath = pathName + "piano_g.mp3",
       piano_gshPath = pathName + "piano_gsh.mp3";
-
-
-
 
     // kicks
     this.loadSample(kickPath, "kick");
@@ -171,7 +145,6 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
     this.loadSample(loop04Path, "drumloop1");
     this.loadSample(loop05Path, "drumloop2");
 
-
     // piano
     this.loadSample(piano_aPath, "piano_a");
     this.loadSample(piano_ashPath, "piano_ash");
@@ -185,13 +158,9 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
     this.loadSample(piano_fshPath, "piano_fsh");
     this.loadSample(piano_gPath, "piano_g");
     this.loadSample(piano_gshPath, "piano_gsh");
-
   };
 
-
-
   $scope.Kit.prototype.loadSample = function(url, instrumentName) {
-    //need 2 load asynchronously
     let request = new XMLHttpRequest();
     request.open("GET", url, true);
     request.responseType = "arraybuffer";
@@ -281,8 +250,6 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
               kit.loop04Buffer = buffer;
               break;
             case "drumloop2":
-              // kit.loop05Buffer = buffer;
-              // play();
               break;
 
               // piano
@@ -336,12 +303,9 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
     request.send();
   };
 
-
   /********************************************************************
                           SEQUENCER
   ********************************************************************/
-
-  // sequencer
   $scope.playPauseListener = function() {
     $('#play-pause').click(function() {
       let $span = $(this).children("span");
@@ -369,10 +333,8 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
     $scope.loadKits();
   };
 
-
   $scope.initializeAudioNodes = function() {
     context = new window.webkitAudioContext();
-
     let vol = context.createGain();
     let volControl = document.getElementById("seqVolume");
     vol.gain.value = volControl.value;
@@ -390,22 +352,19 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
       finalMixNode = context.destination;
     }
 
-    // master volume control
+    // master volume
     masterGainNode = context.createGain();
     masterGainNode.gain.value = 0.7; // reduce overall volume to avoid clipping
     masterGainNode.connect(finalMixNode);
 
-    //Create Low Pass Filter
+    //Low Pass Filter
     lowPassFilterNode = context.createBiquadFilter();
-    //this is for backwards compatibility, the type used to be an integer
+    //backwards compatibility
     lowPassFilterNode.type = (typeof lowPassFilterNode.type === 'string') ? 'lowpass' : 0; // LOWPASS
-    //default value is max cutoff, or passing all frequencies
     lowPassFilterNode.frequency.value = context.sampleRate / 2;
     lowPassFilterNode.connect(masterGainNode);
     lowPassFilterNode.active = false;
   };
-
-
 
   $scope.loadKits = function() {
     let kit = new $scope.Kit("TR808");
@@ -416,9 +375,7 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
   $scope.playNote = function(buffer, noteTime) {
     let voice = context.createBufferSource();
     voice.buffer = buffer;
-
     let currentLastNode = masterGainNode;
-
     voice.connect(currentLastNode);
     voice.start(noteTime);
   };
@@ -426,7 +383,7 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
   $scope.schedule = function() {
     let currentTime = context.currentTime;
 
-    // The sequence starts at startTime, so normalize currentTime so that it's 0 at the start of the sequence.
+    // The sequence starts at startTime, so set currentTime so it's 0 at the start of sequence.
     currentTime -= startTime;
 
     while (noteTime < currentTime + 0.200) {
@@ -516,7 +473,6 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
               $scope.playNote(currentKit.loop04Buffer, contextPlayTime);
               break;
             case "drumloop2":
-              // $scope.playNote(currentKit.loop05Buffer, contextPlayTime);
               play();
               break;
               // piano
@@ -570,11 +526,8 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
 
   $scope.drawPlayhead = function(xindex) {
     let lastIndex = (xindex + LOOP_LENGTH - 1) % LOOP_LENGTH;
-
-    //can change this to class selector to select a column
     let $newRows = $('.column_' + xindex);
     let $oldRows = $('.column_' + lastIndex);
-
     $newRows.addClass("playing");
     $oldRows.removeClass("playing");
   };
@@ -587,7 +540,7 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
       rhythmIndex = 0;
     }
 
-    //0.25 because each square is a 16th note
+    //0.25 because each div is 16th note
     noteTime += 0.25 * secondsPerBeat;
 
   };
@@ -641,10 +594,7 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
       }
     });
   };
-
-
   var selectedFile;
-
 
   $("#audio_file").click(function(event) {
     $scope.selectedFile = event.target.files[0];
@@ -652,7 +602,6 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
   });
 
   $scope.uploadFile = function() {
-    // $scope.selectedFile = event.target.files[0];
     $scope.selectedFile = { value: '' };
     console.log("selectedFile: ", selectedFile);
     // Create a root reference
@@ -660,205 +609,11 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
     var filename = $scope.selectedFile.name;
     var storageRef = firebase.storage().ref('/soundFiles/' + filename);
     var uploadTask = storageRef.put($scope.selectedFile);
-    uploadTask.on('state_changed', function(snapshot) {
-
-    }, function(error) {
-
-    }, function() {
+    uploadTask.on('state_changed', function(snapshot) {}, function(error) {}, function() {
       var downloadURL = uploadTask.snapshot.downloadURL;
       console.log("downloadURL: ", downloadURL);
     });
-
   };
-
-
-
-
-  // /*******************************************************************************
-  //                             MEDIA RECORDER
-  // /******************************************************************************/
-
-  // /*******************************************************************************
-  //                             VARIABLES
-  // /******************************************************************************/
-  // let mediaSource = new MediaSource();
-  // // mediaSource.addEventListener('sourceopen', false);
-  // let mediaRecorder;
-  // let blobs;
-  // let liveVideo = document.getElementById('live');
-  // let recordedVideo = document.getElementById('recorded');
-
-  // // Button Variables
-  // let recordButton = document.getElementById('recordButton');
-  // recordButton.onclick = toggleRecording;
-
-  // let playButton = document.getElementById('playButton');
-  // playButton.onclick = play;
-
-  // let downloadButton = document.getElementById('downloadButton');
-  // downloadButton.onclick = download;
-
-  // // Indicate whether to record audio and/or video
-  // let audioVideo = {
-  //   audio: true,
-  //   video: true
-  // };
-  // /*******************************************************************************
-  //                                LIVE STREAM
-  // /******************************************************************************/
-  // function handleSuccess(stream) {
-  //   recordButton.disabled = false;
-  //   console.log('stream: ', stream);
-  //   window.stream = stream;
-  //   if (window.URL) {
-  //     console.log("window.URL: ", window.URL);
-  //     console.log("window: ", window);
-
-  //     // The Window.URL property returns an object that provides static methods used for creating and managing object URLs. It can also be called as a constructor to construct URL objects.
-
-  //     liveVideo.src = window.URL.createObjectURL(stream);
-  //   } else {
-  //     liveVideo.src = stream;
-  //   }
-  // }
-
-  // navigator.mediaDevices.getUserMedia(audioVideo).
-  // then(handleSuccess);
-
-  // function handleDataAvailable(event) {
-  //   if (event.data && event.data.size > 0) {
-  //     blobs.push(event.data);
-  //   }
-  // }
-
-  // function handleStop(event) {
-  //   console.log('Recorder stopped: ', event);
-  // }
-
-  // ******************************************************************************
-  //                              TOGGLE Recording (start/stop)
-  // ****************************************************************************
-
-  // function toggleRecording() {
-  //   if (recordButton.textContent === 'Start Recording') {
-  //     startRecording();
-  //   } else {
-  //     stopRecording();
-  //     recordButton.textContent = 'Start Recording';
-  //     playButton.disabled = false;
-  //     downloadButton.disabled = false;
-  //   }
-  // }
-
-  // /*******************************************************************************
-  //                              Start Recording FUNCTION
-  // /*****************************************************************************
-
-  // function startRecording() {
-  //   blobs = [];
-  //   mediaRecorder = new MediaRecorder(window.stream);
-  //   recordButton.textContent = 'STOP Recording';
-  //   playButton.disabled = true;
-  //   downloadButton.disabled = true;
-  //   mediaRecorder.onstop = handleStop;
-  //   mediaRecorder.ondataavailable = handleDataAvailable;
-  //   // mediaRecorder.start(10); this indicates 10ms of data per blob...not sure how that affects anything quite yet....
-  //   mediaRecorder.start(10);
-  //   console.log('MediaRecorder start: ', mediaRecorder);
-  // }
-
-  // /*******************************************************************************
-  //                             STOP RECORDING function
-  // /******************************************************************************/
-
-  // function stopRecording() {
-  //   mediaRecorder.stop();
-  //   console.log('blobs: ', blobs);
-  //   recordedVideo.controls = true;
-  // }
-
-  // function play() {
-  //   let playBack = new Blob(blobs, {
-  //     type: 'video/webm'
-  //   });
-  //   recordedVideo.src = window.URL.createObjectURL(playBack);
-  //   console.log("playBack: ", playBack);
-  // }
-
-  // /*******************************************************************************
-  //                              DOWNLOAD FUNCTION
-  // /******************************************************************************/
-  // function download() {
-  //   let blob = new Blob(blobs, { type: 'video/webm' });
-  //   let url = window.URL.createObjectURL(blob);
-  //   let a = document.createElement('a');
-  //   a.style.display = 'none';
-  //   a.href = url;
-  //   a.download = 'test.webm';
-  //   document.body.appendChild(a);
-  //   a.click();
-  //   setTimeout(function() {
-  //     document.body.removeChild(a);
-  //     window.URL.revokeObjectURL(url);
-  //   }, 100);
-  // }
-
-
-
-  // /**********************************************************************
-  //                                KICK DRUM
-  // **********************************************************************/
-
-  // the sound starts at a higher frequency — the ‘attack’ phase -
-  // and then rapidly falls away to a lower frequency.
-  // While this is happening, the volume of the sound also decreases.
-
-  // $scope.Kick = function(audioContext) {
-  //   this.audioContext = audioContext;
-  // };
-
-  // $scope.Kick.prototype.setup = function() {
-  //   this.osc = this.audioContext.createOscillator();
-  //   this.gain = this.audioContext.createGain();
-  //   this.osc.connect(this.gain);
-  //   this.gain.connect(this.audioContext.destination);
-  // };
-
-  // $scope.Kick.prototype.trigger = function(time) {
-  //   this.setup();
-
-  //   this.osc.frequency.setValueAtTime(150, time);
-  //   // the “envelope” of the sound:
-  //   this.gain.gain.setValueAtTime(1, time);
-
-  //   // // drop the FREQUENCY of the oscillator rapidly after the initial attack.
-  //   this.osc.frequency.exponentialRampToValueAtTime(0.01, time + 0.5);
-
-  //   // // decrease the GAIN to close to zero over the next 0.5 seconds
-  //   this.gain.gain.exponentialRampToValueAtTime(0.01, time + 0.5);
-
-  //   this.osc.start(time);
-
-  //   this.osc.stop(time + 0.5);
-  // };
-
-
-
-
-
-
-
-
-
-
-
-// live input
-
-
-
-// 'use strict';
-
-// app.controller('liveInputCtrl', function($scope) {
   $scope.title = "Live Input";
   $scope.Math = window.Math;
   $scope.dropdown = { value: '' };
@@ -878,7 +633,6 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
   $scope.lfoDropdown = { value: 'sine' };
   $scope.lfoSlider1 = { value: 3.0 };
   $scope.lfoSlider2 = { value: 1.0 };
-
   $scope.pause = { value: '' };
   $scope.play = { value: '' };
   // stereo FLANGER CONTROLS
@@ -947,12 +701,11 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
   console.log("sample rate:", audioContext.sampleRate);
 
   /*****************************************************************
-  //        CONVERT TO MONO
+                  CONVERT TO MONO
   *****************************************************************/
   $scope.convertToMono = function(input) {
     let splitter = audioContext.createChannelSplitter(2);
     let merger = audioContext.createChannelMerger(2);
-
     input.connect(splitter);
     splitter.connect(merger, 0, 0);
     splitter.connect(merger, 0, 1);
@@ -960,39 +713,19 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
   };
 
   /*****************************************************************
-  // feedback protection
-  *****************************************************************/
-  // $scope.createLPInputFilter = function(input) {
-  //   lpInputFilter = audioContext.createBiquadFilter();
-  //   lpInputFilter.frequency.value = 2048;
-  //   console.log("hi feedback protection: ");
-  //   return lpInputFilter;
-  // };
-
-
-  /*****************************************************************
-  // gotStream function
+                 gotStream function
   *****************************************************************/
   $scope.gotStream = function(stream) {
-    // Create an AudioNode from the stream.
     realAudioInput = audioContext.createMediaStreamSource(stream);
     let input = audioContext.createMediaStreamSource(stream);
     audioInput = $scope.convertToMono(input);
-
-    // if (useFeedbackReduction) {
-    //   audioInput.connect($scope.createLPInputFilter());
-    //   audioInput = lpInputFilter;
-
-    // }
-
-  let vol = audioContext.createGain();
-
-  let volControl = document.getElementById("liveVolume2");
-  vol.gain.value = volControl.value;
-  vol.connect(audioContext.destination);
-  volControl.addEventListener("input", function() {
+    let vol = audioContext.createGain();
+    let volControl = document.getElementById("liveVolume2");
     vol.gain.value = volControl.value;
-  });
+    vol.connect(audioContext.destination);
+    volControl.addEventListener("input", function() {
+      vol.gain.value = volControl.value;
+    });
 
     /*****************************************************************
     // Gain Mix Modes
@@ -1007,16 +740,10 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
     wetGain.connect(outputMix);
     dryGain.connect(dest);
     wetGain.connect(dest);
-    // console.log("outputMix: ", outputMix);
     outputMix.connect(vol);
     $scope.crossfade(1.0);
     $scope.changeEffect();
   };
-
-
-
-
-
 
   /*****************************************************************
      This selects the items from the dropdown  GET USER MEDIA API
@@ -1032,7 +759,6 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
   /*****************************************************************
          Produce the drop down list of inputs
   *****************************************************************/
-
   function gotSources(sourceInfos) {
     let audioSelect = document.getElementById("audioinput");
     for (let i = 0; i != sourceInfos.length; ++i) {
@@ -1058,8 +784,6 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
     wetGain.gain.value = gain2;
   };
   let lastEffect = -1;
-
-
 
   /*****************************************************************
            Handles changing effects with a switch statement
@@ -1096,10 +820,9 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
       effectInput.disconnect();
 
     let effect = document.getElementById("effect").selectedIndex;
-    // let effect2 = $scope.dropdown2.index;
     let effectControls = document.getElementById("controls");
 
-    // Show and hide individual effects options
+    // Show and hide effects options
     if (lastEffect > -1)
       effectControls.children[lastEffect].classList.remove("display");
     lastEffect = effect;
@@ -1267,22 +990,6 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
                               MEDIA RECORDER
   /******************************************************************************/
 
-  /*******************************************************************************
-                              VARIABLES
-  /******************************************************************************/
-
-  // function toggleRecording() {
-  //   if (recordButton.textContent === 'RECORD LOOP') {
-  //     $scope.startRecording();
-  //   } else {
-  //     pause();
-  //     recordButton.textContent = 'RECORD LOOP';
-  //     playButton.disabled = false;
-  //     pauseButton.disabled = false;
-  //     downloadButton.disabled = false;
-  //   }
-  // }
-
   $scope.recordStop = function() {
     $('#recordStop').click(function() {
       let $span = $(this).children("span");
@@ -1290,22 +997,17 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
         $span.removeClass('glyphicon-record');
         $span.addClass('glyphicon-stop animated infinite pulse');
         console.log("hi");
-
         $scope.startRecording();
-
       } else {
         console.log("bye");
         pause();
         $span.addClass('glyphicon-record');
         $span.removeClass('glyphicon-stop animated infinite pulse');
         playButton.disabled = false;
-        // pauseButton.disabled = false;
         downloadButton.disabled = false;
       }
     });
   };
-
-
 
   $scope.pausePlay = function() {
     $('#pausePlay').click(function() {
@@ -1313,53 +1015,27 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
       if ($span.hasClass('glyphicon-play')) {
         $span.removeClass('glyphicon-play');
         $span.addClass('glyphicon-stop animated infinite pulse');
-        // $scope.startRecording();
       } else {
         pause();
         $span.addClass('glyphicon-play');
         $span.removeClass('glyphicon-stop animated infinite pulse');
         playButton.disabled = false;
-        // pauseButton.disabled = false;
         downloadButton.disabled = false;
       }
     });
   };
-
-
-  // $scope.handleStop = function(event) {
-  //   // cancelAnimationFrame(timeoutId);
-  //   $(".pad").removeClass("playing");
-  //   console.log("clicked stop");
-  // };
-
-  // $scope.toggleSelectedListener = function() {
-  //   $('.pad').click(function() {
-  //     $(this).toggleClass("selected");
-  //   });
-  // };
-
-
 
   let mediaSource = new MediaSource();
   let mediaRecorder;
   let blobs;
   let liveVideo = document.getElementById('live');
   let recordedVideo = document.getElementById('recorded');
-
-  // Button Variables
-  // let recordButton = document.getElementById('recordButton');
-  // recordButton.onclick = toggleRecording;
-
   let playButton = document.getElementById('pausePlay');
   playButton.onclick = play;
-
-  // let pauseButton = document.getElementById('pauseButton');
-  // pauseButton.onclick = pause;
-
   let downloadButton = document.getElementById('downloadButton');
   downloadButton.onclick = download;
 
-  // ecord audio and/or video
+  // record audio and/or video
   let audioVideo = {
     audio: true,
     video: false
@@ -1368,17 +1044,11 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
                                  LIVE STREAM
   /******************************************************************************/
   function handleSuccess(stream) {
-    // recordButton.disabled = false;
     console.log('stream: ', stream);
     window.stream = stream;
     if (window.URL) {
       console.log("window.URL: ", window.URL);
       console.log("window: ", window);
-
-      // The Window.URL property returns an object that provides static
-      // methods used for creating and managing object URLs. It can also be
-      // called as a constructor to construct URL objects.
-
       liveVideo.src = window.URL.createObjectURL(stream);
     } else {
       liveVideo.src = stream;
@@ -1398,48 +1068,10 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
     console.log('Recorder stopped: ', event);
   }
 
-  /*******************************************************************************
-                               TOGGLE Recording (start/stop)
-  /******************************************************************************/
-
-  // function toggleRecording() {
-  //   if (recordButton.textContent === 'RECORD LOOP') {
-  //     $scope.startRecording();
-  //   } else {
-  //     pause();
-  //     recordButton.textContent = 'RECORD LOOP';
-  //     playButton.disabled = false;
-  //     pauseButton.disabled = false;
-  //     downloadButton.disabled = false;
-  //   }
-  // }
-
-  /*******************************************************************************
-                               Start Recording FUNCTION
-  /******************************************************************************/
-
-  // $scope.recordStop = function() {
-  //   $('#play-pause').click(function() {
-  //     let $span = $(this).children("span");
-  //     if ($span.hasClass('glyphicon-play')) {
-  //       $span.removeClass('glyphicon-play');
-  //       $span.addClass('glyphicon-pause');
-  //       $scope.handlePlay();
-  //     } else {
-  //       $span.addClass('glyphicon-play');
-  //       $span.removeClass('glyphicon-pause');
-  //       $scope.handleStop();
-  //     }
-  //   });
-  // };
-
   $scope.startRecording = function() {
-    // function startRecording() {
     blobs = [];
     mediaRecorder = new MediaRecorder(dest.stream);
-    // recordButton.textContent = 'STOP LOOP';
     playButton.disabled = true;
-    // pauseButton.disabled = true;
     downloadButton.disabled = true;
     mediaRecorder.onstop = handleStop;
     mediaRecorder.ondataavailable = handleDataAvailable;
@@ -1447,17 +1079,6 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
     mediaRecorder.start(10);
     console.log('MediaRecorder start: ', mediaRecorder);
   };
-
-  /*******************************************************************************
-                              STOP RECORDING function
-  /******************************************************************************/
-
-  // $scope.stopRecording = function() {
-  //   // function stopRecording() {
-  //     mediaRecorder.stop();
-  //     console.log('blobs: ', blobs);
-  //     recordedVideo.controls = false;
-  //   };
 
   function play() {
     let playBack = new Blob(blobs, {
@@ -1492,9 +1113,6 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
       window.URL.revokeObjectURL(url);
     }, 100);
   }
-
-
-
 
   //   // /**********************************************************************
   //   //                                KICK DRUM
@@ -1547,7 +1165,6 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
     let deviceInfoInputs = document.getElementById('inputs');
     let deviceInfoOutputs = document.getElementById('outputs'),
       midi;
-
     let data, cmd, channel, type, note, velocity;
 
     // request MIDI access
@@ -1556,9 +1173,6 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
         sysex: false
       }).then(onMIDISuccess);
     }
-
-
-
     // midi functions
     function onMIDISuccess(midiAccess) {
       midi = midiAccess;
@@ -1613,7 +1227,6 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
       }
     };
 
-
     $scope.stopMidiRecord = function() {
       let $span = $('#recordStop').children("span");
       pause();
@@ -1626,7 +1239,6 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
     function addAudioProperties(object) {
       object.source = object.dataset.sound;
       console.log("object.source: ", object.source);
-      // loadAudio(object, object.source);
       object.play = function(volume) {
         let s = audioContext.createBufferSource();
         s.buffer = object.buffer;
@@ -1635,33 +1247,5 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
       };
     }
   };
-// });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 });

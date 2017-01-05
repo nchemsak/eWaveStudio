@@ -14,26 +14,12 @@ app.controller("LoginCtrl", function($scope, AuthFactory, $window) {
       });
   };
 
-  // $scope.slideOut = () => {
-  //   console.log("slideout bro");
-  //   $(".row").toggleClass('animated slideOutRight');
-  // };
-
   $scope.login = () => {
     AuthFactory.loginUser($scope.account)
       .then((user) => {
-        // $('.row').toggleClass('animated slideOutRight');
-
         $window.location.href = "#/liveInput";
-        // $('.row').toggleClass('animated slideInLeft');
-
-        // $('.animated slideInLeft').toggleClass('animated slideOutRight');
-        // $scope.login.toggleClass('animated slideInLeft');
       });
   };
-
-  // $("#login").toggleClass('animated slideOutRight');
-
 
   /********************************************
             theremin code
@@ -43,7 +29,6 @@ app.controller("LoginCtrl", function($scope, AuthFactory, $window) {
     var myCanvas;
     var frequencyLabel;
     var volumeLabel;
-
     var myAudioContext;
     var oscillator;
     var gainNode;
@@ -51,7 +36,6 @@ app.controller("LoginCtrl", function($scope, AuthFactory, $window) {
     // Notes
     var lowNote = 5;
     var highNote = 60;
-
 
     // Constructor
     var SynthPad = function() {
@@ -73,27 +57,20 @@ app.controller("LoginCtrl", function($scope, AuthFactory, $window) {
 
       myCanvas.addEventListener('mousedown', SynthPad.playSound);
       myCanvas.addEventListener('touchstart', SynthPad.playSound);
-
       myCanvas.addEventListener('mouseup', SynthPad.stopSound);
       document.addEventListener('mouseleave', SynthPad.stopSound);
       myCanvas.addEventListener('touchend', SynthPad.stopSound);
     };
 
-
     // Play a note.
     SynthPad.playSound = function(event) {
       oscillator = myAudioContext.createOscillator();
       gainNode = myAudioContext.createGain();
-
       oscillator.type = 'square';
-
       gainNode.connect(myAudioContext.destination);
       oscillator.connect(gainNode);
-
       SynthPad.updateFrequency(event);
-
       oscillator.start(0);
-
       myCanvas.addEventListener('mousemove', SynthPad.updateFrequency);
       myCanvas.addEventListener('touchmove', SynthPad.updateFrequency);
       myCanvas.addEventListener('mouseout', SynthPad.stopSound);
@@ -139,14 +116,9 @@ app.controller("LoginCtrl", function($scope, AuthFactory, $window) {
         SynthPad.calculateFrequency(touch.pageX, touch.pageY);
       }
     };
-
     // Export SynthPad.
     return SynthPad;
 
   })();
   var synthPad = new SynthPad();
-
-
-
-
 });

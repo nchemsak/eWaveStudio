@@ -11,11 +11,6 @@ app.controller('liveInputCtrl', function($scope) {
   // Delay Controls
   $scope.slider2 = { value: 0.5 };
   $scope.slider3 = { value: 0.5 };
-  // FLANGER CONTROLS
-  // $scope.flangeSlider1 = { value: 0.25 };
-  // $scope.flangeSlider2 = { value: 0.005 };
-  // $scope.flangeSlider3 = { value: 0.002 };
-  // $scope.flangeSlider4 = { value: 0.5 };
   // LFO CONTROLS
   $scope.lfoDropdown = { value: 'sine' };
   $scope.lfoSlider1 = { value: 3.0 };
@@ -78,23 +73,21 @@ app.controller('liveInputCtrl', function($scope) {
   };
 
   $(function() {
-    // $scope.toggleSelectedListener();
     $scope.recordStop();
     $scope.pausePlay();
     $scope.midiSampler();
   });
 
   MediaStreamTrack.getSources(gotSources);
-  // sample rate is the number of samples per second
+  // number of samples per second
   console.log("sample rate:", audioContext.sampleRate);
 
   /*****************************************************************
-  //        CONVERT TO MONO
+              CONVERT TO MONO
   *****************************************************************/
   $scope.convertToMono = function(input) {
     let splitter = audioContext.createChannelSplitter(2);
     let merger = audioContext.createChannelMerger(2);
-
     input.connect(splitter);
     splitter.connect(merger, 0, 0);
     splitter.connect(merger, 0, 1);
@@ -102,42 +95,22 @@ app.controller('liveInputCtrl', function($scope) {
   };
 
   /*****************************************************************
-  // feedback protection
-  *****************************************************************/
-  // $scope.createLPInputFilter = function(input) {
-  //   lpInputFilter = audioContext.createBiquadFilter();
-  //   lpInputFilter.frequency.value = 2048;
-  //   console.log("hi feedback protection: ");
-  //   return lpInputFilter;
-  // };
-
-
-  /*****************************************************************
-  // gotStream function
+               gotStream function
   *****************************************************************/
   $scope.gotStream = function(stream) {
-    // Create an AudioNode from the stream.
     realAudioInput = audioContext.createMediaStreamSource(stream);
     let input = audioContext.createMediaStreamSource(stream);
     audioInput = $scope.convertToMono(input);
-
-    // if (useFeedbackReduction) {
-    //   audioInput.connect($scope.createLPInputFilter());
-    //   audioInput = lpInputFilter;
-
-    // }
-
-  let vol = audioContext.createGain();
-
-  let volControl = document.getElementById("liveVolume");
-  vol.gain.value = volControl.value;
-  vol.connect(audioContext.destination);
-  volControl.addEventListener("input", function() {
+    let vol = audioContext.createGain();
+    let volControl = document.getElementById("liveVolume");
     vol.gain.value = volControl.value;
-  });
+    vol.connect(audioContext.destination);
+    volControl.addEventListener("input", function() {
+      vol.gain.value = volControl.value;
+    });
 
     /*****************************************************************
-    // Gain Mix Modes
+                       Gain Mix Modes
     *****************************************************************/
     outputMix = audioContext.createGain();
     dryGain = audioContext.createGain();
@@ -149,16 +122,10 @@ app.controller('liveInputCtrl', function($scope) {
     wetGain.connect(outputMix);
     dryGain.connect(dest);
     wetGain.connect(dest);
-    // console.log("outputMix: ", outputMix);
     outputMix.connect(vol);
     $scope.crossfade(1.0);
     $scope.changeEffect();
   };
-
-
-
-
-
 
   /*****************************************************************
      This selects the items from the dropdown  GET USER MEDIA API
@@ -174,7 +141,6 @@ app.controller('liveInputCtrl', function($scope) {
   /*****************************************************************
          Produce the drop down list of inputs
   *****************************************************************/
-
   function gotSources(sourceInfos) {
     let audioSelect = document.getElementById("audioinput");
     for (let i = 0; i != sourceInfos.length; ++i) {
@@ -200,8 +166,6 @@ app.controller('liveInputCtrl', function($scope) {
     wetGain.gain.value = gain2;
   };
   let lastEffect = -1;
-
-
 
   /*****************************************************************
            Handles changing effects with a switch statement
@@ -409,45 +373,22 @@ app.controller('liveInputCtrl', function($scope) {
                               MEDIA RECORDER
   /******************************************************************************/
 
-  /*******************************************************************************
-                              VARIABLES
-  /******************************************************************************/
-
-  // function toggleRecording() {
-  //   if (recordButton.textContent === 'RECORD LOOP') {
-  //     $scope.startRecording();
-  //   } else {
-  //     pause();
-  //     recordButton.textContent = 'RECORD LOOP';
-  //     playButton.disabled = false;
-  //     pauseButton.disabled = false;
-  //     downloadButton.disabled = false;
-  //   }
-  // }
-
   $scope.recordStop = function() {
     $('#recordStop').click(function() {
       let $span = $(this).children("span");
       if ($span.hasClass('glyphicon-record')) {
         $span.removeClass('glyphicon-record');
         $span.addClass('glyphicon-stop animated infinite pulse');
-        console.log("hi");
-
         $scope.startRecording();
-
       } else {
-        console.log("bye");
         pause();
         $span.addClass('glyphicon-record');
         $span.removeClass('glyphicon-stop animated infinite pulse');
         playButton.disabled = false;
-        // pauseButton.disabled = false;
         downloadButton.disabled = false;
       }
     });
   };
-
-
 
   $scope.pausePlay = function() {
     $('#pausePlay').click(function() {
@@ -455,53 +396,26 @@ app.controller('liveInputCtrl', function($scope) {
       if ($span.hasClass('glyphicon-play')) {
         $span.removeClass('glyphicon-play');
         $span.addClass('glyphicon-stop animated infinite pulse');
-        // $scope.startRecording();
       } else {
         pause();
         $span.addClass('glyphicon-play');
         $span.removeClass('glyphicon-stop animated infinite pulse');
         playButton.disabled = false;
-        // pauseButton.disabled = false;
         downloadButton.disabled = false;
       }
     });
   };
-
-
-  // $scope.handleStop = function(event) {
-  //   // cancelAnimationFrame(timeoutId);
-  //   $(".pad").removeClass("playing");
-  //   console.log("clicked stop");
-  // };
-
-  // $scope.toggleSelectedListener = function() {
-  //   $('.pad').click(function() {
-  //     $(this).toggleClass("selected");
-  //   });
-  // };
-
-
-
   let mediaSource = new MediaSource();
   let mediaRecorder;
   let blobs;
   let liveVideo = document.getElementById('live');
   let recordedVideo = document.getElementById('recorded');
-
-  // Button Variables
-  // let recordButton = document.getElementById('recordButton');
-  // recordButton.onclick = toggleRecording;
-
   let playButton = document.getElementById('pausePlay');
   playButton.onclick = play;
-
-  // let pauseButton = document.getElementById('pauseButton');
-  // pauseButton.onclick = pause;
-
   let downloadButton = document.getElementById('downloadButton');
   downloadButton.onclick = download;
 
-  // ecord audio and/or video
+  // record audio and/or video
   let audioVideo = {
     audio: true,
     video: false
@@ -516,12 +430,7 @@ app.controller('liveInputCtrl', function($scope) {
     if (window.URL) {
       console.log("window.URL: ", window.URL);
       console.log("window: ", window);
-
-      // The Window.URL property returns an object that provides static
-      // methods used for creating and managing object URLs. It can also be
-      // called as a constructor to construct URL objects.
-
-      liveVideo.src = window.URL.createObjectURL(stream);
+      // liveVideo.src = window.URL.createObjectURL(stream);
     } else {
       liveVideo.src = stream;
     }
@@ -540,48 +449,10 @@ app.controller('liveInputCtrl', function($scope) {
     console.log('Recorder stopped: ', event);
   }
 
-  /*******************************************************************************
-                               TOGGLE Recording (start/stop)
-  /******************************************************************************/
-
-  // function toggleRecording() {
-  //   if (recordButton.textContent === 'RECORD LOOP') {
-  //     $scope.startRecording();
-  //   } else {
-  //     pause();
-  //     recordButton.textContent = 'RECORD LOOP';
-  //     playButton.disabled = false;
-  //     pauseButton.disabled = false;
-  //     downloadButton.disabled = false;
-  //   }
-  // }
-
-  /*******************************************************************************
-                               Start Recording FUNCTION
-  /******************************************************************************/
-
-  // $scope.recordStop = function() {
-  //   $('#play-pause').click(function() {
-  //     let $span = $(this).children("span");
-  //     if ($span.hasClass('glyphicon-play')) {
-  //       $span.removeClass('glyphicon-play');
-  //       $span.addClass('glyphicon-pause');
-  //       $scope.handlePlay();
-  //     } else {
-  //       $span.addClass('glyphicon-play');
-  //       $span.removeClass('glyphicon-pause');
-  //       $scope.handleStop();
-  //     }
-  //   });
-  // };
-
   $scope.startRecording = function() {
-    // function startRecording() {
     blobs = [];
     mediaRecorder = new MediaRecorder(dest.stream);
-    // recordButton.textContent = 'STOP LOOP';
     playButton.disabled = true;
-    // pauseButton.disabled = true;
     downloadButton.disabled = true;
     mediaRecorder.onstop = handleStop;
     mediaRecorder.ondataavailable = handleDataAvailable;
@@ -589,17 +460,6 @@ app.controller('liveInputCtrl', function($scope) {
     mediaRecorder.start(10);
     console.log('MediaRecorder start: ', mediaRecorder);
   };
-
-  /*******************************************************************************
-                              STOP RECORDING function
-  /******************************************************************************/
-
-  // $scope.stopRecording = function() {
-  //   // function stopRecording() {
-  //     mediaRecorder.stop();
-  //     console.log('blobs: ', blobs);
-  //     recordedVideo.controls = false;
-  //   };
 
   function play() {
     let playBack = new Blob(blobs, {
@@ -615,7 +475,6 @@ app.controller('liveInputCtrl', function($scope) {
     let pausePlay = mediaRecorder.pause();
     recordedVideo.src = window.URL.pausePlay;
   }
-
 
   /*******************************************************************************
                                DOWNLOAD FUNCTION
@@ -634,47 +493,6 @@ app.controller('liveInputCtrl', function($scope) {
       window.URL.revokeObjectURL(url);
     }, 100);
   }
-
-
-
-
-  //   // /**********************************************************************
-  //   //                                KICK DRUM
-  //   // **********************************************************************/
-
-  //   // the sound starts at a higher frequency — the ‘attack’ phase -
-  //   // and then rapidly falls away to a lower frequency.
-  //   // While this is happening, the volume of the sound also decreases.
-
-  //   $scope.Kick = function(audioContext) {
-  //     this.audioContext = audioContext;
-  //   };
-
-  //   $scope.Kick.prototype.setup = function() {
-  //     this.osc = this.audioContext.createOscillator();
-  //     this.gain = this.audioContext.createGain();
-  //     this.osc.connect(this.gain);
-  //     this.gain.connect(this.audioContext.destination);
-  //   };
-
-  //   $scope.Kick.prototype.trigger = function(time) {
-  //     this.setup();
-
-  //     this.osc.frequency.setValueAtTime(150, time);
-  //     // the “envelope” of the sound:
-  //     this.gain.gain.setValueAtTime(1, time);
-
-  //     // // drop the FREQUENCY of the oscillator rapidly after the initial attack.
-  //     this.osc.frequency.exponentialRampToValueAtTime(0.01, time + 0.5);
-
-  //     // // decrease the GAIN to close to zero over the next 0.5 seconds
-  //     this.gain.gain.exponentialRampToValueAtTime(0.01, time + 0.5);
-
-  //     this.osc.start(time);
-
-  //     this.osc.stop(time + 0.5);
-  //   };
-
 
   /*****************************************************************
     /*****************************************************************
@@ -698,8 +516,6 @@ app.controller('liveInputCtrl', function($scope) {
         sysex: false
       }).then(onMIDISuccess);
     }
-
-
 
     // midi functions
     function onMIDISuccess(midiAccess) {
@@ -754,7 +570,6 @@ app.controller('liveInputCtrl', function($scope) {
         $scope.startRecording();
       }
     };
-
 
     $scope.stopMidiRecord = function() {
       let $span = $('#recordStop').children("span");
