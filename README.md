@@ -1,5 +1,10 @@
 # eWave Studio
-NSS Capstone Project implementing Javascript & Angular
+NSS Capstone Project implementing Javascript & Angular.
+
+
+## Installation
+1. npm install
+2. bower install
 
 ## Usage
 Sign up to create a user. There are 3 page views after logging in:
@@ -15,10 +20,10 @@ Sign up to create a user. There are 3 page views after logging in:
 5. Submit a pull request :D
 
 ## API's used
-1. Web Audio API
-2. Tone.js API
-3. Web MIDI API
-4. getUserMedia API / MediaRecorder API
+1. Web Audio
+2. Web MIDI
+3. getUserMedia
+4. MediaRecorder
 
 ## Styling
 1. Animate.CSS
@@ -47,3 +52,5 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+
