@@ -592,4 +592,13 @@ app.controller('liveInputCtrl', function($scope) {
       };
     }
   };
+
+  var wavesurfer = WaveSurfer.create({
+    container: '#waveform',
+    waveColor: 'violet',
+    progressColor: 'purple'
+    // scrollParent: true;
+
+  });
+  wavesurfer.load('../sounds/drum-samples/TR808/drumloop1.wav');
 });
