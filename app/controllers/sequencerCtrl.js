@@ -16,7 +16,7 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
     rhythm = 0,
     timeOut,
     drumKit = null,
-    tempo = 120,
+    tempo = 100,
     maxTempo = 300,
     minTempo = 20,
     stepTempo = 1,
@@ -353,7 +353,7 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
 
     // master volume
     masterGain = context.createGain();
-    masterGain.gain.value = 0.8; // reduce overall volume to avoid clipping
+    masterGain.gain.value = 0.8;
     masterGain.connect(completeMix);
   };
 
@@ -374,7 +374,7 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
   $scope.schedule = function() {
     let currentTime = context.currentTime;
 
-    // The sequence starts at beginTime, so set currentTime so it's 0 at the start of sequence.
+    // The sequence begins at beginTime, set currentTime so it's 0 at the start of sequence.
     currentTime -= beginTime;
 
     while (divTime < currentTime + 0.200) {
@@ -661,24 +661,30 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
     }
   };
 
-  // $(function() {
-  //   $scope.recordStop();
-  //   $scope.pausePlay();
-  //   $scope.midiSampler();
+
+  /********************************************************************
+                          DEPRECATION WARNING BELOW!!!!!
+  ********************************************************************/
+
+  // List cameras and microphones.
+  MediaStreamTrack.getSources(gotSources); //this is being deprecated for navigator.mediaDevices.enumerateDevices() in JAN 2017...SEE BELOW CODE, TO START, BUT WILL NEED WORK TO FUNCTION
+
+  // navigator.mediaDevices.enumerateDevices(gotSources);
+
+  // navigator.mediaDevices.enumerateDevices()
+  // .then(function(devices) {
+  //   devices.forEach(function(device) {
+  //     console.log(device.kind + ": " + device.label +
+  //                 " id = " + device.deviceId);
+  //   });
   // });
 
-
-  // $(function() {
-  //   $scope.init();
-  //   $scope.toggleSelectedListener();
-  //   $scope.playPause();
-  //   $scope.initTempo();
-  //   $scope.tempoChange();
-  //   $scope.tempoChangeBy5();
-  // });
+  /********************************************************************
+                          DEPRECATION WARNING ABOVE!!!!!
+  ********************************************************************/
 
 
-  MediaStreamTrack.getSources(gotSources);
+
   // sample rate is the number of samples per second
   console.log("sample rate:", audioContext.sampleRate);
 
@@ -811,9 +817,6 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
       case 3: //Telephone EQ
         currentEffectNode = $scope.telephoneEQ();
         break;
-        // case 4: // AutoWah
-        // currentEffectNode = $scope.createAutowah();
-        // break;
       default:
         break;
     }
@@ -835,35 +838,6 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
     delayNode.connect(wetGain);
     return delayNode;
   };
-
-  // $scope.createAutowah = function() {
-  //   var inputNode = audioContext.createGain();
-  //   var waveshaper = audioContext.createWaveShaper();
-  //   awFollower = audioContext.createBiquadFilter();
-  //   awFollower.type = "lowpass";
-  //   awFollower.frequency.value = 10.0;
-
-  //   var curve = new Float32Array(65536);
-  //   for (var i = -32768; i < 32768; i++)
-  //     curve[i + 32768] = ((i > 0) ? i : -i) / 32768;
-  //   waveshaper.curve = curve;
-  //   waveshaper.connect(awFollower);
-
-  //   awDepth = audioContext.createGain();
-  //   awDepth.gain.value = 11585;
-  //   awFollower.connect(awDepth);
-
-  //   awFilter = audioContext.createBiquadFilter();
-  //   awFilter.type = "lowpass";
-  //   awFilter.Q.value = 15;
-  //   awFilter.frequency.value = 50;
-  //   awDepth.connect(awFilter.frequency);
-  //   awFilter.connect(wetGain);
-
-  //   inputNode.connect(waveshaper);
-  //   inputNode.connect(awFilter);
-  //   return inputNode;
-  // };
 
   $scope.lfo = function() {
     let osc = audioContext.createOscillator();
@@ -952,7 +926,6 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
     return inputNode;
   };
 
-
   /*******************************************************************************
                               MEDIA RECORDER
   /******************************************************************************/
@@ -993,7 +966,6 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
   let mediaSource = new MediaSource();
   let mediaRecorder;
   let blobs;
-  // let liveVideo = document.getElementById('live');
   let recordedVideo = document.getElementById('recorded');
   let playBtn = document.getElementById('pausePlay');
   playBtn.onclick = play;
@@ -1131,7 +1103,6 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
     function onMIDISuccess(midiAccess) {
       midi = midiAccess;
       let inputs = midi.inputs.values();
-      // console.log("inputs: ", inputs);
       // loop through inputs
       for (let input = inputs.next(); input && !input.done; input = inputs.next()) {
         input.value.onmidimessage = $scope.onMIDIMessage;

@@ -20,7 +20,6 @@
             <option>LFO</option>
             <option>Stereo Flanger</option>
             <option>Telephone EQ Filter </option>
-            <!-- <option>Auto Wah </option> -->
           </select>
           <div class="liveInput"> EFFECT MIX:
           </div>
@@ -63,26 +62,6 @@
         <!-- telephone -->
         <div id="telephoneControls">
         </div>
-        <!-- autowah -->
-        <!--         <div id="autowahControls">
-          <br> Envelope follower filter frequency:
-          <input id="awEF" type="range" min="0.25" max="20" step="0.25" value="10" onInput="if (awFollower) awFollower.frequency.value = event.target.value;">
-          <br> Filter depth (log):
-          <input id="lfo" type="range" min="0" max="4" step="0.1" value="3.5" onInput="if (awDepth) awDepth.gain.value = Math.pow(2,10+parseFloat(event.target.value));">
-          <br> Filter Q:
-          <input id="awQ" type="range" min="0.0" max="20.0" step="0.1" value="5.0" onInput="if (awFilter) awFilter.Q.value = event.target.value;">
-        </div> -->
-        <!-- flanger -->
-        <!--         <div id="flangeControls">
-          <br> Flanger speed:
-          <input id="flspeed" type="range" min="0.05" max="1" step="0.05" ng-model="flangeSlider1.value" ng-change="changeEffect();">
-          <br> Flanger delay:
-          <input id="fldelay" type="range" min="0.001" max="0.02" step="0.001" ng-model="flangeSlider2.value" ng-change="changeEffect();">
-          <br> Flanger depth:
-          <input id="fldepth" type="range" min="0.0005" max="0.005" step="0.00025" ng-model="flangeSlider3.value" ng-change="changeEffect();">
-          <br> Flanger feedback:
-          <input id="flfb" type="range" min="0" max="1" step="0.01" ng-model="flangeSlider4.value" ng-change="changeEffect();">
-        </div> -->
       </div>
     </div>
     </form>
