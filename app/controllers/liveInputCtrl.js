@@ -26,8 +26,8 @@ app.controller('liveInputCtrl', function($scope) {
   // $scope.check = { value: 'checked' };
 
   window.AudioContext = window.AudioContext || window.webkitAudioContext;
-  let audioContext = new AudioContext(),
-    audioInput = null,
+  let audioContext = new AudioContext();
+  let audioInput = null,
     realAudioInput = null,
     useFeedbackReduction = true,
     lpInputFilter = null,
@@ -39,18 +39,6 @@ app.controller('liveInputCtrl', function($scope) {
     dtime = null,
     dregen = null,
     reverbBuffer = null,
-    // fldelay = null,
-    // flspeed = null,
-    // fldepth = null,
-    // flfb = null,
-    mddelay = null,
-    mddepth = null,
-    mdspeed = null,
-    mdtime = null,
-    mdfeedback = null,
-    awFollower = null,
-    awDepth = null,
-    awFilter = null,
     lfo = null,
     lfotype = null,
     lfodepth = null,
@@ -62,7 +50,7 @@ app.controller('liveInputCtrl', function($scope) {
     sfllfb = null,
     sflrfb = null,
     dest = audioContext.createMediaStreamDestination();
-  console.log("dest: ", dest);
+  // console.log("dest: ", dest);
 
   let constraints = {
     audio: {
@@ -173,18 +161,6 @@ app.controller('liveInputCtrl', function($scope) {
   $scope.changeEffect = function() {
     dtime = null;
     dregen = null;
-    // fldelay = null;
-    // flspeed = null;
-    // fldepth = null;
-    // flfb = null;
-    mddelay = null;
-    mddepth = null;
-    mdspeed = null;
-    mdtime = null;
-    mdfeedback = null;
-    awFollower = null;
-    awDepth = null;
-    awFilter = null;
     lfo = null;
     lfotype = null;
     lfodepth = null;
@@ -224,12 +200,6 @@ app.controller('liveInputCtrl', function($scope) {
       case 3: //Telephone EQ
         currentEffectNode = $scope.telephoneEQ();
         break;
-        // case 4: // AutoWah
-        // currentEffectNode = $scope.createAutowah();
-        // break;
-        // case 5: // Flanger2
-        // currentEffectNode = $scope.createFlange();
-        // break;
       default:
         break;
     }
@@ -251,35 +221,6 @@ app.controller('liveInputCtrl', function($scope) {
     delayNode.connect(wetGain);
     return delayNode;
   };
-
-  // $scope.createAutowah = function() {
-  //   var inputNode = audioContext.createGain();
-  //   var waveshaper = audioContext.createWaveShaper();
-  //   awFollower = audioContext.createBiquadFilter();
-  //   awFollower.type = "lowpass";
-  //   awFollower.frequency.value = 10.0;
-
-  //   var curve = new Float32Array(65536);
-  //   for (var i = -32768; i < 32768; i++)
-  //     curve[i + 32768] = ((i > 0) ? i : -i) / 32768;
-  //   waveshaper.curve = curve;
-  //   waveshaper.connect(awFollower);
-
-  //   awDepth = audioContext.createGain();
-  //   awDepth.gain.value = 11585;
-  //   awFollower.connect(awDepth);
-
-  //   awFilter = audioContext.createBiquadFilter();
-  //   awFilter.type = "lowpass";
-  //   awFilter.Q.value = 15;
-  //   awFilter.frequency.value = 50;
-  //   awDepth.connect(awFilter.frequency);
-  //   awFilter.connect(wetGain);
-
-  //   inputNode.connect(waveshaper);
-  //   inputNode.connect(awFilter);
-  //   return inputNode;
-  // };
 
   $scope.lfo = function() {
     let osc = audioContext.createOscillator();
@@ -425,11 +366,8 @@ app.controller('liveInputCtrl', function($scope) {
   /******************************************************************************/
   function handleSuccess(stream) {
     // recordButton.disabled = false;
-    console.log('stream: ', stream);
     window.stream = stream;
     if (window.URL) {
-      console.log("window.URL: ", window.URL);
-      console.log("window: ", window);
       // liveVideo.src = window.URL.createObjectURL(stream);
     } else {
       liveVideo.src = stream;
@@ -446,7 +384,7 @@ app.controller('liveInputCtrl', function($scope) {
   }
 
   function handleStop(event) {
-    console.log('Recorder stopped: ', event);
+    // console.log('Recorder stopped: ', event);
   }
 
   $scope.startRecording = function() {
@@ -458,7 +396,6 @@ app.controller('liveInputCtrl', function($scope) {
     mediaRecorder.ondataavailable = handleDataAvailable;
     // mediaRecorder.start(10); this indicates 10ms of data per blob...not sure how that affects anything quite yet....
     mediaRecorder.start(10);
-    console.log('MediaRecorder start: ', mediaRecorder);
   };
 
   function play() {
@@ -466,9 +403,6 @@ app.controller('liveInputCtrl', function($scope) {
       type: 'video/webm'
     });
     recordedVideo.src = window.URL.createObjectURL(playBack);
-    console.log("recordedVideo: ", recordedVideo);
-    console.log("recordedVideo.src: ", recordedVideo.src);
-    console.log("playBack: ", playBack);
   }
 
   function pause() {
@@ -521,7 +455,6 @@ app.controller('liveInputCtrl', function($scope) {
     function onMIDISuccess(midiAccess) {
       midi = midiAccess;
       let inputs = midi.inputs.values();
-      console.log("inputs: ", inputs);
       // loop through inputs
       for (let input = inputs.next(); input && !input.done; input = inputs.next()) {
         input.value.onmidimessage = $scope.onMIDIMessage;
@@ -582,8 +515,6 @@ app.controller('liveInputCtrl', function($scope) {
 
     function addAudioProperties(object) {
       object.source = object.dataset.sound;
-      console.log("object.source: ", object.source);
-      // loadAudio(object, object.source);
       object.play = function(volume) {
         let s = audioContext.createBufferSource();
         s.buffer = object.buffer;
@@ -592,13 +523,4 @@ app.controller('liveInputCtrl', function($scope) {
       };
     }
   };
-
-  var wavesurfer = WaveSurfer.create({
-    container: '#waveform',
-    waveColor: 'violet',
-    progressColor: 'purple'
-    // scrollParent: true;
-
-  });
-  wavesurfer.load('../sounds/drum-samples/TR808/drumloop1.wav');
 });
