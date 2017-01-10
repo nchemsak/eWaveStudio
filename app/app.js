@@ -21,32 +21,32 @@ app.config(function($routeProvider) {
     })
     .when('/liveInput', {
       templateUrl: 'partials/liveInput.html',
-      controller: 'liveInputCtrl',
-      resolve: { isAuth }
+      controller: 'liveInputCtrl'
+      // resolve: { isAuth }
     })
     .when('/midi', {
       templateUrl: 'partials/midi.html',
-      controller: 'midiCtrl',
-      resolve: { isAuth }
+      controller: 'midiCtrl'
+      // resolve: { isAuth }
     })
     .when('/sequencer', {
       templateUrl: 'partials/sequencer.html',
-      controller: 'sequencerCtrl',
-      resolve: { isAuth }
+      controller: 'sequencerCtrl'
+      // resolve: { isAuth }
     })
     .when('/computerKeyboard', {
       templateUrl: 'partials/computerKeyboard.html',
-      controller: 'computerKeyboardCtrl',
-      resolve: { isAuth }
+      controller: 'computerKeyboardCtrl'
+      // resolve: { isAuth }
     })
     .otherwise('/login');
 });
 
-app.run(($location, FBCreds) => {
-  let creds = FBCreds;
-  let authConfig = {
-    apiKey: creds.apiKey,
-    authDomain: creds.authDomain
-  };
-  firebase.initializeApp(authConfig);
-});
+// app.run(($location, FBCreds) => {
+//   let creds = FBCreds;
+//   let authConfig = {
+//     apiKey: creds.apiKey,
+//     authDomain: creds.authDomain
+//   };
+//   firebase.initializeApp(authConfig);
+// });
