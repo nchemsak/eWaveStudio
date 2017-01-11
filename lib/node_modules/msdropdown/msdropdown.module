@@ -1,0 +1,38 @@
+<?php
+// $Id: msdropdown.module,v 2.37 2009/08/30 08:14:30 sun Exp $
+
+/**
+ * @file
+ * msdropdown is a depend on "jquery image dropdown" (www.marghoobsuleman.com).
+ *
+ * Learn more about msDropdown v2.37:
+ * <www.marghoobsuleman.com/jquery-image-dropdown>
+ */
+
+/**
+ * Implementation of hook_menu()
+ */
+function msdropdown_init() {
+  msdropdown_add();
+}
+
+/**
+ * Add msdropdown stylesheet and javascript to the output.
+ */
+function msdropdown_add() {
+  $path = drupal_get_path('module', 'msdropdown');
+  
+  // Theme-specific stylesheet override support.
+  // #178364: path_to_theme() invokes init_theme(), thus it must not be invoked
+  // in block settings to allow initializing of the selected theme.
+  if (strpos($_GET['q'], 'admin/build/block') === FALSE) {
+    $css = path_to_theme() .'msdropdown/dd.css';
+    if (!file_exists($css)) {
+      $css = $path .'/msdropdown/dd.css';
+    }
+    drupal_add_css($css, 'module', 'all');
+  }
+      
+  // msDropDown needs to be loaded last.
+  drupal_add_js($path .'/msdropdown/js/jquery.dd.js');
+}

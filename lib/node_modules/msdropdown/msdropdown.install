@@ -1,0 +1,8 @@
+<?php
+// $Id: msdropdown.install,v 1.0 2009/08/30 10:00:19 sun Exp $
+
+function msdropdown_install() {
+  // Clear content type cache to update field formatters.
+  module_invoke('content', 'clear_type_cache');
+}
+
