@@ -1,0 +1,12 @@
+; $Id: msdropdown.info,v 2.37 2009/08/30 10:14:30 sun Exp $
+name = msdropdown
+description = Convert your dropdown into fashionable image dropdown.
+package = User interface
+core = 6.x
+
+; Information added by drupal.org packaging script on 2009-08-30
+version = "6.x-1.0"
+core = "6.x"
+project = "msdropdown"
+datestamp = "1224058817"
+
