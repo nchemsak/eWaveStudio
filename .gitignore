@@ -2,5 +2,4 @@
 lib/.sass-cache
 css/main.css.map
 app/values
-lib/bower_components
-lib/node_modules
+
