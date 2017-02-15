@@ -2,9 +2,10 @@
 A music production web app that was created as a Nashville Software School front-end capstone project.  It was created using HTML5, SCSS, & AngularJS and is deployed to Firebase: [eWave Studio](http://https://ewavestudio-e15d0.firebaseapp.com/#/login)
 
 ## Usage - Sign up to create a user. There are 4 page views after logging in:
-1. Live audio input (connect an instrument to the computer via USB device -- [Example of cord needed](https://www.amazon.com/VAlinks-Interface-Connector-Instruments-GarageBand/dp/B01EV0V58A/ref=sr_1_2?ie=UTF8&qid=1487178040&sr=8-2&keywords=usb+guitar+cable))
-2. MIDI triggers (connect a MIDI device via USB ports)
-3. Sequencer / Drum Machine (no inputs are required to use this view, but you can record audio input using a USB connected instrument)
+1. Live audio input (connect an instrument to the computer via USB device -- [Example of cord needed](https://www.amazon.com/VAlinks-Interface-Connector-Instruments-GarageBand/dp/B01EV0V58A/ref=sr_1_2?ie=UTF8&qid=1487178040&sr=8-2&keywords=usb+guitar+cable)).  
+  You can also trigger recording of audio using a connected USB MIDI foot control.
+2. MIDI triggers (connect a MIDI device via USB ports -- [example of basic MIDI keyboard needed] (https://www.amazon.com/midiplus-AKM320-MIDI-Keyboard-Controller/dp/B00VHKMK64/ref=sr_1_2?s=musical-instruments&ie=UTF8&qid=1487179038&sr=1-2&keywords=midi+keyboard)
+3. Sequencer / Drum Machine (no external inputs are required to use this view.  However, if you have a USB connected instrument, you can utilize the effects processors and record audio to insert into the sequencer)
 4. Computer Keyboard - Play an oscillator with your computer keyboard, using the top row of letters and the number row.
 
 ## API's used
