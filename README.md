@@ -2,18 +2,17 @@
 A music production web app that was created as a Nashville Software School front-end capstone project.  It was created using HTML5, SCSS, & AngularJS and is deployed to Firebase: [eWave Studio](http://https://ewavestudio-e15d0.firebaseapp.com/#/login)
 
 ## Usage - Sign up to create a user. There are 4 page views after logging in:
-1. Live audio input: 
-  Connect an instrument to the computer via USB device
-  [Example of cord needed](https://www.amazon.com/VAlinks-Interface-Connector-Instruments-GarageBand/dp/B01EV0V58A/ref=sr_1_2?ie=UTF8&qid=1487178040&sr=8-2&keywords=usb+guitar+cable).  
+1. Live audio input: [Example of cord needed](https://www.amazon.com/VAlinks-Interface-Connector-Instruments-GarageBand/dp/B01EV0V58A/ref=sr_1_2?ie=UTF8&qid=1487178040&sr=8-2&keywords=usb+guitar+cable). <br>
+  Connect an instrument to the computer via USB device <br>
   You can also trigger recording of audio using a connected USB MIDI foot control to use in a loop.
-2. MIDI: 
+2. MIDI: [Example of a basic MIDI keyboard] (https://www.amazon.com/midiplus-AKM320-MIDI-Keyboard-Controller/dp/B00VHKMK64/ref=sr_1_2?s=musical-instruments&ie=UTF8&qid=1487179038&sr=1-2&keywords=midi+keyboard)<br>
   Connect a MIDI device via USB ports to access oscillators and samples
-  [example of a basic MIDI keyboard] (https://www.amazon.com/midiplus-AKM320-MIDI-Keyboard-Controller/dp/B00VHKMK64/ref=sr_1_2?s=musical-instruments&ie=UTF8&qid=1487179038&sr=1-2&keywords=midi+keyboard)
-3. Sequencer / Drum Machine: 
-  Create a drum beat and looped audio.  
+3. Sequencer / Drum Machine: <br>
+  Create a drum beat and looped audio.  <br>
   No external inputs are required to use this view.  However, if you have a USB connected instrument, you can utilize the effects processors and record audio to insert into the sequencer.
-4. Computer Keyboard:  
-  Play an oscillator with your computer keyboard, using the top row of letters and the number row.
+4. Computer Keyboard:  <br>
+  Play an oscillator with your computer keyboard, using the top row of letters and the number row.<br>
+  No external inputs required to use this view.
 
 ## API's used
 1. Web Audio
@@ -22,16 +21,17 @@ A music production web app that was created as a Nashville Software School front
 4. MediaRecorder
 
 ## Styling
-1. Animate.CSS
-2. Bootstrap
-3. Font-Awesome
+1. Animate.css (3.5.1)
+2. Bootstrap (3.3.7)
+3. Font-Awesome (4.7.0)
+4. Google fonts: 'Space Mono', 'Raleway'
 
 ## Installation
 1. npm install
 2. bower install
 
 ## Compatibility
-Currently, audio input sections require use of Google Chrome.  Firefox compatibility coming.
+Currently, audio input sections require use of Google Chrome.  Firefox compatibility in the works.
 
 ## Contributing
 1. Fork it!
