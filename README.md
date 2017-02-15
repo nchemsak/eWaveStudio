@@ -1,16 +1,16 @@
 # eWave Studio
-NSS Capstone Project implementing Javascript & Angular.
-
+Music Production Studio.
+Created as a Nashville Software School front-end Capstone Project implementing Javascript & AngularJS.
 
 ## Installation
 1. npm install
 2. bower install
 
-## Usage
-Sign up to create a user. There are 3 page views after logging in:
-1. Live audio input (plugged in to computer via USB device)
-2. MIDI triggers
+## Usage - Sign up to create a user. There are 4 page views after logging in:
+1. Live audio input (connect an instrument to the computer via USB device -- [Example of cord needed](https://www.amazon.com/VAlinks-Interface-Connector-Instruments-GarageBand/dp/B01EV0V58A/ref=sr_1_2?ie=UTF8&qid=1487178040&sr=8-2&keywords=usb+guitar+cable)
+2. MIDI triggers (connect a MIDI device via USB ports)
 3. Sequencer / Drum Machine
+4. Computer Keyboard - Play an oscillator with your computer keyboard, using the top row of letters and the number row.
 
 ## Contributing
 1. Fork it!
