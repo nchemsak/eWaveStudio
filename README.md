@@ -1,23 +1,11 @@
 # eWave Studio
-Music Production Studio.
-Created as a Nashville Software School front-end Capstone Project implementing Javascript & AngularJS.
-
-## Installation
-1. npm install
-2. bower install
+A music production web app that was created as a Nashville Software School front-end capstone project.  It was created using HTML5, SCSS, & AngularJS and is deployed to Firebase: [eWave Studio](http://https://ewavestudio-e15d0.firebaseapp.com/#/login)
 
 ## Usage - Sign up to create a user. There are 4 page views after logging in:
-1. Live audio input (connect an instrument to the computer via USB device -- [Example of cord needed](https://www.amazon.com/VAlinks-Interface-Connector-Instruments-GarageBand/dp/B01EV0V58A/ref=sr_1_2?ie=UTF8&qid=1487178040&sr=8-2&keywords=usb+guitar+cable)
+1. Live audio input (connect an instrument to the computer via USB device -- [Example of cord needed](https://www.amazon.com/VAlinks-Interface-Connector-Instruments-GarageBand/dp/B01EV0V58A/ref=sr_1_2?ie=UTF8&qid=1487178040&sr=8-2&keywords=usb+guitar+cable))
 2. MIDI triggers (connect a MIDI device via USB ports)
-3. Sequencer / Drum Machine
+3. Sequencer / Drum Machine (no inputs are required to use this view, but you can record audio input using a USB connected instrument)
 4. Computer Keyboard - Play an oscillator with your computer keyboard, using the top row of letters and the number row.
-
-## Contributing
-1. Fork it!
-2. Create your feature branch: `git checkout -b my-new-feature`
-3. Commit your changes: `git commit -am 'Add some feature'`
-4. Push to the branch: `git push origin my-new-feature`
-5. Submit a pull request :D
 
 ## API's used
 1. Web Audio
@@ -29,6 +17,20 @@ Created as a Nashville Software School front-end Capstone Project implementing J
 1. Animate.CSS
 2. Bootstrap
 3. Font-Awesome
+
+## Installation
+1. npm install
+2. bower install
+
+## Compatibility
+Currently, audio input sections require use of Google Chrome.  Firefox compatibility coming.
+
+## Contributing
+1. Fork it!
+2. Create your feature branch: `git checkout -b my-new-feature`
+3. Commit your changes: `git commit -am 'Add some feature'`
+4. Push to the branch: `git push origin my-new-feature`
+5. Submit a pull request :D
 
 ## License
 MIT License
