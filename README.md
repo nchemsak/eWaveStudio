@@ -1,5 +1,5 @@
 # eWave Studio
-A music production web app that was created as a Nashville Software School front-end capstone project.  It was created using HTML5, SCSS, & AngularJS and is deployed to Firebase: [eWave Studio](http://https://ewavestudio-e15d0.firebaseapp.com/#/login)
+A music production web app created as a Nashville Software School front-end capstone project.  It utilizes HTML5, SCSS, & AngularJS and is deployed to Firebase: [eWave Studio](http://https://ewavestudio-e15d0.firebaseapp.com/#/login)
 
 ## Usage - Sign up to create a user. There are 4 page views after logging in:
 1. Live audio input: [Example of cord needed](https://www.amazon.com/VAlinks-Interface-Connector-Instruments-GarageBand/dp/B01EV0V58A/ref=sr_1_2?ie=UTF8&qid=1487178040&sr=8-2&keywords=usb+guitar+cable). <br>
