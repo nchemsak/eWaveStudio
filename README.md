@@ -1,11 +1,20 @@
 # eWave Studio
-A music production web app created as a Nashville Software School front-end capstone project.  It utilizes HTML5, SCSS, & AngularJS and is deployed to Firebase: [eWave Studio](http://https://ewavestudio-e15d0.firebaseapp.com/#/login)
+A music production web app created as a Nashville Software School front-end capstone project.  It utilizes HTML5, AngularJS, Bootstrap, Web Audio API, and Web MIDI API.  It is deployed to Firebase: [eWave Studio](http://https://ewavestudio-e15d0.firebaseapp.com/#/login)
 
-## Usage - Sign up to create a user. There are 4 page views after logging in:
-1. Live audio input: [Example of cord needed](https://www.amazon.com/VAlinks-Interface-Connector-Instruments-GarageBand/dp/B01EV0V58A/ref=sr_1_2?ie=UTF8&qid=1487178040&sr=8-2&keywords=usb+guitar+cable). <br>
+## Installation
+* $ cd lib
+* npm install
+* bower install
+
+## Firebase and fb-creds.js
+If you want to use Firebase authentication and have login functionality enabled for this app, the file <code>app/values/fb-creds.js</code> must be amended with a Firebase API key.  These were left out purposefully as to not expose the API key when pushing to Github.
+
+## Usage - 
+### There are 4 main page views:
+1. Live audio input: [Example of cord](https://www.amazon.com/VAlinks-Interface-Connector-Instruments-GarageBand/dp/B01EV0V58A/ref=sr_1_2?ie=UTF8&qid=1487178040&sr=8-2&keywords=usb+guitar+cable) <br>
   Connect an instrument to the computer via USB device <br>
   You can also trigger recording of audio using a connected USB MIDI foot control to use in a loop.
-2. MIDI: [Example of a basic MIDI keyboard] (https://www.amazon.com/midiplus-AKM320-MIDI-Keyboard-Controller/dp/B00VHKMK64/ref=sr_1_2?s=musical-instruments&ie=UTF8&qid=1487179038&sr=1-2&keywords=midi+keyboard)<br>
+2. MIDI: <a href="https://www.amazon.com/midiplus-AKM320-MIDI-Keyboard-Controller/dp/B00VHKMK64/ref=sr_1_2?s=musical-instruments&ie=UTF8&qid=1487179038&sr=1-2&keywords=midi+keyboard" target="_blank">Example of Basic MIDI controller needed</a> <br>
   Connect a MIDI device via USB ports to access oscillators and samples
 3. Sequencer / Drum Machine: <br>
   Create a drum beat and looped audio.  <br>
@@ -26,13 +35,8 @@ A music production web app created as a Nashville Software School front-end caps
 * Font-Awesome (4.7.0)
 * Google fonts: 'Space Mono', 'Raleway'
 
-## Installation
-$ cd lib
-* npm install
-* bower install
-
 ## Compatibility
-Currently, audio input sections require use of Google Chrome.  Firefox compatibility in the works.
+Currently, audio input sections require use of Google Chrome v 55.0.2883.75 or earlier.  Due to <strong>MediaStreamTrack.getSources</strong> being deprecated in M56 and removed from the most recent version of Chrome, the "Live Input" page will not function.  A fix for the deprecation issue is currently in the works.
 
 ## Contributing
 1. Fork it!
