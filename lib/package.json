@@ -20,14 +20,11 @@
     "matchdep": "^1.0.1"
   },
   "dependencies": {
-    "angular": "^1.5.9",
     "animate.css": "^3.5.2",
     "bootstrap": "^3.3.7",
     "firebase": "^3.6.1",
     "font-awesome": "^4.7.0",
     "jquery": "^3.1.1",
-    "jquery-ui": "^1.12.1",
-    "tone": "^0.8.0",
     "webmidi": "^2.0.0-rc.2"
   },
   "description": ""
