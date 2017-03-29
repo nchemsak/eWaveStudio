@@ -11,15 +11,15 @@ If you want to use Firebase authentication and have login functionality enabled 
 
 ## Usage - 
 ### There are 4 main page views:
-1. Live audio input: <a href="https://www.amazon.com/VAlinks-Interface-Connector-Instruments-GarageBand/dp/B01EV0V58A/ref=sr_1_2?ie=UTF8&qid=1487178040&sr=8-2&keywords=usb+guitar+cable">Example of Cord Needed</a> <br>
+1. <strong>Live audio input:</strong> <a href="https://www.amazon.com/VAlinks-Interface-Connector-Instruments-GarageBand/dp/B01EV0V58A/ref=sr_1_2?ie=UTF8&qid=1487178040&sr=8-2&keywords=usb+guitar+cable">Example of Cord Needed</a> <br>
   Connect an instrument to the computer via USB device <br>
   You can also trigger recording of audio using a connected USB MIDI foot control to use in a loop.
-2. MIDI: <a href="https://www.amazon.com/midiplus-AKM320-MIDI-Keyboard-Controller/dp/B00VHKMK64/ref=sr_1_2?s=musical-instruments&ie=UTF8&qid=1487179038&sr=1-2&keywords=midi+keyboard" target="_blank">Example of MIDI controller needed</a> <br>
+2. <strong>MIDI:</strong> <a href="https://www.amazon.com/midiplus-AKM320-MIDI-Keyboard-Controller/dp/B00VHKMK64/ref=sr_1_2?s=musical-instruments&ie=UTF8&qid=1487179038&sr=1-2&keywords=midi+keyboard" target="_blank">Example of MIDI controller needed</a> <br>
   Connect a MIDI device via USB ports to access oscillators and samples
-3. Sequencer / Drum Machine: <br>
+3. <strong>Sequencer / Drum Machine:</strong> <br>
   Create a drum beat and looped audio.  <br>
   No external inputs are required to use this view.  However, if you have a USB connected instrument, you can utilize the effects processors and record audio to insert into the sequencer.
-4. Computer Keyboard:  <br>
+4. <strong>Computer Keyboard: </strong>  <br>
   Play an oscillator with your computer keyboard, using the top row of letters and the number row.<br>
   No external inputs required to use this view.
 
