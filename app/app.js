@@ -13,6 +13,8 @@ let isAuth = (AuthFactory) => new Promise((resolve, reject) => {
     });
 });
 
+
+//If you want authentication in order to view the app, uncomment the "resolve isAuth" sections below.
 app.config(function($routeProvider) {
   $routeProvider
     .when('/login', {
@@ -21,23 +23,23 @@ app.config(function($routeProvider) {
     })
     .when('/liveInput', {
       templateUrl: 'partials/liveInput.html',
-      controller: 'liveInputCtrl',
-      resolve: { isAuth }
+      controller: 'liveInputCtrl'
+      // resolve: { isAuth }
     })
     .when('/midi', {
       templateUrl: 'partials/midi.html',
-      controller: 'midiCtrl',
-      resolve: { isAuth }
+      controller: 'midiCtrl'
+      // resolve: { isAuth }
     })
     .when('/sequencer', {
       templateUrl: 'partials/sequencer.html',
-      controller: 'sequencerCtrl',
-      resolve: { isAuth }
+      controller: 'sequencerCtrl'
+      // resolve: { isAuth }
     })
     .when('/computerKeyboard', {
       templateUrl: 'partials/computerKeyboard.html',
-      controller: 'computerKeyboardCtrl',
-      resolve: { isAuth }
+      controller: 'computerKeyboardCtrl'
+      // resolve: { isAuth }
     })
     .otherwise('/login');
 });

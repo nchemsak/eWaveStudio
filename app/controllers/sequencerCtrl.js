@@ -96,20 +96,6 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
       loop04Path = path + "drumloop1.wav",
       loop05Path = path + "drumloop2.wav";
 
-    // piano
-    let piano_aPath = path + "piano_a.mp3",
-      piano_ashPath = path + "piano_ash.mp3",
-      piano_bPath = path + "piano_b.mp3",
-      piano_cPath = path + "piano_c.mp3",
-      piano_cshPath = path + "piano_csh.mp3",
-      piano_dPath = path + "piano_d.mp3",
-      piano_dshPath = path + "piano_dsh.mp3",
-      piano_ePath = path + "piano_e.mp3",
-      piano_fPath = path + "piano_f.mp3",
-      piano_fshPath = path + "piano_fsh.mp3",
-      piano_gPath = path + "piano_g.mp3",
-      piano_gshPath = path + "piano_gsh.mp3";
-
     // kicks
     this.loadSample(kickPath, "kick");
     this.loadSample(kick01Path, "808-kick-01");
@@ -144,20 +130,6 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
     this.loadSample(loop03Path, "drumloop140bpm");
     this.loadSample(loop04Path, "drumloop1");
     this.loadSample(loop05Path, "drumloop2");
-
-    // piano
-    this.loadSample(piano_aPath, "piano_a");
-    this.loadSample(piano_ashPath, "piano_ash");
-    this.loadSample(piano_bPath, "piano_b");
-    this.loadSample(piano_cPath, "piano_c");
-    this.loadSample(piano_cshPath, "piano_csh");
-    this.loadSample(piano_dPath, "piano_d");
-    this.loadSample(piano_dshPath, "piano_dsh");
-    this.loadSample(piano_ePath, "piano_e");
-    this.loadSample(piano_fPath, "piano_f");
-    this.loadSample(piano_fshPath, "piano_fsh");
-    this.loadSample(piano_gPath, "piano_g");
-    this.loadSample(piano_gshPath, "piano_gsh");
   };
 
   $scope.Kit.prototype.loadSample = function(url, instrumentName) {
@@ -250,44 +222,6 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
               kit.loop04Buffer = buffer;
               break;
             case "drumloop2":
-              break;
-
-              // piano
-            case "piano_a":
-              kit.pianoaBuffer = buffer;
-              break;
-            case "piano_ash":
-              kit.pianoashBuffer = buffer;
-              break;
-            case "piano_b":
-              kit.pianobBuffer = buffer;
-              break;
-            case "piano_c":
-              kit.pianocBuffer = buffer;
-              break;
-            case "piano_csh":
-              kit.pianocshBuffer = buffer;
-              break;
-            case "piano_d":
-              kit.pianodBuffer = buffer;
-              break;
-            case "piano_dsh":
-              kit.pianodshBuffer = buffer;
-              break;
-            case "piano_e":
-              kit.pianoeBuffer = buffer;
-              break;
-            case "piano_f":
-              kit.pianofBuffer = buffer;
-              break;
-            case "piano_fsh":
-              kit.pianofshBuffer = buffer;
-              break;
-            case "piano_g":
-              kit.pianogBuffer = buffer;
-              break;
-            case "piano_gsh":
-              kit.pianogshBuffer = buffer;
               break;
           }
           kit.instLoad++;
@@ -466,43 +400,6 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
             case "drumloop2":
               play();
               break;
-              // piano
-            case "piano_a":
-              $scope.playNote(drumKit.pianoaBuffer, contextPlayTime);
-              break;
-            case "piano_ash":
-              $scope.playNote(drumKit.pianoashBuffer, contextPlayTime);
-              break;
-            case "piano_b":
-              $scope.playNote(drumKit.pianobBuffer, contextPlayTime);
-              break;
-            case "piano_c":
-              $scope.playNote(drumKit.pianocBuffer, contextPlayTime);
-              break;
-            case "piano_csh":
-              $scope.playNote(drumKit.pianocshBuffer, contextPlayTime);
-              break;
-            case "piano_d":
-              $scope.playNote(drumKit.pianodBuffer, contextPlayTime);
-              break;
-            case "piano_dsh":
-              $scope.playNote(drumKit.pianodshBuffer, contextPlayTime);
-              break;
-            case "piano_e":
-              $scope.playNote(drumKit.pianodBuffer, contextPlayTime);
-              break;
-            case "piano_f":
-              $scope.playNote(drumKit.pianofBuffer, contextPlayTime);
-              break;
-            case "piano_fsh":
-              $scope.playNote(drumKit.pianofshBuffer, contextPlayTime);
-              break;
-            case "piano_g":
-              $scope.playNote(drumKit.pianogBuffer, contextPlayTime);
-              break;
-            case "piano_gsh":
-              $scope.playNote(drumKit.pianogshBuffer, contextPlayTime);
-              break;
           }
         }
       });
@@ -586,25 +483,6 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
     });
   };
 
-  // var file;
-  // $("#audio_file").click(function(event) {
-  //   $scope.file = event.target.files[0];
-  //   console.log("$scope.file: ", $scope.file);
-  // });
-
-  // $scope.uploadFile = function() {
-  //   $scope.file = { value: '' };
-  //   // console.log("file: ", file);
-  //   // Create a root reference
-  //   // console.log("you clicked to upload: ");
-  //   var filename = $scope.file.name;
-  //   var storageRef = firebase.storage().ref('/soundFiles/' + filename);
-  //   var uploadTask = storageRef.put($scope.file);
-  //   uploadTask.on('state_changed', function(snapshot) {}, function(error) {}, function() {
-  //     var downloadURL = uploadTask.snapshot.downloadURL;
-  //     console.log("downloadURL: ", downloadURL);
-  //   });
-  // };
   $scope.title = "Live Input";
   $scope.Math = window.Math;
   $scope.dropdown = { value: '' };
@@ -1039,43 +917,6 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
       window.URL.revokeObjectURL(url);
     }, 100);
   }
-
-  //   // /**********************************************************************
-  //   //                                KICK DRUM
-  //   // **********************************************************************/
-
-  //   // the sound starts at a higher frequency — the ‘attack’ phase -
-  //   // and then rapidly falls away to a lower frequency.
-  //   // While this is happening, the volume of the sound also decreases.
-
-  //   $scope.Kick = function(audioContext) {
-  //     this.audioContext = audioContext;
-  //   };
-
-  //   $scope.Kick.prototype.setup = function() {
-  //     this.osc = this.audioContext.createOscillator();
-  //     this.gain = this.audioContext.createGain();
-  //     this.osc.connect(this.gain);
-  //     this.gain.connect(this.audioContext.destination);
-  //   };
-
-  //   $scope.Kick.prototype.trigger = function(time) {
-  //     this.setup();
-
-  //     this.osc.frequency.setValueAtTime(150, time);
-  //     // the “envelope” of the sound:
-  //     this.gain.gain.setValueAtTime(1, time);
-
-  //     // // drop the FREQUENCY of the oscillator rapidly after the initial attack.
-  //     this.osc.frequency.exponentialRampToValueAtTime(0.01, time + 0.5);
-
-  //     // // decrease the GAIN to close to zero over the next 0.5 seconds
-  //     this.gain.gain.exponentialRampToValueAtTime(0.01, time + 0.5);
-
-  //     this.osc.start(time);
-
-  //     this.osc.stop(time + 0.5);
-  //   };
 
 
   /*****************************************************************

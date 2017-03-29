@@ -17,8 +17,7 @@
     "hbsfy": "^2.7.0",
     "jshint": "^2.9.4",
     "jshint-stylish": "^2.2.1",
-    "matchdep": "^1.0.1",
-    "jquery-ui": "^1.12.1"
+    "matchdep": "^1.0.1"
   },
   "dependencies": {
     "angular": "^1.5.9",
