@@ -15,20 +15,21 @@ A music production web app created as a Nashville Software School front-end caps
   No external inputs required to use this view.
 
 ## API's used
-1. Web Audio
-2. Web MIDI
-3. getUserMedia
-4. MediaRecorder
+* Web Audio
+* Web MIDI
+* getUserMedia
+* MediaRecorder
 
 ## Styling
-1. Animate.css (3.5.1)
-2. Bootstrap (3.3.7)
-3. Font-Awesome (4.7.0)
-4. Google fonts: 'Space Mono', 'Raleway'
+* Animate.css (3.5.1)
+* Bootstrap (3.3.7)
+* Font-Awesome (4.7.0)
+* Google fonts: 'Space Mono', 'Raleway'
 
 ## Installation
-1. npm install
-2. bower install
+$ cd lib
+* npm install
+* bower install
 
 ## Compatibility
 Currently, audio input sections require use of Google Chrome.  Firefox compatibility in the works.

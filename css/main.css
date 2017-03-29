@@ -48,8 +48,6 @@ body {
   position: relative;
   display: block;
   text-decoration: none;
-  /*box-shadow: -2em 1.5em 0 #ff6e42;*/
-  /*box-shadow: -2em 1.5em 0 #ff6e42;*/
   -webkit-box-shadow: -10px 13px 33px -10px rgba(0, 0, 0, 0.75);
   -moz-box-shadow: -10px 13px 33px -10px rgba(0, 0, 0, 0.75);
   box-shadow: -10px 13px 33px -10px rgba(0, 0, 0, 0.75);
@@ -58,8 +56,6 @@ body {
 
 /*BUTTON MOVE ON HOVER*/
 .list-item:hover {
-  /*background: #ff6e42;*/
-  /*color: #fffcfb;*/
   -webkit-transform: translate(0.9em, -0.9em);
   transform: translate(2em, -0.9em);
   -webkit-transition: all .25s linear;

@@ -3,27 +3,17 @@
 ************************************************************************************/
 
 * {
-  // margin: 0;
-  // overflow: hidden;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   -o-user-select: none;
   user-select: none;
-  // background-color: black;
 }
 
 body {
-  // background-color: black;
   background-color: RGBA(47, 50, 56, 1.00);
   color: lightgrey;
   background-image: url("../images/black-thread.png");
-  // background-image: url("../images/FreeVector-Great-Wave-Vector.jpg");
-  // opacity: 0.9;
-  // background-opacity: 0.5;
-  // background-size: cover;
-  // background-repeat: no-repeat;
-  // background-attachment: fixed;
 }
 
 *,
@@ -39,12 +29,8 @@ body {
 }
 
 body {
-  // font-family: "Lato", "Helvetica", "sans-serif";
   font-family: 'Space Mono', monospace;
   font-family: 'Raleway', sans-serif;
-  // font-family: 'Dosis', sans-serif;
-  // font-family: 'Amatic SC', cursive;
-  // font-family: 'Orbitron', sans-serif;
   align-items: center;
   -webkit-box-pack: center;
   -webkit-justify-content: center;
@@ -59,14 +45,9 @@ body {
                                   BLACK BUTTON STYLES
 ************************************************************************************/
 
-// ul {
-//   position: relative;
-//   -webkit-transform: rotate(-35deg) skew(20deg, 5deg);
-//   transform: rotate(-35deg) skew(20deg, 5deg);
-// }
+
 .list-item {
   background: #000;
-  // color: #575757;
   text-align: center;
   height: 2.5em;
   width: 4em;
@@ -76,8 +57,6 @@ body {
   position: relative;
   display: block;
   text-decoration: none;
-  /*box-shadow: -2em 1.5em 0 #ff6e42;*/
-  /*box-shadow: -2em 1.5em 0 #ff6e42;*/
   -webkit-box-shadow: -10px 13px 33px -10px rgba(0, 0, 0, 0.75);
   -moz-box-shadow: -10px 13px 33px -10px rgba(0, 0, 0, 0.75);
   box-shadow: -10px 13px 33px -10px rgba(0, 0, 0, 0.75);
@@ -89,8 +68,6 @@ body {
 /*BUTTON MOVE ON HOVER*/
 
 .list-item:hover {
-  /*background: #ff6e42;*/
-  /*color: #fffcfb;*/
   -webkit-transform: translate(0.9em, -0.9em);
   transform: translate(2em, -0.9em);
   -webkit-transition: all .25s linear;
@@ -138,7 +115,6 @@ body {
 
 .list-item:after {
   height: 4em;
-  // background: #181818;
   bottom: -2.25em;
   left: 1.5em;
   -webkit-transform: rotate(90deg) skew(0, 45deg);
@@ -147,7 +123,6 @@ body {
 
 .list-item:before {
   height: 2.5em;
-  // background: #121212;
   top: .25em;
   left: -.5em;
   -webkit-transform: skewY(-45deg);
@@ -163,11 +138,6 @@ li {
                                   Computer Keyboard STYLES
 ************************************************************************************/
 
-// ul {
-//   position: relative;
-//   -webkit-transform: rotate(-35deg) skew(20deg, 5deg);
-//   transform: rotate(-35deg) skew(20deg, 5deg);
-// }
 #piano {
   text-align: center;
   margin: 15px 0;
@@ -224,12 +194,7 @@ li {
 }
 
 #piano ul li .key {
-  // box-shadow: red 0px 5px 5px -1px;
-  // border-radius: 1px;
-  // transition-property: background;
-  // transition-duration: 0.5s;
   cursor: pointer;
-  // background: #faf5ed;
 }
 
 #piano ul li .key:active {
@@ -238,26 +203,20 @@ li {
 }
 
 div.key {
-  // color: black;
   font-size: 2em;
 }
 
 #piano ul li .upper-key {
   border-radius: 3px;
   border: white 1px solid;
-  // transition-property: background, box-shadow;
-  // transition-duration: 0.1s;
-  // box-shadow: black 0px 3px 3px 0px;
   cursor: pointer;
   background: #262626;
-  // display: block;
   position: absolute;
   top: 0;
   z-index: 1;
 }
 
 #piano ul li .upper-key:active {
-  // box-shadow: black 0px 1px 1px 0px;
 }
 
 #piano ul li .upper-key:hover {
@@ -308,8 +267,6 @@ div.key {
 
 .radio2 {
   display: inline;
-  // text-align: center;
-  // margin-left: 10px;
 }
 
 #midiWave {
@@ -317,12 +274,10 @@ div.key {
 }
 
 li {
-  // opacity: 0;
 }
 
 div.upper-key {
-  // opacity: 100;
-  // background-color: black;
+
 }
 
 .btn {
@@ -360,19 +315,6 @@ label {
   margin-left: 12px;
 }
 
-// label {
-//   font-family: 'NotoColorEmoji';
-//   font-size: 3rem;
-//   position: absolute;
-//   top: 2px;
-//   right: 3px;
-//   z-index: 5;
-//   cursor: pointer;
-// }
-// input[type=checkbox] {
-//   position: absolute;
-//   top: -100px;
-// }
 aside {
   position: fixed;
   top: 0;
@@ -489,22 +431,6 @@ video#live {
   margin: 0 20px 20px 0;
 }
 
-// @media screen and (max-width: 500px) {
-//   button {
-//     font-size: 0.8em;
-//     width: calc(33% - 5px);
-//   }
-// }
-// @media screen and (max-width: 720px) {
-//   video {
-//     height: calc((50vw - 48px) * 3 / 4);
-//     margin: 0 10px 10px 0;
-//     width: calc(50vw - 48px);
-//   }
-//   video#gumVideo {
-//     margin: 0 10px 10px 0;
-//   }
-// }
 
 /*******************************************************************************
                                   GAIN NODE STYLES
