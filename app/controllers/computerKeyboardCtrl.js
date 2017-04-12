@@ -57,7 +57,7 @@ app.controller('computerKeyboardCtrl', function($scope) {
             Keyboard Event Listener SHARPS
   **********************************************/
 
-  addEventListener("keydown", function() {
+  addEventListener("keydown", function(event) {
     if (event.keyCode === 49) {
       $('#F3sh').addClass('nick2');
       keyPlay(F3sh);
@@ -94,7 +94,7 @@ app.controller('computerKeyboardCtrl', function($scope) {
   /********************************************
             Keyboard Event Listener
   **********************************************/
-  addEventListener("keydown", function() {
+  addEventListener("keydown", function(event) {
     if (event.keyCode === 9) {
       $('#F3').addClass('close4');
       keyPlay(F3);
