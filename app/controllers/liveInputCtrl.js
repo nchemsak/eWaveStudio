@@ -50,7 +50,6 @@ app.controller('liveInputCtrl', function($scope) {
     sfllfb = null,
     sflrfb = null,
     dest = audioContext.createMediaStreamDestination();
-  // console.log("dest: ", dest);
 
   let constraints = {
     audio: {
@@ -66,7 +65,10 @@ app.controller('liveInputCtrl', function($scope) {
     $scope.midiSampler();
   });
 
-  MediaStreamTrack.getSources(gotSources);
+  // // // Deprecated below.  Left for reference only
+  // // // MediaStreamTrack.getSources(gotSources);
+
+
   // number of samples per second
   console.log("sample rate:", audioContext.sampleRate);
 
@@ -129,18 +131,25 @@ app.controller('liveInputCtrl', function($scope) {
   /*****************************************************************
          Produce the drop down list of inputs
   *****************************************************************/
-  function gotSources(sourceInfos) {
-    let audioSelect = document.getElementById("audioinput");
-    for (let i = 0; i != sourceInfos.length; ++i) {
-      let sourceInfo = sourceInfos[i];
-      if (sourceInfo.kind === 'audio') {
-        let option = document.createElement("option");
-        option.value = sourceInfo.id;
-        option.text = sourceInfo.label;
+
+  navigator.mediaDevices.enumerateDevices().then(getAudioInputs).catch(error);
+  const audioSelect = document.getElementById('audioinput');
+
+  function getAudioInputs(device) {
+    for (let i = 0; i !== device.length; i++) {
+      let deviceInfo = device[i];
+      let option = document.createElement('option');
+      option.value = deviceInfo.deviceId;
+      if (deviceInfo.kind === 'audioinput') {
+        option.text = deviceInfo.label ||
+          'microphone ' + (audioSelect.length + 1);
         audioSelect.appendChild(option);
       }
     }
-    audioSelect.onchange = $scope.changeInput;
+  }
+
+  function error(error) {
+    console.log('error: ', error);
   }
 
   /*****************************************************************
@@ -350,7 +359,7 @@ app.controller('liveInputCtrl', function($scope) {
   let mediaRecorder;
   let blobs;
   let liveVideo = document.getElementById('live');
-  let recordedVideo = document.getElementById('recorded');
+  let recordedAudio = document.getElementById('recorded');
   let playButton = document.getElementById('pausePlay');
   playButton.onclick = play;
   let downloadButton = document.getElementById('downloadButton');
@@ -402,12 +411,12 @@ app.controller('liveInputCtrl', function($scope) {
     let playBack = new Blob(blobs, {
       type: 'video/webm'
     });
-    recordedVideo.src = window.URL.createObjectURL(playBack);
+    recordedAudio.src = window.URL.createObjectURL(playBack);
   }
 
   function pause() {
     let pausePlay = mediaRecorder.pause();
-    recordedVideo.src = window.URL.pausePlay;
+    recordedAudio.src = window.URL.pausePlay;
   }
 
   /*******************************************************************************
