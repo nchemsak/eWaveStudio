@@ -9,7 +9,7 @@ A music production web app created as a Nashville Software School front-end caps
 ## Firebase and fb-creds.js
 If you want to use Firebase authentication and have login functionality enabled for this app, the file <code>app/values/fb-creds.js</code> must be amended with a Firebase API key.  These were left out purposefully as to not expose the API key when pushing to Github.
 
-## Usage - 
+## Usage -
 ### There are 4 main page views:
 1. <strong>Live audio input:</strong> <a href="https://www.amazon.com/VAlinks-Interface-Connector-Instruments-GarageBand/dp/B01EV0V58A/ref=sr_1_2?ie=UTF8&qid=1487178040&sr=8-2&keywords=usb+guitar+cable">Example of Cord Needed</a> <br>
   Connect an instrument to the computer via USB device <br>
@@ -18,7 +18,7 @@ If you want to use Firebase authentication and have login functionality enabled 
   Connect a MIDI device via USB ports to access oscillators and samples
 3. <strong>Sequencer / Drum Machine:</strong> <br>
   Create a drum beat and looped audio.  <br>
-  No external inputs are required to use this view.  However, if you have a USB connected instrument, you can utilize the effects processors and record audio to insert into the sequencer.
+  No external inputs are required to use this view.  However, IF you have a USB connected instrument, you can utilize the effects processors and record audio to insert into the sequencer.
 4. <strong>Computer Keyboard: </strong>  <br>
   Play an oscillator with your computer keyboard, using the top row of letters and the number row.<br>
   No external inputs required to use this view.
@@ -35,14 +35,11 @@ If you want to use Firebase authentication and have login functionality enabled 
 * Font-Awesome (4.7.0)
 * Google fonts: 'Space Mono', 'Raleway'
 
-## Compatibility
-Currently, audio input sections require use of Google Chrome v 55.0.2883.75 or earlier.  Due to <strong>MediaStreamTrack.getSources</strong> being deprecated in M56 and removed from the most recent version of Chrome, the "Live Input" page will not function.  A fix for the deprecation issue is currently in the works.
-
 ## Contributing
 1. Fork it!
 2. Create your feature branch: `git checkout -b my-new-feature`
 3. Commit your changes: `git commit -am 'Add some feature'`
-4. Push to the branch: `git push origin my-new-feature`
+4. Push the branch: `git push origin my-new-feature`
 5. Submit a pull request :D
 
 ## License
