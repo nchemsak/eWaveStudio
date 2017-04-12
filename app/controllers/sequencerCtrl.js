@@ -539,31 +539,31 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
     }
   };
 
+  /*****************************************************************
+         Produce the drop down list of inputs
+  *****************************************************************/
 
-  /********************************************************************
-                          DEPRECATION WARNING BELOW!!!!!
-  ********************************************************************/
+  navigator.mediaDevices.enumerateDevices().then(getAudioInputs).catch(error);
+  const audioSelect = document.getElementById('audioinput');
 
-  // List cameras and microphones.
-  MediaStreamTrack.getSources(gotSources); //this is being deprecated for navigator.mediaDevices.enumerateDevices() in JAN 2017...SEE BELOW CODE, TO START, BUT WILL NEED WORK TO FUNCTION
+  function getAudioInputs(device) {
+    for (let i = 0; i !== device.length; i++) {
+      let deviceInfo = device[i];
+      let option = document.createElement('option');
+      option.value = deviceInfo.deviceId;
+      if (deviceInfo.kind === 'audioinput') {
+        option.text = deviceInfo.label ||
+          'microphone ' + (audioSelect.length + 1);
+        audioSelect.appendChild(option);
+      }
+    }
+  }
 
-  // navigator.mediaDevices.enumerateDevices(gotSources);
+  function error(error) {
+    console.log('error: ', error);
+  }
 
-  // navigator.mediaDevices.enumerateDevices()
-  // .then(function(devices) {
-  //   devices.forEach(function(device) {
-  //     console.log(device.kind + ": " + device.label +
-  //                 " id = " + device.deviceId);
-  //   });
-  // });
-
-  /********************************************************************
-                          DEPRECATION WARNING ABOVE!!!!!
-  ********************************************************************/
-
-
-
-  // sample rate is the number of samples per second
+  // number of samples per second
   console.log("sample rate:", audioContext.sampleRate);
 
   /*****************************************************************
@@ -621,23 +621,6 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
       console.log(e);
     });
   };
-
-  /*****************************************************************
-         Produce the drop down list of inputs
-  *****************************************************************/
-  function gotSources(sourceInfos) {
-    let audioSelect = document.getElementById("audioinput");
-    for (let i = 0; i != sourceInfos.length; ++i) {
-      let sourceInfo = sourceInfos[i];
-      if (sourceInfo.kind === 'audio') {
-        let option = document.createElement("option");
-        option.value = sourceInfo.id;
-        option.text = sourceInfo.label;
-        audioSelect.appendChild(option);
-      }
-    }
-    audioSelect.onchange = $scope.changeInput;
-  }
 
   /*****************************************************************
         CROSSFADE changes the amount of the effect relative
@@ -844,7 +827,7 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
   let mediaSource = new MediaSource();
   let mediaRecorder;
   let blobs;
-  let recordedVideo = document.getElementById('recorded');
+  let recordedAudio = document.getElementById('recorded');
   let playBtn = document.getElementById('pausePlay');
   playBtn.onclick = play;
   let downloadBtn = document.getElementById('downloadButton');
@@ -858,18 +841,18 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
   /*******************************************************************************
                                  LIVE STREAM
   /******************************************************************************/
-  function handleSuccess(stream) {
-    // console.log('stream: ', stream);
-    window.stream = stream;
-    if (window.URL) {
-      // liveVideo.src = window.URL.createObjectURL(stream);
-    } else {
-      // liveVideo.src = stream;
-    }
-  }
+  // function handleSuccess(stream) {
+  //   // console.log('stream: ', stream);
+  //   window.stream = stream;
+  //   if (window.URL) {
+  //     // liveVideo.src = window.URL.createObjectURL(stream);
+  //   } else {
+  //     // liveVideo.src = stream;
+  //   }
+  // }
 
-  navigator.mediaDevices.getUserMedia(audioVideo).
-  then(handleSuccess);
+  // navigator.mediaDevices.getUserMedia(audioVideo)
+  // then(handleSuccess);
 
   function handleDataAvailable(event) {
     if (event.data && event.data.size > 0) {
@@ -889,14 +872,14 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
 
   function play() {
     let playBack = new Blob(blobs, {
-      type: 'video/webm'
+      type: 'audio/webm'
     });
-    recordedVideo.src = window.URL.createObjectURL(playBack);
+    recordedAudio.src = window.URL.createObjectURL(playBack);
   }
 
   function pause() {
     let pausePlay = mediaRecorder.pause();
-    recordedVideo.src = window.URL.pausePlay;
+    // recordedAudio.src = window.URL.pausePlay;
   }
 
 
@@ -904,7 +887,7 @@ app.controller('sequencerCtrl', function($scope, $location, AuthFactory) {
                                DOWNLOAD FUNCTION
   /******************************************************************************/
   function download() {
-    let blob = new Blob(blobs, { type: 'video/webm' });
+    let blob = new Blob(blobs, { type: 'audio/webm' });
     let url = window.URL.createObjectURL(blob);
     let a = document.createElement('a');
     a.style.display = 'none';
