@@ -35,7 +35,7 @@ If you want to use Firebase authentication and have login functionality enabled 
 * Font-Awesome (4.7.0)
 * Google fonts: 'Space Mono', 'Raleway'
 
-## Contributing
+## Contributing [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/nchemsak/eWaveStudio)
 1. Fork it!
 2. Create your feature branch: `git checkout -b my-new-feature`
 3. Commit your changes: `git commit -am 'Add some feature'`
