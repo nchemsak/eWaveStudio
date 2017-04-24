@@ -1,0 +1,8 @@
+{
+  "files": {
+    "included": [],
+    "excluded": [
+      "lib/other"
+    ]
+  }
+}
