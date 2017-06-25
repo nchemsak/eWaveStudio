@@ -1,5 +1,5 @@
 # eWave Studio
-A music production web app created as a Nashville Software School front-end capstone project.  It utilizes HTML5, AngularJS, Bootstrap, Web Audio API, and Web MIDI API.  It is deployed to Firebase: [eWave Studio](https://ewavestudio-e15d0.firebaseapp.com/#/login)
+A music production web app utilizing HTML5, AngularJS, Bootstrap, Web Audio API, and Web MIDI API.  Demo (deployed to Firebase): [eWave Studio](https://ewavestudio-e15d0.firebaseapp.com/#/login)
 
 ## Installation
 * $ cd lib
